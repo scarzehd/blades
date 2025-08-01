@@ -9,28 +9,30 @@ class_name Player
 @onready var health_component:HealthComponent = %HealthComponent
 
 # Mouse input
-const X_SENSITIVITY = 0.2
-const Y_SENSITIVITY = 0.2
+const X_SENSITIVITY:float = 0.2
+const Y_SENSITIVITY:float = 0.2
 var mouse_input:Vector2 = Vector2.ZERO
 var mouse_rotation:Vector2 = Vector2.ZERO
 
 # Movement
-const MAX_SPEED = 10
-const ACCELERATION = 1.5
-const DRAG = 0.7
+const MAX_SPEED:float = 10
+const ACCELERATION:float = 1.5
+const DRAG:float = 0.7
 
-const JUMP_VELOCITY = 4.5
+const JUMP_VELOCITY:float = 4.5
 
-const GRAVITY = 0.25
+const GRAVITY:float = 0.25
 
-const MAX_STEP = 0.5
-var was_on_floor = false
-var snapped_down_last_frame = false
+const MAX_STEP:float = 0.5
+var was_on_floor:bool = false
+var snapped_down_last_frame:bool = false
+
+var movement_override = false
 
 # Crouching
-var crouching := false
-const CROUCH_MOVE_MULTIPLIER := 0.5
-const CROUCH_TIME := 0.15
+var crouching:bool = false
+const CROUCH_MOVE_MULTIPLIER:float = 0.5
+const CROUCH_TIME:float = 0.15
 var crouch_tween:Tween
 
 # Weapons
@@ -49,15 +51,18 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# This needs to be done to fix weapon jitter with physics interpolation.
 	weapon_container.global_transform = camera.get_global_transform_interpolated()
-	handle_crouch()
-	handle_weapon_input()
+	if not movement_override:
+		handle_crouch()
+		handle_weapon_input()
 
 func _physics_process(delta: float) -> void:
-	move(delta)
-	update_camera(delta)
+	if not movement_override:
+		move(delta)
+		update_camera(delta)
 
 func _unhandled_input(event: InputEvent) -> void:
-	handle_mouse_input(event)
+	if not movement_override:
+		handle_mouse_input(event)
 
 #region Mouse Input
 
@@ -204,7 +209,33 @@ func handle_weapon_input():
 		else:
 			draw_weapon()
 	
-	if weapon.can_fire and Input.is_action_pressed("fire"):
-		weapon.fire(-camera.global_basis.z)
+	if weapon.can_fire:
+		if Input.is_action_pressed("fire"):
+			weapon.fire(-camera.global_basis.z)
+		elif Input.is_action_pressed("alt_fire"):
+			var end_pos = global_position + -camera.global_basis.z * weapon.weapon_range
+			var space_state = get_world_3d().direct_space_state
+			var query = PhysicsRayQueryParameters3D.create(global_position, end_pos, 1, [Globals.player.get_rid()])
+			var result = space_state.intersect_ray(query)
+	
+			if not (result and result.collider is Enemy):
+				return
+			
+			var enemy:Enemy = result.collider
+			
+			if enemy.player_detected:
+				return
+			
+			movement_override = true
+			velocity = Vector3.ZERO
+			var was_crouching = crouching
+			if was_crouching:
+				end_crouch()
+				await crouch_tween.finished
+			await weapon.stealth_kill(enemy)
+			enemy.health_component.current_hp = 0
+			if was_crouching and Input.is_action_pressed("crouch"):
+				start_crouch()
+			movement_override = false
 
 #endregion
