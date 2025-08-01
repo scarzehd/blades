@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdaky7mrqddhm"]
+
+[ext_resource type="Script" uid="uid://dqkl1p6vguphm" path="res://scripts/weapon.gd" id="1_v4xn6"]
+
+[node name="WeaponBase" type="Node3D"]
+script = ExtResource("1_v4xn6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+
+[node name="UpswingTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[node name="FireRateTimer" type="Timer" parent="."]
+unique_name_in_owner = true

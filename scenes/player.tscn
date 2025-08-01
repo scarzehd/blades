@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://bd4wbuh51bcy8"]
+
+[ext_resource type="Script" uid="uid://gss3v53knit5" path="res://scripts/player.gd" id="1_3vyb7"]
+[ext_resource type="PackedScene" uid="uid://4eu4d3gvbwy1" path="res://scenes/weapons/test_weapon.tscn" id="2_g2els"]
+[ext_resource type="Script" uid="uid://c8360ter7oppu" path="res://scripts/components/health.gd" id="3_qhqgy"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_u8vuu"]
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_3vyb7"]
+length = 0.5
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_3vyb7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CylinderShape3D_u8vuu")
+
+[node name="StepUp" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.5, -1)
+shape = SubResource("SeparationRayShape3D_3vyb7")
+
+[node name="WeaponContainer" type="Node3D" parent="."]
+unique_name_in_owner = true
+physics_interpolation_mode = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+top_level = true
+
+[node name="TestWeapon" parent="WeaponContainer" instance=ExtResource("2_g2els")]
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+unique_name_in_owner = true
+current = true
+fov = 90.0
+
+[node name="HealthComponent" type="Area3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_qhqgy")
+max_hp = 10
+current_hp = 10
+metadata/_custom_type_script = "uid://c8360ter7oppu"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent"]
+shape = SubResource("CylinderShape3D_u8vuu")

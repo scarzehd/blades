@@ -1,0 +1,132 @@
+[gd_scene load_steps=12 format=3 uid="uid://odn5j0v0o46s"]
+
+[ext_resource type="Script" uid="uid://ckkcuq7ws6wyr" path="res://scripts/enemy.gd" id="1_h17bh"]
+[ext_resource type="Script" uid="uid://c8360ter7oppu" path="res://scripts/components/health.gd" id="2_lkcdx"]
+[ext_resource type="Script" uid="uid://ceekwo0brr8g6" path="res://scripts/components/sight_cone_detection.gd" id="2_mkyue"]
+[ext_resource type="Script" uid="uid://gltf3uqfthmj" path="res://scripts/components/sphere_detection.gd" id="4_lkcdx"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7ibm0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h17bh"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7ibm0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_fpxyv"]
+size = Vector3(0.6, 0.25, 0.2)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lkcdx"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpxyv"]
+bg_color = Color(1, 0.935833, 0.23, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lkcdx"]
+bg_color = Color(0.98, 0.1862, 0.1862, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="TestEnemy" type="CharacterBody3D"]
+script = ExtResource("1_h17bh")
+aggro_threshold = 2.0
+aggro_reset_time = 5.0
+aggro_reset_rate = 0.5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_7ibm0")
+surface_material_override/0 = SubResource("StandardMaterial3D_h17bh")
+
+[node name="HealthComponent" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_lkcdx")
+max_hp = 5
+current_hp = 5
+metadata/_custom_type_script = "uid://c8360ter7oppu"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent"]
+shape = SubResource("CylinderShape3D_7ibm0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_7ibm0")
+
+[node name="AggroResetTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[node name="SightCone" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("2_mkyue")
+sight_distance = 10.0
+sight_angle = 0.436332
+collision_layers = 1
+metadata/_custom_type_script = "uid://d3m01rho3igyt"
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+mesh = SubResource("BoxMesh_fpxyv")
+
+[node name="SphereDetection" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_lkcdx")
+collision_layers = 1
+metadata/_custom_type_script = "uid://gltf3uqfthmj"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33529, 0)
+billboard = 2
+texture = SubResource("ViewportTexture_lkcdx")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+transparent_bg = true
+handle_input_locally = false
+
+[node name="AggroMeter" type="ProgressBar" parent="Sprite3D/SubViewport"]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -12.5
+offset_right = 110.0
+offset_bottom = 12.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_fpxyv")
+show_percentage = false
+
+[node name="HealthBar" type="ProgressBar" parent="Sprite3D/SubViewport"]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -56.0
+offset_right = 110.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_lkcdx")
+max_value = 5.0
+step = 1.0
+value = 3.0
+show_percentage = false
+
+[connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
+[connection signal="max_hp_changed" from="HealthComponent" to="." method="_on_max_hp_changed"]
+[connection signal="timeout" from="AggroResetTimer" to="." method="_on_aggro_reset_timer_timeout"]

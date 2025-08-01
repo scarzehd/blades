@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://6r6djeho08pf"]
+
+[ext_resource type="Script" uid="uid://djsxjtfi5nthh" path="res://scripts/gen_tile/tile_generator.gd" id="1_mipy1"]
+[ext_resource type="PackedScene" uid="uid://biu0gn2tcjun7" path="res://scenes/tiles/test_tile_2.tscn" id="3_dwqnu"]
+[ext_resource type="PackedScene" uid="uid://bd4wbuh51bcy8" path="res://scenes/player.tscn" id="3_e4ajl"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e4ajl"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_dwqnu"]
+sky_material = SubResource("ProceduralSkyMaterial_e4ajl")
+
+[sub_resource type="Environment" id="Environment_ykrdw"]
+background_mode = 2
+sky = SubResource("Sky_dwqnu")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("starting_tile")]
+script = ExtResource("1_mipy1")
+starting_tile = NodePath("TestTile2")
+map_size = AABB(-100, -20, -100, 200, 40, 200)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ykrdw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("3_e4ajl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="TestTile2" parent="." instance=ExtResource("3_dwqnu")]

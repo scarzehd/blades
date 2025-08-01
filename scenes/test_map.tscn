@@ -1,0 +1,54 @@
+[gd_scene load_steps=10 format=3 uid="uid://c635tis2rmhkt"]
+
+[ext_resource type="PackedScene" uid="uid://bd4wbuh51bcy8" path="res://scenes/player.tscn" id="1_6ulkd"]
+[ext_resource type="Script" uid="uid://djsxjtfi5nthh" path="res://scripts/gen_tile/tile_generator.gd" id="1_ss0f2"]
+[ext_resource type="PackedScene" uid="uid://ce5regwlgnekl" path="res://assets/blender/the_blend_file.blend" id="2_fn2sa"]
+[ext_resource type="PackedScene" uid="uid://odn5j0v0o46s" path="res://scenes/test_enemy.tscn" id="3_57l66"]
+[ext_resource type="Script" uid="uid://b1splbl8l7cm0" path="res://scripts/gen_tile/gen_tile.gd" id="3_p21b5"]
+[ext_resource type="Script" uid="uid://qu883h1yuwhw" path="res://scripts/gen_tile/gen_tile_connection.gd" id="4_bdpbv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fn2sa"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_57l66"]
+sky_material = SubResource("ProceduralSkyMaterial_fn2sa")
+
+[sub_resource type="Environment" id="Environment_p21b5"]
+background_mode = 2
+sky = SubResource("Sky_57l66")
+
+[node name="TestMap" type="Node3D" node_paths=PackedStringArray("starting_tile")]
+script = ExtResource("1_ss0f2")
+starting_tile = NodePath("map")
+map_size = AABB(-100, -100, -100, 200, 200, 200)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_p21b5")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("1_6ulkd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
+
+[node name="map" parent="." instance=ExtResource("2_fn2sa")]
+script = ExtResource("3_p21b5")
+
+[node name="GenTileConnection" type="Marker3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+script = ExtResource("4_bdpbv")
+direction = Vector3(0, 0, 1)
+connection_id = "test"
+possible_tile_paths = Array[String](["uid://o7kcre2ckcer"])
+metadata/_custom_type_script = "uid://qu883h1yuwhw"
+
+[node name="TestEnemy" parent="." instance=ExtResource("3_57l66")]
+transform = Transform3D(2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, -3.00156, 1, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0607, 2, -0.5)
+use_collision = true
+size = Vector3(0.183105, 5, 8)

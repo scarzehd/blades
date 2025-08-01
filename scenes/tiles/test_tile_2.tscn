@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://biu0gn2tcjun7"]
+
+[ext_resource type="Script" uid="uid://b1splbl8l7cm0" path="res://scripts/gen_tile/gen_tile.gd" id="1_i20ft"]
+[ext_resource type="Script" uid="uid://qu883h1yuwhw" path="res://scripts/gen_tile/gen_tile_connection.gd" id="2_7airk"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_7airk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7airk"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7airk"]
+material = SubResource("StandardMaterial3D_7airk")
+size = Vector3(8, 0.1, 14)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7airk"]
+points = PackedVector3Array(4, 0.05, 7, 4, -0.05, 7, 4, 0.05, -7, -4, 0.05, 7, -4, -0.05, 7, 4, -0.05, -7, -4, 0.05, -7, -4, -0.05, -7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgqfo"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vgqfo"]
+material = SubResource("StandardMaterial3D_vgqfo")
+size = Vector3(6, 0.1, 8)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_vgqfo"]
+points = PackedVector3Array(3, 0.05, 4, 3, -0.05, 4, 3, 0.05, -4, -3, 0.05, 4, -3, -0.05, 4, 3, -0.05, -4, -3, 0.05, -4, -3, -0.05, -4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7wcll"]
+
+[node name="TestTile2" type="Node3D"]
+script = ExtResource("1_i20ft")
+
+[node name="GenTileConnection2" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+script = ExtResource("2_7airk")
+direction = Vector3(1, 0, 0)
+connection_id = "test"
+possible_tile_paths = Array[String](["uid://o7kcre2ckcer", "uid://biu0gn2tcjun7", "uid://dpuo7x5g8v4e6"])
+metadata/_custom_type_script = "uid://qu883h1yuwhw"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GenTileConnection2" groups=["ignore_tile_bounds"]]
+mesh = SubResource("SphereMesh_7airk")
+skeleton = NodePath("../..")
+
+[node name="GenTileConnection3" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+script = ExtResource("2_7airk")
+direction = Vector3(0, 0, -1)
+connection_id = "test"
+possible_tile_paths = Array[String](["uid://o7kcre2ckcer", "uid://biu0gn2tcjun7", "uid://dpuo7x5g8v4e6"])
+metadata/_custom_type_script = "uid://qu883h1yuwhw"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GenTileConnection3" groups=["ignore_tile_bounds"]]
+mesh = SubResource("SphereMesh_7airk")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+mesh = SubResource("BoxMesh_7airk")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_7airk")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
+mesh = SubResource("BoxMesh_vgqfo")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_vgqfo")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+mesh = SubResource("BoxMesh_7wcll")

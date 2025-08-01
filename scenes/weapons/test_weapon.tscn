@@ -1,0 +1,156 @@
+[gd_scene load_steps=10 format=3 uid="uid://4eu4d3gvbwy1"]
+
+[ext_resource type="PackedScene" uid="uid://bdaky7mrqddhm" path="res://scenes/weapons/weapon_base.tscn" id="1_bq81q"]
+[ext_resource type="Shader" uid="uid://b08fcv75doawb" path="res://shaders/weapon_clip_shader.gdshader" id="2_bq81q"]
+
+[sub_resource type="Animation" id="Animation_2tnb3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.36, -1.2, -0.81)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.468533, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rrv11"]
+resource_name = "draw"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.36, -1.2, -0.81), Vector3(0.359754, 0, -0.810144)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.37, 0.7),
+"transitions": PackedFloat32Array(0.450625, 0.482968),
+"update": 0,
+"values": [Vector3(-2.05483, 0, 0), Vector3(0.468533, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_bq81q"]
+resource_name = "fire"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.303333, 0.433333, 0.633333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.359754, 0, -0.810144), Vector3(0.359754, 0.132177, -0.751986), Vector3(0.359754, 0.166862, -0.966205), Vector3(0.359754, -0.14254, -1.09882), Vector3(0.359754, 0, -0.810144)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.433333, 0.633333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.468533, 0, 0), Vector3(0.678339, 0, 0), Vector3(-0.389279, 0, 0), Vector3(0.468533, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_204qc"]
+resource_name = "stow"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.359754, 0, -0.810144), Vector3(0.36, -1.2, -0.81)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.37),
+"transitions": PackedFloat32Array(1, 0.450625),
+"update": 0,
+"values": [Vector3(0.468533, 0, 0), Vector3(-2.05483, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_512ay"]
+_data = {
+&"RESET": SubResource("Animation_2tnb3"),
+&"draw": SubResource("Animation_rrv11"),
+&"fire": SubResource("Animation_bq81q"),
+&"stow": SubResource("Animation_204qc")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rrv11"]
+render_priority = 0
+shader = ExtResource("2_bq81q")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(0, 0, 0)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/viewmodel_fov = 75.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_figl5"]
+material = SubResource("ShaderMaterial_rrv11")
+size = Vector3(0.1, 0.1, 0.625)
+
+[node name="TestWeapon" instance=ExtResource("1_bq81q")]
+upswing = 0.15
+heft = 0.5
+
+[node name="AnimationPlayer" parent="." index="0"]
+libraries = {
+&"": SubResource("AnimationLibrary_512ay")
+}
+autoplay = "RESET"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 0.892231, -0.451577, 0, 0.451577, 0.892231, 0.36, -1.2, -0.81)
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("BoxMesh_figl5")
