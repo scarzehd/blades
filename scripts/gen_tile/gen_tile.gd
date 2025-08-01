@@ -14,7 +14,7 @@ func _ready() -> void:
 	area.collision_layer = 4
 	area.collision_mask = 4
 	update_bounding_box()
-	for child in get_children(true):
+	for child in get_children():
 		if child is GenTileConnection:
 			connections.append(child)
 			child.tile = self
@@ -23,7 +23,6 @@ func update_bounding_box():
 	var aabb = calculate_aabb()
 	var shape = BoxShape3D.new()
 	var center = aabb.get_center()
-	print(center)
 	#center.y = -center.y
 	collision_shape.position = center
 	#collision_shape.top_level = true

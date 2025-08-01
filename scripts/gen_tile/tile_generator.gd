@@ -9,8 +9,9 @@ var placed_tiles:Array[GenTile]
 
 @export var debug_step:bool = false
 
+signal generation_finished
+
 func _ready() -> void:
-	await get_tree().process_frame
 	generate()
 
 func generate():
@@ -41,7 +42,7 @@ func generate():
 			# We did this earlier but it'll be kind of a hassle to store the result.
 			# If it's slow, this is the place to start.
 			var opposite_connections = current_tile.connections.filter(func(connection): return connection.connection_id == current_connection.connection_id)
-			
+			await get_tree().physics_frame
 			while opposite_connections.size() > 0:
 				var end = false
 				var current_opposite_connection:GenTileConnection = opposite_connections.pick_random()
@@ -63,19 +64,33 @@ func generate():
 				query.shape_rid = current_tile.collision_shape.shape.get_rid()
 				query.exclude = [current_connection.tile.area.get_rid()]
 				query.transform = current_tile.collision_shape.global_transform
-				await get_tree().physics_frame
 				var space_state = get_world_3d().direct_space_state
+				#
+				#var results = space_state.intersect_shape(query)
+				#var shape_cast:ShapeCast3D = ShapeCast3D.new()
+				#shape_cast.shape = current_tile.collision_shape.shape
+				#shape_cast.collide_with_areas = true
+				#shape_cast.collide_with_bodies = false
+				#add_child(shape_cast)
+				#shape_cast.position = current_tile.collision_shape.global_position
+				#shape_cast.collision_mask = 4
+				#
+				#shape_cast.force_shapecast_update()
 				
 				var results = space_state.intersect_shape(query)
 				
 				for result in results:
+					#var node = instance_from_id(result.collider_id)
+					#var parent = node.get_parent()
 					var parent = result.collider.get_parent()
-					print(result.collider.name + ", " + str(result.shape))
-					if parent is GenTile and placed_tiles.has(parent):
+					#print(result.collider.name + ", " + str(result.shape))
+					if parent is GenTile and placed_tiles.has(parent) and parent != current_tile and parent != current_connection.tile:
 						opposite_connections.erase(current_opposite_connection)
-						print("Tile " + current_tile.name + " intersects tile " + parent.name)
+						#print("Tile " + current_tile.name + " intersects tile " + parent.name)
 						end = true
-
+						break
+				
+				#shape_cast.queue_free()
 					
 					#if placed_tile.intersecting_tiles.has(current_tile):
 						#opposite_connections.erase(current_opposite_connection)
@@ -110,6 +125,7 @@ func generate():
 		connections_left.erase(current_connection)
 	
 	cleanup_temp_tiles()
+	generation_finished.emit()
 
 func create_tile(scene:PackedScene) -> GenTile:
 	var tile:GenTile = scene.instantiate() as GenTile

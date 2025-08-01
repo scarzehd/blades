@@ -12,6 +12,8 @@ class_name Enemy
 @onready var health_bar:ProgressBar = %HealthBar
 @onready var health_component:HealthComponent = %HealthComponent
 
+var can_mercy_kill:bool
+
 var aggro:float :
 	set(value):
 		aggro = value
@@ -34,13 +36,15 @@ func _physics_process(delta: float) -> void:
 		aggro_reset_timer.start(aggro_reset_time)
 		#aggro = clamp(aggro + (delta * (1 if Globals.player.crouching else 1.5 )), 0, aggro_threshold)
 		aggro = move_toward(aggro, aggro_threshold, delta * (1.0 if Globals.player.crouching else 1.5))
-	elif sphere_detected and !Globals.player.crouching:
+	elif sphere_detected and !Globals.player.crouching and Globals.player.velocity.length() > 0.1:
 		aggro_dropping = false
 		aggro_reset_timer.start(aggro_reset_time)
 		aggro = move_toward(aggro, aggro_threshold, delta)
 	
 	if aggro_dropping:
 		aggro = clamp(aggro - (delta * aggro_reset_rate), 0, aggro_threshold)
+	
+	can_mercy_kill = not (sight_cone_detected and sphere_detected)
 
 #region Signal Callbacks
 
@@ -50,6 +54,10 @@ func _on_aggro_reset_timer_timeout() -> void:
 
 func _on_hp_changed(old_hp:int, new_hp:int) -> void:
 	health_bar.value = new_hp
+	if new_hp < old_hp:
+		aggro += 0.5
+		aggro_reset_timer.start(aggro_reset_time)
+		aggro_dropping = false
 
 
 func _on_max_hp_changed(_old_max_hp:int, new_max_hp:int) -> void:

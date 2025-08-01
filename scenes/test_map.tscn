@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c635tis2rmhkt"]
+[gd_scene load_steps=12 format=3 uid="uid://c635tis2rmhkt"]
 
 [ext_resource type="PackedScene" uid="uid://bd4wbuh51bcy8" path="res://scenes/player.tscn" id="1_6ulkd"]
+[ext_resource type="Script" uid="uid://bt3xm1ss6lr4r" path="res://scripts/scenes/test_map.gd" id="1_kddbv"]
 [ext_resource type="Script" uid="uid://djsxjtfi5nthh" path="res://scripts/gen_tile/tile_generator.gd" id="1_ss0f2"]
 [ext_resource type="PackedScene" uid="uid://ce5regwlgnekl" path="res://assets/blender/the_blend_file.blend" id="2_fn2sa"]
 [ext_resource type="PackedScene" uid="uid://odn5j0v0o46s" path="res://scenes/test_enemy.tscn" id="3_57l66"]
@@ -18,10 +19,10 @@ sky_material = SubResource("ProceduralSkyMaterial_fn2sa")
 background_mode = 2
 sky = SubResource("Sky_57l66")
 
-[node name="TestMap" type="Node3D" node_paths=PackedStringArray("starting_tile")]
-script = ExtResource("1_ss0f2")
-starting_tile = NodePath("map")
-map_size = AABB(-100, -100, -100, 200, 200, 200)
+[sub_resource type="World3D" id="World3D_kddbv"]
+
+[node name="TestMap" type="Node3D"]
+script = ExtResource("1_kddbv")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_p21b5")
@@ -34,6 +35,9 @@ shadow_enabled = true
 [node name="Player" parent="." instance=ExtResource("1_6ulkd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
 
+[node name="TestEnemy" parent="." instance=ExtResource("3_57l66")]
+transform = Transform3D(2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, -3.00156, 1, 0)
+
 [node name="map" parent="." instance=ExtResource("2_fn2sa")]
 script = ExtResource("3_p21b5")
 
@@ -45,10 +49,31 @@ connection_id = "test"
 possible_tile_paths = Array[String](["uid://o7kcre2ckcer"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
-[node name="TestEnemy" parent="." instance=ExtResource("3_57l66")]
-transform = Transform3D(2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, -3.00156, 1, 0)
-
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0607, 2, -0.5)
 use_collision = true
 size = Vector3(0.183105, 5, 8)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+world_3d = SubResource("World3D_kddbv")
+handle_input_locally = false
+
+[node name="Generator" type="Node3D" parent="SubViewport" node_paths=PackedStringArray("starting_tile")]
+unique_name_in_owner = true
+script = ExtResource("1_ss0f2")
+starting_tile = NodePath("map")
+map_size = AABB(-100, -20, -100, 200, 40, 200)
+
+[node name="map" parent="SubViewport/Generator" instance=ExtResource("2_fn2sa")]
+script = ExtResource("3_p21b5")
+
+[node name="GenTileConnection" type="Marker3D" parent="SubViewport/Generator/map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+script = ExtResource("4_bdpbv")
+direction = Vector3(0, 0, 1)
+connection_id = "test"
+possible_tile_paths = Array[String](["uid://o7kcre2ckcer"])
+metadata/_custom_type_script = "uid://qu883h1yuwhw"
+
+[connection signal="generation_finished" from="SubViewport/Generator" to="." method="_on_generator_generation_finished"]
