@@ -169,6 +169,7 @@ material = SubResource("ShaderMaterial_rrv11")
 size = Vector3(0.1, 0.1, 0.625)
 
 [node name="TestWeapon" instance=ExtResource("1_bq81q")]
+weapon_range = 2.0
 attack_interval = 0.5
 upswing = 0.15
 heft = 0.75

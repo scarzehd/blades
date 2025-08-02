@@ -17,8 +17,12 @@ func _update(enemy:Enemy, delta:float) -> bool:
 	
 	var next_pos = enemy.navigation_agent.get_next_path_position()
 	
+	if enemy.enemy_ai.current_conditions.last_seen_player + 1 >= Time.get_unix_time_from_system():
+		enemy.look_at(Vector3(last_seen_pos.x, enemy.position.y, last_seen_pos.z))
+	else:
+		enemy.look_at(Vector3(next_pos.x, enemy.position.y, next_pos.z))
+	
 	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
-	enemy.look_at(Vector3(next_pos.x, enemy.global_position.y, next_pos.z))
 	
 	if enemy.navigation_agent.is_navigation_finished() and not enemy.player_detected:
 		return false

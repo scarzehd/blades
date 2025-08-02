@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c0p3167fn7pmg"]
+[gd_scene load_steps=19 format=3 uid="uid://c0p3167fn7pmg"]
 
 [ext_resource type="PackedScene" uid="uid://b1ekkl4kdiau6" path="res://scenes/enemies/enemy_base.tscn" id="1_pnhpx"]
 [ext_resource type="Script" uid="uid://blumvx2eh6354" path="res://scripts/ai/behaviors/ai_behavior.gd" id="2_tf3a8"]
@@ -16,7 +16,11 @@ viewport_path = NodePath("Sprite3D/SubViewport")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_pnhpx"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iwdv7"]
+albedo_color = Color(1, 0, 0, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_pnhpx"]
+material = SubResource("StandardMaterial3D_iwdv7")
 size = Vector3(0.6, 0.2, 0.2)
 
 [sub_resource type="Resource" id="Resource_qokj4"]
@@ -32,19 +36,19 @@ actions = Array[ExtResource("3_8ybkn")]([SubResource("Resource_qokj4")])
 interrupt_overrides = Array[StringName]([&"seen_player", &"heard_player"])
 metadata/_custom_type_script = "uid://dc4u21h0jjdct"
 
+[sub_resource type="Resource" id="Resource_iwdv7"]
+script = ExtResource("5_asbfj")
+wait_time = 5.0
+metadata/_custom_type_script = "uid://dy8ltim627hcd"
+
 [sub_resource type="Resource" id="Resource_asbfj"]
 script = ExtResource("4_8ybkn")
 radius = 10.0
 metadata/_custom_type_script = "uid://chpxkd24lngph"
 
-[sub_resource type="Resource" id="Resource_iwdv7"]
-script = ExtResource("5_asbfj")
-wait_time = 3.0
-metadata/_custom_type_script = "uid://dy8ltim627hcd"
-
 [sub_resource type="Resource" id="Resource_frcvx"]
 script = ExtResource("4_asbfj")
-actions = Array[ExtResource("3_8ybkn")]([SubResource("Resource_asbfj"), SubResource("Resource_iwdv7")])
+actions = Array[ExtResource("3_8ybkn")]([SubResource("Resource_iwdv7"), SubResource("Resource_asbfj")])
 interrupt_overrides = Array[StringName]([])
 metadata/_custom_type_script = "uid://b7bfll7x56jdl"
 
@@ -52,6 +56,9 @@ metadata/_custom_type_script = "uid://b7bfll7x56jdl"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent" index="0"]
 shape = SubResource("CapsuleShape3D_pnhpx")
+
+[node name="SightCone" parent="." index="2"]
+sight_angle = 0.436332
 
 [node name="Sprite3D" parent="." index="4"]
 texture = SubResource("ViewportTexture_kmxma")
@@ -65,9 +72,6 @@ mesh = SubResource("BoxMesh_pnhpx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="6"]
 shape = SubResource("CapsuleShape3D_pnhpx")
-
-[node name="NavigationAgent3D" parent="." index="7"]
-debug_enabled = true
 
 [node name="EnemyAI" parent="." index="8"]
 behaviors = Array[ExtResource("2_tf3a8")]([SubResource("Resource_mt1e2"), SubResource("Resource_frcvx")])

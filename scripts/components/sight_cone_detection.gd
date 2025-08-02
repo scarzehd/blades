@@ -12,7 +12,7 @@ func _detect_player() -> bool:
 	if player_pos.distance_to(global_position) > sight_distance:
 		return false
 	
-	var angle_to_player = sight_direction.angle_to(player_pos - global_position)
+	var angle_to_player = (global_transform * sight_direction).angle_to(player_pos)
 	
 	if angle_to_player > sight_angle:
 		return false

@@ -23,7 +23,7 @@ const JUMP_VELOCITY:float = 4.5
 
 const GRAVITY:float = 0.25
 
-const MAX_STEP:float = 0.5
+const MAX_STEP:float = 0.25
 var was_on_floor:bool = false
 var snapped_down_last_frame:bool = false
 
@@ -98,8 +98,11 @@ func move(delta):
 	
 	var tmod = delta * 60
 	
+	step_up.disabled = false
+	
 	if not is_on_floor():
 		velocity.y -= GRAVITY * tmod
+		step_up.disabled = true
 	
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = JUMP_VELOCITY
@@ -223,7 +226,7 @@ func handle_weapon_input():
 			
 			var enemy:Enemy = result.collider
 			
-			if enemy.enemy_ai.current_conditions.last_detected_player + 1 >= Time.get_unix_time_from_system() or enemy.aggro > enemy.aggro_threshold / 2:
+			if enemy.player_detected or enemy.aggro > enemy.aggro_threshold / 2:
 				return
 			
 			movement_override = true
@@ -232,6 +235,7 @@ func handle_weapon_input():
 			if was_crouching:
 				end_crouch()
 				await crouch_tween.finished
+			enemy.enemy_ai.end_ai()
 			await weapon.stealth_kill(enemy)
 			enemy.health_component.current_hp = 0
 			if was_crouching and Input.is_action_pressed("crouch"):
