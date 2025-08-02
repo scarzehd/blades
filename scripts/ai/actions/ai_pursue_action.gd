@@ -26,5 +26,5 @@ func _update(enemy:Enemy, delta:float) -> bool:
 	
 	if enemy.navigation_agent.is_navigation_finished() and not enemy.player_detected:
 		return false
-	
+		
 	return true
