@@ -1,0 +1,45 @@
+extends Node3D
+class_name EnemyAI
+
+@export var behaviors:Array[AIBehavior]
+
+var current_conditions:AIConditions = AIConditions.new()
+var enemy:Enemy :
+	set(value):
+		enemy = value
+		current_conditions.enemy = value
+
+var current_behavior:AIBehavior
+
+func interrupt(interrupt_id:StringName):
+	if not current_behavior:
+		return
+	current_behavior.end(enemy, interrupt_id)
+	current_behavior = choose_behavior()
+	current_behavior.start(enemy)
+
+func start_ai():
+	if not behaviors.size() > 0:
+		return
+	current_behavior = choose_behavior()
+	current_behavior.start(enemy)
+
+func end_ai():
+	if current_behavior:
+		current_behavior.end(enemy, "dead")
+		current_behavior = null
+
+func choose_behavior() -> AIBehavior:
+	for behavior in behaviors:
+		if behavior._check_conditions(current_conditions):
+			return behavior
+	
+	return behaviors[behaviors.size() - 1]
+
+func _physics_process(delta: float) -> void:
+	if not current_behavior:
+		return
+	
+	if not current_behavior.update(enemy, delta):
+		current_behavior = choose_behavior()
+		current_behavior.start(enemy)

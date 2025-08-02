@@ -88,6 +88,10 @@ alt_fire={
 3d_physics/layer_2="Hitbox"
 3d_physics/layer_3="GenTile"
 
+[navigation]
+
+3d/default_edge_connection_margin=2.0
+
 [physics]
 
 common/physics_jitter_fix=0.0

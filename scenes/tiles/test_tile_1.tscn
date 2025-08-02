@@ -3,7 +3,10 @@
 [ext_resource type="Script" uid="uid://b1splbl8l7cm0" path="res://scripts/gen_tile/gen_tile.gd" id="1_2fas0"]
 [ext_resource type="Script" uid="uid://qu883h1yuwhw" path="res://scripts/gen_tile/gen_tile_connection.gd" id="2_fglwe"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_fglwe"]
+[sub_resource type="NavigationMesh" id="NavigationMesh_fglwe"]
+vertices = PackedVector3Array(-3.5, 3.45, -6.5, -3.5, 3.45, 6.5, 3.5, 3.45, 6.5, 3.5, 3.45, -6.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+geometry_parsed_geometry_type = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fglwe"]
 albedo_color = Color(1, 0, 0, 1)
@@ -15,10 +18,23 @@ size = Vector3(8, 0.1, 14)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_fglwe"]
 points = PackedVector3Array(4, 0.05, 7, 4, -0.05, 7, 4, 0.05, -7, -4, 0.05, 7, -4, -0.05, 7, 4, -0.05, -7, -4, 0.05, -7, -4, -0.05, -7)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_fglwe"]
+[sub_resource type="SphereMesh" id="SphereMesh_fglwe"]
 
 [node name="TestTile1" type="Node3D"]
 script = ExtResource("1_2fas0")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_fglwe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("BoxMesh_fglwe")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_fglwe")
 
 [node name="GenTileConnection2" type="Marker3D" parent="." groups=["ignore_tile_bounds"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -7)
@@ -43,15 +59,3 @@ metadata/_custom_type_script = "uid://qu883h1yuwhw"
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GenTileConnection3" groups=["ignore_tile_bounds"]]
 mesh = SubResource("SphereMesh_fglwe")
 skeleton = NodePath("../..")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-mesh = SubResource("BoxMesh_fglwe")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_fglwe")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_fglwe")

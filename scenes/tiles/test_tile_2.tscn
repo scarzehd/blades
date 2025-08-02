@@ -5,15 +5,10 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_7airk"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7airk"]
-albedo_color = Color(0, 0, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_7airk"]
-material = SubResource("StandardMaterial3D_7airk")
-size = Vector3(8, 0.1, 14)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7airk"]
-points = PackedVector3Array(4, 0.05, 7, 4, -0.05, 7, 4, 0.05, -7, -4, 0.05, 7, -4, -0.05, 7, 4, -0.05, -7, -4, 0.05, -7, -4, -0.05, -7)
+[sub_resource type="NavigationMesh" id="NavigationMesh_7airk"]
+vertices = PackedVector3Array(-3.5, 0.45, -5.75, 3.5, 0.45, -5.75, 3.5, 0.45, -9.5, -3.5, 0.45, -9.5, 3.5, 0.45, -3.75, 5.75, 0.45, 3.5, 5.75, 0.45, -3.5, -3.5, 0.45, 3.5, 9.5, 0.45, 3.5, 9.5, 0.45, -3.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(0, 1, 4), PackedInt32Array(4, 6, 5), PackedInt32Array(0, 4, 7), PackedInt32Array(7, 4, 5), PackedInt32Array(6, 9, 5), PackedInt32Array(5, 9, 8)]
+geometry_parsed_geometry_type = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgqfo"]
 albedo_color = Color(0, 1, 0, 1)
@@ -25,7 +20,15 @@ size = Vector3(6, 0.1, 8)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_vgqfo"]
 points = PackedVector3Array(3, 0.05, 4, 3, -0.05, 4, 3, 0.05, -4, -3, 0.05, 4, -3, -0.05, 4, 3, -0.05, -4, -3, 0.05, -4, -3, -0.05, -4)
 
-[sub_resource type="BoxMesh" id="BoxMesh_7wcll"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7airk"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7airk"]
+material = SubResource("StandardMaterial3D_7airk")
+size = Vector3(8, 0.1, 14)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7airk"]
+points = PackedVector3Array(4, 0.05, 7, 4, -0.05, 7, 4, 0.05, -7, -4, 0.05, 7, -4, -0.05, 7, 4, -0.05, -7, -4, 0.05, -7, -4, -0.05, -7)
 
 [node name="TestTile2" type="Node3D"]
 script = ExtResource("1_i20ft")
@@ -54,24 +57,25 @@ metadata/_custom_type_script = "uid://qu883h1yuwhw"
 mesh = SubResource("SphereMesh_7airk")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
-mesh = SubResource("BoxMesh_7airk")
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_7airk")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_7airk")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
 mesh = SubResource("BoxMesh_vgqfo")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D2"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D2/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_vgqfo")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
-mesh = SubResource("BoxMesh_7wcll")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+mesh = SubResource("BoxMesh_7airk")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_7airk")

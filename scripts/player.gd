@@ -212,7 +212,7 @@ func handle_weapon_input():
 	if weapon.can_fire:
 		if Input.is_action_pressed("fire"):
 			weapon.fire(-camera.global_basis.z)
-		elif Input.is_action_pressed("alt_fire"):
+		elif Input.is_action_just_pressed("alt_fire"):
 			var end_pos = global_position + -camera.global_basis.z * weapon.weapon_range
 			var space_state = get_world_3d().direct_space_state
 			var query = PhysicsRayQueryParameters3D.create(global_position, end_pos, 1, [Globals.player.get_rid()])
@@ -223,7 +223,7 @@ func handle_weapon_input():
 			
 			var enemy:Enemy = result.collider
 			
-			if enemy.player_detected:
+			if enemy.enemy_ai.current_conditions.last_detected_player + 1 >= Time.get_unix_time_from_system() or enemy.aggro > enemy.aggro_threshold / 2:
 				return
 			
 			movement_override = true

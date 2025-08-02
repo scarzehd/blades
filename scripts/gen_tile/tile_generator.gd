@@ -1,7 +1,9 @@
 extends Node3D
+class_name TileGenerator
 
 @export var starting_tile:GenTile
 @export var map_size:AABB
+@export var bake_navmesh:bool = true
 
 var temp_tiles:Array[GenTile]
 
@@ -125,6 +127,23 @@ func generate():
 		connections_left.erase(current_connection)
 	
 	cleanup_temp_tiles()
+	#if bake_navmesh:
+		#var baking_regions:Array[NavigationRegion3D] = []
+		#for tile in placed_tiles:
+			#for child in tile.get_children():
+				#if child is not NavigationRegion3D:
+					#continue
+				#
+				#child.bake_navigation_mesh(true)
+				#baking_regions.append(child)
+		#
+		#while true:
+			#for region in baking_regions:
+				#if region.is_baking():
+					#await get_tree().process_frame
+					#continue
+			#break
+	
 	generation_finished.emit()
 
 func create_tile(scene:PackedScene) -> GenTile:

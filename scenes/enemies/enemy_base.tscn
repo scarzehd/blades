@@ -1,19 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://odn5j0v0o46s"]
+[gd_scene load_steps=9 format=3 uid="uid://b1ekkl4kdiau6"]
 
-[ext_resource type="Script" uid="uid://ckkcuq7ws6wyr" path="res://scripts/enemy.gd" id="1_h17bh"]
-[ext_resource type="Script" uid="uid://c8360ter7oppu" path="res://scripts/components/health.gd" id="2_lkcdx"]
-[ext_resource type="Script" uid="uid://ceekwo0brr8g6" path="res://scripts/components/sight_cone_detection.gd" id="2_mkyue"]
-[ext_resource type="Script" uid="uid://gltf3uqfthmj" path="res://scripts/components/sphere_detection.gd" id="4_lkcdx"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_7ibm0"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h17bh"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_7ibm0"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_fpxyv"]
-size = Vector3(0.6, 0.25, 0.2)
+[ext_resource type="Script" uid="uid://ckkcuq7ws6wyr" path="res://scripts/enemy.gd" id="1_qa0nx"]
+[ext_resource type="Script" uid="uid://c8360ter7oppu" path="res://scripts/components/health.gd" id="2_xdb20"]
+[ext_resource type="Script" uid="uid://ceekwo0brr8g6" path="res://scripts/components/sight_cone_detection.gd" id="3_evjv1"]
+[ext_resource type="Script" uid="uid://gltf3uqfthmj" path="res://scripts/components/sphere_detection.gd" id="4_qkgnu"]
+[ext_resource type="Script" uid="uid://cg0fpyhd1e252" path="res://scripts/ai/enemy_ai.gd" id="5_xdb20"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_lkcdx"]
 viewport_path = NodePath("Sprite3D/SubViewport")
@@ -32,30 +23,20 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="TestEnemy" type="CharacterBody3D"]
-script = ExtResource("1_h17bh")
+[node name="EnemyBase" type="CharacterBody3D"]
+script = ExtResource("1_qa0nx")
 aggro_threshold = 2.0
 aggro_reset_time = 5.0
 aggro_reset_rate = 0.5
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_7ibm0")
-surface_material_override/0 = SubResource("StandardMaterial3D_h17bh")
 
 [node name="HealthComponent" type="Area3D" parent="."]
 unique_name_in_owner = true
 collision_layer = 2
 collision_mask = 0
-script = ExtResource("2_lkcdx")
+script = ExtResource("2_xdb20")
 max_hp = 5
 current_hp = 5
 metadata/_custom_type_script = "uid://c8360ter7oppu"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent"]
-shape = SubResource("CylinderShape3D_7ibm0")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CylinderShape3D_7ibm0")
 
 [node name="AggroResetTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -63,19 +44,15 @@ unique_name_in_owner = true
 [node name="SightCone" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-script = ExtResource("2_mkyue")
+script = ExtResource("3_evjv1")
 sight_distance = 10.0
 sight_angle = 0.436332
 collision_layers = 1
 metadata/_custom_type_script = "uid://d3m01rho3igyt"
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
-mesh = SubResource("BoxMesh_fpxyv")
-
 [node name="SphereDetection" type="Node3D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("4_lkcdx")
+script = ExtResource("4_qkgnu")
 collision_layers = 1
 metadata/_custom_type_script = "uid://gltf3uqfthmj"
 
@@ -126,6 +103,13 @@ max_value = 5.0
 step = 1.0
 value = 3.0
 show_percentage = false
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+unique_name_in_owner = true
+
+[node name="EnemyAI" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_xdb20")
 
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="max_hp_changed" from="HealthComponent" to="." method="_on_max_hp_changed"]
