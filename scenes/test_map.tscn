@@ -58,8 +58,8 @@ script = ExtResource("3_p21b5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
 script = ExtResource("4_bdpbv")
 direction = Vector3(0, 0, 1)
-connection_id = "test"
-possible_tile_paths = Array[String](["uid://o7kcre2ckcer"])
+connection_id = "small_d"
+possible_tile_paths = Array[String](["uid://bg46yveyskymy"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="map" parent="." instance=ExtResource("2_fn2sa")]
