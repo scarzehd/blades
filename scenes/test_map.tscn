@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c635tis2rmhkt"]
+[gd_scene load_steps=11 format=3 uid="uid://c635tis2rmhkt"]
 
 [ext_resource type="PackedScene" uid="uid://bd4wbuh51bcy8" path="res://scenes/player.tscn" id="1_6ulkd"]
 [ext_resource type="Script" uid="uid://bt3xm1ss6lr4r" path="res://scripts/scenes/test_map.gd" id="1_kddbv"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://ce5regwlgnekl" path="res://assets/blender/the_blend_file.blend" id="2_fn2sa"]
 [ext_resource type="Script" uid="uid://b1splbl8l7cm0" path="res://scripts/gen_tile/gen_tile.gd" id="3_p21b5"]
 [ext_resource type="Script" uid="uid://qu883h1yuwhw" path="res://scripts/gen_tile/gen_tile_connection.gd" id="4_bdpbv"]
-[ext_resource type="PackedScene" uid="uid://c0p3167fn7pmg" path="res://scenes/enemies/test_enemy.tscn" id="7_kddbv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fn2sa"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -71,10 +70,5 @@ direction = Vector3(0, 0, 1)
 connection_id = "test"
 possible_tile_paths = Array[String](["uid://o7kcre2ckcer"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
-
-[node name="TestEnemy" parent="." instance=ExtResource("7_kddbv")]
-unique_name_in_owner = true
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1, 1, 0)
-speed = 5.0
 
 [connection signal="generation_finished" from="SubViewport/Generator" to="." method="_on_generator_generation_finished"]

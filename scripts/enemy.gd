@@ -29,7 +29,7 @@ func _ready() -> void:
 	health_bar.max_value = health_component.max_hp
 	health_bar.value = health_component.current_hp
 	enemy_ai.enemy = self
-	#enemy_ai.start_ai()
+	enemy_ai.start_ai()
 
 func _physics_process(delta: float) -> void:
 	if health_component.current_hp == 0:
@@ -39,6 +39,8 @@ func _physics_process(delta: float) -> void:
 	var sight_cone_detected = sight_cone_detection._detect_player()
 	var sphere_detected = sphere_detection._detect_player()
 	player_detected = false
+	
+	#print(-global_basis.z)
 	
 	if sight_cone_detected:
 		player_detected = true

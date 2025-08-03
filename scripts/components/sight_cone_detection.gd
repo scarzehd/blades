@@ -5,16 +5,15 @@ class_name SightConeDetection
 @export_range(0, 360, 1, "radians_as_degrees") var sight_angle:float
 @export_flags_3d_physics var collision_layers:int
 
-var sight_direction:Vector3 = Vector3.FORWARD
-
 func _detect_player() -> bool:
 	var player_pos = Globals.player.global_position
+	print(-global_transform.basis.z)
 	if player_pos.distance_to(global_position) > sight_distance:
 		return false
 	
-	var angle_to_player = (-global_transform.basis.z).angle_to(player_pos)
+	var angle_to_player = (-global_transform.basis.z).angle_to(player_pos - global_position)
 	
-	#print(rad_to_deg(angle_to_player))
+	print(rad_to_deg(angle_to_player))
 	
 	if angle_to_player > sight_angle:
 		return false

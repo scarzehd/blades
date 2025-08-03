@@ -19,7 +19,7 @@ func _update(enemy:Enemy, delta:float) -> bool:
 	
 	if enemy.enemy_ai.current_conditions.last_seen_player + 1 >= Time.get_unix_time_from_system():
 		enemy.look_at(Vector3(last_seen_pos.x, enemy.position.y, last_seen_pos.z))
-	else:
+	elif enemy.global_position != next_pos:
 		enemy.look_at(Vector3(next_pos.x, enemy.position.y, next_pos.z))
 	
 	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
