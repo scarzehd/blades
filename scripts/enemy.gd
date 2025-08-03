@@ -25,7 +25,6 @@ var aggro:float :
 var aggro_dropping:bool = false
 
 func _ready() -> void:
-	sight_cone_detection.sight_direction = -transform.basis.z
 	aggro_meter.max_value = aggro_threshold
 	health_bar.max_value = health_component.max_hp
 	health_bar.value = health_component.current_hp
@@ -37,7 +36,6 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 	
-	#sight_cone_detection.sight_direction = -transform.basis.z
 	var sight_cone_detected = sight_cone_detection._detect_player()
 	var sphere_detected = sphere_detection._detect_player()
 	player_detected = false

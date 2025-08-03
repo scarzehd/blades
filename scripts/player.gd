@@ -23,7 +23,7 @@ const JUMP_VELOCITY:float = 4.5
 
 const GRAVITY:float = 0.25
 
-const MAX_STEP:float = 0.25
+const MAX_STEP:float = 0.5
 var was_on_floor:bool = false
 var snapped_down_last_frame:bool = false
 
@@ -51,14 +51,13 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# This needs to be done to fix weapon jitter with physics interpolation.
 	weapon_container.global_transform = camera.get_global_transform_interpolated()
-	if not movement_override:
-		handle_crouch()
-		handle_weapon_input()
 
 func _physics_process(delta: float) -> void:
 	if not movement_override:
 		move(delta)
 		update_camera(delta)
+		handle_crouch()
+		handle_weapon_input()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not movement_override:
@@ -143,7 +142,7 @@ func snap_down_stairs():
 	snapped_down_last_frame = did_snap
 
 func update_step_up_position(direction:Vector2):
-	step_up.position = Vector3(direction.x, -0.5, direction.y)
+	step_up.position = Vector3(direction.x * 0.7, 0 if crouching else -0.5, direction.y * 0.7)
 
 #endregion
 
@@ -169,9 +168,11 @@ func start_crouch():
 	
 	crouch_tween = create_tween()
 	crouch_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-	crouch_tween.tween_property(head, "position", Vector3(0, -0.25, 0), CROUCH_TIME)
-	crouch_tween.tween_property(collision_shape.shape, "height", 1, 0)
 	crouch_tween.tween_property(self, "crouching", true, 0)
+	crouch_tween.set_parallel()
+	crouch_tween.tween_property(head, "position", Vector3(0, 0, 0), CROUCH_TIME)
+	crouch_tween.tween_property(collision_shape.shape, "height", 1, CROUCH_TIME)
+	#crouch_tween.tween_property(step_up.shape, "length", .25, CROUCH_TIME)
 
 func end_crouch():
 	if crouch_tween and crouch_tween.is_running():
@@ -179,9 +180,11 @@ func end_crouch():
 	
 	crouch_tween = create_tween()
 	crouch_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+	crouch_tween.set_parallel()
 	crouch_tween.tween_property(head, "position", Vector3(0, 0.5, 0), CROUCH_TIME)
-	crouch_tween.tween_property(collision_shape.shape, "height", 2, 0)
-	crouch_tween.tween_property(self, "crouching", false, 0)
+	crouch_tween.tween_property(collision_shape.shape, "height", 2, CROUCH_TIME)
+	#crouch_tween.tween_property(step_up.shape, "length", .5, CROUCH_TIME)
+	crouch_tween.chain().tween_property(self, "crouching", false, 0)
 
 #endregion
 
@@ -229,17 +232,20 @@ func handle_weapon_input():
 			if enemy.player_detected or enemy.aggro > enemy.aggro_threshold / 2:
 				return
 			
-			movement_override = true
 			velocity = Vector3.ZERO
 			var was_crouching = crouching
 			if was_crouching:
 				end_crouch()
 				await crouch_tween.finished
+				#update_step_up_position(Vector2.ZERO)
+			movement_override = true
+			step_up.disabled = true
 			enemy.enemy_ai.end_ai()
 			await weapon.stealth_kill(enemy)
 			enemy.health_component.current_hp = 0
 			if was_crouching and Input.is_action_pressed("crouch"):
 				start_crouch()
+			step_up.disabled = false
 			movement_override = false
 
 #endregion

@@ -5,7 +5,7 @@ class_name AIDetectedPlayerBehavior
 @export var seen_player_window:float = 0
 @export var both:bool = false
 
-func _check_conditions(conditions:AIConditions) -> bool:
+func _check_conditions(conditions:AIState) -> bool:
 	var seen_player = conditions.last_seen_player + seen_player_window >= Time.get_unix_time_from_system()
 	var heard_player = conditions.last_heard_player + heard_player_window >= Time.get_unix_time_from_system()
 	

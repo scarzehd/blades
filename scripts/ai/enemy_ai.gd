@@ -3,7 +3,7 @@ class_name EnemyAI
 
 @export var behaviors:Array[AIBehavior]
 
-var current_conditions:AIConditions = AIConditions.new()
+var current_conditions:AIState = AIState.new()
 var enemy:Enemy :
 	set(value):
 		enemy = value

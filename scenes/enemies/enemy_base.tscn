@@ -28,6 +28,7 @@ script = ExtResource("1_qa0nx")
 aggro_threshold = 2.0
 aggro_reset_time = 5.0
 aggro_reset_rate = 0.5
+speed = 4.0
 
 [node name="HealthComponent" type="Area3D" parent="."]
 unique_name_in_owner = true

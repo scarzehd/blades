@@ -75,5 +75,6 @@ metadata/_custom_type_script = "uid://qu883h1yuwhw"
 [node name="TestEnemy" parent="." instance=ExtResource("7_kddbv")]
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1, 1, 0)
+speed = 5.0
 
 [connection signal="generation_finished" from="SubViewport/Generator" to="." method="_on_generator_generation_finished"]

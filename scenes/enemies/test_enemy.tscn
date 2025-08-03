@@ -57,9 +57,6 @@ metadata/_custom_type_script = "uid://b7bfll7x56jdl"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent" index="0"]
 shape = SubResource("CapsuleShape3D_pnhpx")
 
-[node name="SightCone" parent="." index="2"]
-sight_angle = 0.436332
-
 [node name="Sprite3D" parent="." index="4"]
 texture = SubResource("ViewportTexture_kmxma")
 

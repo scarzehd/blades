@@ -6,7 +6,7 @@ class_name AIBehavior
 
 var current_action:int
 
-func _check_conditions(conditions:AIConditions) -> bool:
+func _check_conditions(conditions:AIState) -> bool:
 	return false
 
 func start(enemy:Enemy):
