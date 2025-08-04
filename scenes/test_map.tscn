@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c635tis2rmhkt"]
+[gd_scene load_steps=12 format=3 uid="uid://c635tis2rmhkt"]
 
 [ext_resource type="PackedScene" uid="uid://bd4wbuh51bcy8" path="res://scenes/player.tscn" id="1_6ulkd"]
 [ext_resource type="Script" uid="uid://bt3xm1ss6lr4r" path="res://scripts/scenes/test_map.gd" id="1_kddbv"]
@@ -19,6 +19,10 @@ background_mode = 2
 sky = SubResource("Sky_57l66")
 
 [sub_resource type="World3D" id="World3D_kddbv"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_ss0f2"]
+vertices = PackedVector3Array(4.25, 0.5, -3, 6.5, 0.5, -2.75, 6.5, 0.5, -4.25, 4, 0.5, -4, -6.75, 0.5, -3.25, -2, 0.5, -3.5, -1.75, 0.5, -4, -6.75, 0.5, -6.75, 7.5, 0.5, -4.5, 7.5, 0.5, -6.75, -1, 3.25, -5.75, 7.5, 3.25, -5.5, 7.5, 3.25, -6.75, -1, 3.25, -6.75, 5.5, 1, 4.25, 5.5, 1.25, 6.5, 6, 1.25, 6, 7.5, 1.25, 6, 7.5, 0.75, 0, 6.5, 0.5, 0, 5.83333, 0.5, 2.83333, 7.5, 1.25, 4.8, 7.5, 0.5, 3.6, 3.75, 0.5, -1.75, 4.25, 0.5, 4, -1.75, 0.5, -1.75, -6.75, 0.5, 7, -5, 0.5, 7, -4.75, 0.5, 7.5, 4, 0.5, 7.5)
+polygons = [PackedInt32Array(0, 3, 1), PackedInt32Array(1, 3, 2), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(8, 2, 9), PackedInt32Array(9, 2, 3), PackedInt32Array(9, 3, 6), PackedInt32Array(9, 6, 7), PackedInt32Array(13, 12, 10), PackedInt32Array(10, 12, 11), PackedInt32Array(16, 15, 14), PackedInt32Array(17, 16, 21), PackedInt32Array(21, 16, 14), PackedInt32Array(21, 14, 22), PackedInt32Array(22, 14, 20), PackedInt32Array(22, 20, 19), PackedInt32Array(22, 19, 18), PackedInt32Array(14, 24, 20), PackedInt32Array(20, 24, 19), PackedInt32Array(19, 24, 23), PackedInt32Array(19, 23, 0), PackedInt32Array(19, 0, 1), PackedInt32Array(5, 25, 4), PackedInt32Array(4, 25, 27), PackedInt32Array(4, 27, 26), PackedInt32Array(28, 27, 29), PackedInt32Array(29, 27, 24), PackedInt32Array(24, 27, 25), PackedInt32Array(24, 25, 23)]
 
 [node name="TestMap" type="Node3D"]
 script = ExtResource("1_kddbv")
@@ -47,13 +51,16 @@ handle_input_locally = false
 [node name="Generator" type="Node3D" parent="SubViewport" node_paths=PackedStringArray("starting_tile")]
 unique_name_in_owner = true
 script = ExtResource("1_ss0f2")
-starting_tile = NodePath("map")
+starting_tile = NodePath("NavigationRegion3D/map")
 map_size = AABB(-50, -20, -50, 100, 40, 100)
 
-[node name="map" parent="SubViewport/Generator" instance=ExtResource("2_fn2sa")]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="SubViewport/Generator"]
+navigation_mesh = SubResource("NavigationMesh_ss0f2")
+
+[node name="map" parent="SubViewport/Generator/NavigationRegion3D" instance=ExtResource("2_fn2sa")]
 script = ExtResource("3_p21b5")
 
-[node name="GenTileConnection" type="Marker3D" parent="SubViewport/Generator/map"]
+[node name="GenTileConnection" type="Marker3D" parent="SubViewport/Generator/NavigationRegion3D/map"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 8)
 script = ExtResource("4_bdpbv")
 connection_id = &"small_door"

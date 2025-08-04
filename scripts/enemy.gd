@@ -86,6 +86,7 @@ func _on_hp_changed(old_hp:int, new_hp:int) -> void:
 		aggro_reset_timer.start(aggro_reset_time)
 		aggro_dropping = false
 		enemy_ai.current_conditions.last_attacked = Time.get_unix_time_from_system()
+		enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
 		enemy_ai.interrupt("damaged")
 
 

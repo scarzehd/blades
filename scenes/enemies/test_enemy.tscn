@@ -1,13 +1,13 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0p3167fn7pmg"]
+[gd_scene load_steps=20 format=3 uid="uid://c0p3167fn7pmg"]
 
 [ext_resource type="PackedScene" uid="uid://b1ekkl4kdiau6" path="res://scenes/enemies/enemy_base.tscn" id="1_pnhpx"]
-[ext_resource type="Script" uid="uid://blumvx2eh6354" path="res://scripts/ai/behaviors/ai_behavior.gd" id="2_tf3a8"]
+[ext_resource type="Script" uid="uid://blumvx2eh6354" path="res://scripts/ai/ai_behavior.gd" id="2_kmxma"]
 [ext_resource type="Script" uid="uid://cfhfdaotkb7v1" path="res://scripts/ai/actions/ai_action.gd" id="3_8ybkn"]
 [ext_resource type="Script" uid="uid://chpxkd24lngph" path="res://scripts/ai/actions/ai_roam_radius_action.gd" id="4_8ybkn"]
-[ext_resource type="Script" uid="uid://b7bfll7x56jdl" path="res://scripts/ai/behaviors/ai_fallback_behavior.gd" id="4_asbfj"]
+[ext_resource type="Script" uid="uid://i6qk0prl1adp" path="res://scripts/ai/conditions/ai_condition.gd" id="4_tf3a8"]
 [ext_resource type="Script" uid="uid://dy8ltim627hcd" path="res://scripts/ai/actions/ai_wait_action.gd" id="5_asbfj"]
 [ext_resource type="Script" uid="uid://bt7104e18trta" path="res://scripts/ai/actions/ai_pursue_action.gd" id="5_iwdv7"]
-[ext_resource type="Script" uid="uid://dc4u21h0jjdct" path="res://scripts/ai/behaviors/ai_detected_player_behavior.gd" id="6_itg6w"]
+[ext_resource type="Script" uid="uid://dc4u21h0jjdct" path="res://scripts/ai/conditions/ai_detected_player_condition.gd" id="6_iwdv7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pnhpx"]
 
@@ -23,34 +23,40 @@ albedo_color = Color(1, 0, 0, 1)
 material = SubResource("StandardMaterial3D_iwdv7")
 size = Vector3(0.6, 0.2, 0.2)
 
-[sub_resource type="Resource" id="Resource_qokj4"]
+[sub_resource type="Resource" id="Resource_itg6w"]
 script = ExtResource("5_iwdv7")
 metadata/_custom_type_script = "uid://bt7104e18trta"
 
-[sub_resource type="Resource" id="Resource_mt1e2"]
-script = ExtResource("6_itg6w")
-heard_player_window = 2.0
+[sub_resource type="Resource" id="Resource_oq0fo"]
+script = ExtResource("6_iwdv7")
+heard_player_window = 1.0
 seen_player_window = 5.0
 both = false
-actions = Array[ExtResource("3_8ybkn")]([SubResource("Resource_qokj4")])
-interrupt_overrides = Array[StringName]([&"seen_player", &"heard_player"])
 metadata/_custom_type_script = "uid://dc4u21h0jjdct"
 
-[sub_resource type="Resource" id="Resource_iwdv7"]
+[sub_resource type="Resource" id="Resource_qokj4"]
+script = ExtResource("2_kmxma")
+actions = Array[ExtResource("3_8ybkn")]([SubResource("Resource_itg6w")])
+interrupt_overrides = Array[StringName]([&"damaged", &"seen_player", &"heard_player"])
+conditions = Array[ExtResource("4_tf3a8")]([SubResource("Resource_oq0fo")])
+metadata/_custom_type_script = "uid://blumvx2eh6354"
+
+[sub_resource type="Resource" id="Resource_frcvx"]
 script = ExtResource("5_asbfj")
-wait_time = 5.0
+wait_time = 2.0
 metadata/_custom_type_script = "uid://dy8ltim627hcd"
 
 [sub_resource type="Resource" id="Resource_asbfj"]
 script = ExtResource("4_8ybkn")
-radius = 10.0
+radius = 20.0
 metadata/_custom_type_script = "uid://chpxkd24lngph"
 
-[sub_resource type="Resource" id="Resource_frcvx"]
-script = ExtResource("4_asbfj")
-actions = Array[ExtResource("3_8ybkn")]([SubResource("Resource_iwdv7"), SubResource("Resource_asbfj")])
+[sub_resource type="Resource" id="Resource_8ybkn"]
+script = ExtResource("2_kmxma")
+actions = Array[ExtResource("3_8ybkn")]([SubResource("Resource_frcvx"), SubResource("Resource_asbfj")])
 interrupt_overrides = Array[StringName]([])
-metadata/_custom_type_script = "uid://b7bfll7x56jdl"
+conditions = Array[ExtResource("4_tf3a8")]([])
+metadata/_custom_type_script = "uid://blumvx2eh6354"
 
 [node name="TestEnemy" instance=ExtResource("1_pnhpx")]
 
@@ -71,4 +77,4 @@ mesh = SubResource("BoxMesh_pnhpx")
 shape = SubResource("CapsuleShape3D_pnhpx")
 
 [node name="EnemyAI" parent="." index="8"]
-behaviors = Array[ExtResource("2_tf3a8")]([SubResource("Resource_mt1e2"), SubResource("Resource_frcvx")])
+behaviors = Array[ExtResource("2_kmxma")]([SubResource("Resource_qokj4"), SubResource("Resource_8ybkn")])

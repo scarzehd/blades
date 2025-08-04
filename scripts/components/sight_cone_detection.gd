@@ -3,6 +3,7 @@ class_name SightConeDetection
 
 @export var sight_distance:float
 @export_range(0, 360, 1, "radians_as_degrees") var sight_angle:float
+@export_range(0, 360, 1, "radians_as_degrees") var vertical_sight_angle:float
 @export_flags_3d_physics var collision_layers:int
 
 func _detect_player() -> bool:
