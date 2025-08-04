@@ -17,7 +17,7 @@ func _update(enemy:Enemy, delta:float) -> bool:
 	
 	var next_pos = enemy.navigation_agent.get_next_path_position()
 	
-	if enemy.enemy_ai.current_conditions.last_seen_player + 1 >= Time.get_unix_time_from_system():
+	if enemy.enemy_ai.current_conditions.seen_player_within(1):
 		enemy.look_at(Vector3(last_seen_pos.x, enemy.position.y, last_seen_pos.z))
 	elif enemy.global_position != next_pos:
 		enemy.look_at(Vector3(next_pos.x, enemy.position.y, next_pos.z))

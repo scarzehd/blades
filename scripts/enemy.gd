@@ -53,6 +53,7 @@ func _physics_process(delta: float) -> void:
 		aggro = move_toward(aggro, aggro_threshold, delta * (1.0 if Globals.player.crouching else 1.5))
 		#if enemy_ai.current_conditions.last_seen_player + 0.5 < Time.get_unix_time_from_system():
 		enemy_ai.current_conditions.last_seen_player = Time.get_unix_time_from_system()
+		enemy_ai.current_conditions.last_seen_player_pos = Globals.player.global_position
 		enemy_ai.interrupt("seen_player")
 	elif sphere_detected and !Globals.player.crouching and Globals.player.velocity.length() > 0.1:
 		aggro_dropping = false
@@ -61,6 +62,7 @@ func _physics_process(delta: float) -> void:
 		aggro = move_toward(aggro, aggro_threshold, delta)
 		#if enemy_ai.current_conditions.last_heard_player + 0.5 < Time.get_unix_time_from_system():
 		enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
+		enemy_ai.current_conditions.last_heard_player_pos = Globals.player.global_position
 		enemy_ai.interrupt("heard_player")
 	
 	if aggro_dropping:

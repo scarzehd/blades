@@ -229,7 +229,7 @@ func handle_weapon_input():
 			
 			var enemy:Enemy = result.collider
 			
-			if enemy.player_detected or enemy.aggro > enemy.aggro_threshold / 2:
+			if enemy.enemy_ai.current_conditions.detected_player_within(1) or enemy.enemy_ai.current_conditions.attacked_within(1):
 				return
 			
 			velocity = Vector3.ZERO

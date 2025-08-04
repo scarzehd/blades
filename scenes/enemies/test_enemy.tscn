@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dc4u21h0jjdct" path="res://scripts/ai/conditions/ai_detected_player_condition.gd" id="6_iwdv7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pnhpx"]
+radius = 0.4
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_kmxma"]
 viewport_path = NodePath("Sprite3D/SubViewport")
@@ -62,6 +63,10 @@ metadata/_custom_type_script = "uid://blumvx2eh6354"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent" index="0"]
 shape = SubResource("CapsuleShape3D_pnhpx")
+
+[node name="SightCone" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+close_sight_angle = 0.610865
 
 [node name="Sprite3D" parent="." index="4"]
 texture = SubResource("ViewportTexture_kmxma")
