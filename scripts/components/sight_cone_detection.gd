@@ -7,13 +7,10 @@ class_name SightConeDetection
 
 func _detect_player() -> bool:
 	var player_pos = Globals.player.global_position
-	print(-global_transform.basis.z)
 	if player_pos.distance_to(global_position) > sight_distance:
 		return false
 	
 	var angle_to_player = (-global_transform.basis.z).angle_to(player_pos - global_position)
-	
-	print(rad_to_deg(angle_to_player))
 	
 	if angle_to_player > sight_angle:
 		return false

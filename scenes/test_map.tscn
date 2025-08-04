@@ -54,20 +54,18 @@ map_size = AABB(-50, -20, -50, 100, 40, 100)
 script = ExtResource("3_p21b5")
 
 [node name="GenTileConnection" type="Marker3D" parent="SubViewport/Generator/map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 8)
 script = ExtResource("4_bdpbv")
-direction = Vector3(0, 0, 1)
-connection_id = "small_d"
+connection_id = &"small_door"
 possible_tile_paths = Array[String](["uid://bg46yveyskymy"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="map" parent="." instance=ExtResource("2_fn2sa")]
 
 [node name="GenTileConnection" type="Marker3D" parent="map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 8)
 script = ExtResource("4_bdpbv")
-direction = Vector3(0, 0, 1)
-connection_id = "test"
+connection_id = &"small_door"
 possible_tile_paths = Array[String](["uid://o7kcre2ckcer"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
