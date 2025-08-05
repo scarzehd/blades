@@ -4,7 +4,7 @@ class_name AIPursueAction
 var last_seen_pos:Vector3
 
 func _start(enemy:Enemy):
-	last_seen_pos = Globals.player.global_position
+	last_seen_pos = enemy.enemy_ai.current_conditions.last_detected_player_pos
 
 func _end(enemy:Enemy, interrupt_id:StringName = ""):
 	enemy.velocity = Vector3.ZERO

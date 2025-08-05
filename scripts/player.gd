@@ -7,6 +7,7 @@ class_name Player
 @onready var weapon_container:Node3D = %WeaponContainer
 @onready var collision_shape:CollisionShape3D = %CollisionShape3D
 @onready var health_component:HealthComponent = %HealthComponent
+@onready var distraction_timer:Timer = %DistractionTimer
 
 # Mouse input
 const X_SENSITIVITY:float = 0.2
@@ -39,6 +40,12 @@ var crouch_tween:Tween
 var weapon:Weapon
 var weapon_drawn:bool = false
 
+# Distractions
+const DISTRACTION_COOLDOWN:float = 5
+const DISTRACTION_THROW_FORCE:float = 20
+@export var distractions:Dictionary[PackedScene, int]
+var distraction_ready:bool = true
+
 func _ready() -> void:
 	Globals.player = self
 	
@@ -58,6 +65,7 @@ func _physics_process(delta: float) -> void:
 		update_camera(delta)
 		handle_crouch()
 		handle_weapon_input()
+		handle_distraction()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not movement_override:
@@ -247,5 +255,38 @@ func handle_weapon_input():
 				start_crouch()
 			step_up.disabled = false
 			movement_override = false
+
+#endregion
+
+#region Distraction
+
+func handle_distraction():
+	if Input.is_action_just_pressed("distraction") and distraction_ready:
+		distraction_ready = false
+		distraction_timer.start(DISTRACTION_COOLDOWN)
+		var total_weight = 0
+		for scene in distractions.keys():
+			total_weight += distractions[scene]
+		
+		var rand = randf_range(0, total_weight)
+		
+		var chosen_scene:PackedScene = distractions.keys()[0]
+		
+		for scene in distractions.keys():
+			rand -= distractions[scene]
+			
+			if rand <= 0:
+				chosen_scene = scene
+				break
+		
+		var distraction:Distraction = chosen_scene.instantiate()
+		
+		add_child(distraction)
+		
+		distraction.global_position = head.global_position + (-camera.global_basis.z * 0.25)
+		distraction.apply_central_impulse(-camera.global_basis.z * DISTRACTION_THROW_FORCE)
+
+func _on_distraction_timer_timeout() -> void:
+	distraction_ready = true
 
 #endregion
