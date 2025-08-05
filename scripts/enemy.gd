@@ -56,8 +56,8 @@ func _physics_process(delta: float) -> void:
 		enemy_ai.current_conditions.last_seen_player_pos = Globals.player.global_position
 		enemy_ai.interrupt("seen_player")
 	elif sphere_detected and !Globals.player.crouching and Globals.player.velocity.length() > 0.1:
-		aggro_dropping = false
 		player_detected = true
+		aggro_dropping = false
 		aggro_reset_timer.start(aggro_reset_time)
 		aggro = move_toward(aggro, aggro_threshold, delta)
 		#if enemy_ai.current_conditions.last_heard_player + 0.5 < Time.get_unix_time_from_system():

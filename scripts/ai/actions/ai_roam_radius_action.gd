@@ -25,7 +25,11 @@ func _update(enemy:Enemy, delta:float) -> bool:
 	var next_pos := enemy.navigation_agent.get_next_path_position()
 	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
 	if enemy.global_position != next_pos:
-		enemy.look_at(Vector3(next_pos.x, enemy.global_position.y, next_pos.z))
+		var look_at_target = Vector3(next_pos.x, enemy.global_position.y, next_pos.z)
+		look_at_target -= enemy.global_position
+		look_at_target = (-enemy.global_basis.z).slerp(look_at_target, 0.1)
+		look_at_target += enemy.global_position
+		enemy.look_at(look_at_target)
 	
 	if enemy.navigation_agent.is_navigation_finished():
 		return false
