@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1jsqq8mfevfx"]
+
+[ext_resource type="Script" uid="uid://c1mgf05dhl1mw" path="res://scripts/objects/distractions/distraction.gd" id="1_mvh3p"]
+[ext_resource type="PackedScene" uid="uid://dt8uafmk3pfxq" path="res://scenes/enemy_sound_maker.tscn" id="2_vn0hf"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mvh3p"]
+rough = true
+
+[node name="Distraction" type="RigidBody3D"]
+top_level = true
+collision_layer = 0
+physics_material_override = SubResource("PhysicsMaterial_mvh3p")
+center_of_mass_mode = 1
+inertia = Vector3(1, 1, 1)
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_mvh3p")
+
+[node name="EnemySoundMaker" parent="." instance=ExtResource("2_vn0hf")]
+unique_name_in_owner = true
+radius = 30.0
+bypass_walls = true
+
+[node name="LifetimeTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 10.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="LifetimeTimer" to="." method="_on_lifetime_timer_timeout"]

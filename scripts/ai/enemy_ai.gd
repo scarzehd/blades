@@ -14,7 +14,8 @@ var current_behavior:AIBehavior
 func interrupt(interrupt_id:StringName):
 	if not current_behavior:
 		return
-	current_behavior.end(enemy, interrupt_id)
+	if not current_behavior.end(enemy, interrupt_id):
+		return
 	current_behavior = choose_behavior()
 	current_behavior.start(enemy)
 
@@ -31,7 +32,7 @@ func end_ai():
 
 func choose_behavior() -> AIBehavior:
 	for behavior in behaviors:
-		if behavior._check_conditions(current_conditions):
+		if behavior.check_conditions(current_conditions):
 			return behavior
 	
 	return behaviors[behaviors.size() - 1]
@@ -40,6 +41,6 @@ func _physics_process(delta: float) -> void:
 	if not current_behavior:
 		return
 	
-	if not current_behavior.update(enemy, delta):
+	if not current_behavior._update(enemy, delta) and current_behavior.end(enemy):
 		current_behavior = choose_behavior()
 		current_behavior.start(enemy)

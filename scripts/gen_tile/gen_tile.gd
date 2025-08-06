@@ -30,7 +30,7 @@ func update_bounding_box():
 	collision_shape.shape = shape
 	#print(aabb.size)
 
-func calculate_aabb(node:Node3D = self, bounds:AABB = AABB()) -> AABB:
+func calculate_aabb(node:Node = self, bounds:AABB = AABB()) -> AABB:
 	if node is VisualInstance3D and not node.is_in_group("ignore_tile_bounds"):
 		var child_bounds:AABB = node.transform * node.get_aabb()
 		# If the bounds are empty, use the first child's bounds instead.

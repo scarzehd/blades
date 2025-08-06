@@ -1,11 +1,15 @@
-extends AIAction
-class_name AIRoamRadiusAction
+extends AIBehavior
+class_name AIRoamRadiusBehavior
 
 @export var radius:float
+@export var delay:float = 1
 
+var waited = false
 var target_point:Vector3
 
 func _start(enemy:Enemy):
+	var timer = enemy.get_tree().create_timer(delay, false, true)
+	timer.timeout.connect(func(): waited = true)
 	while true:
 		var theta:float = randf() * 2 * PI
 		var point = (Vector3(cos(theta), 0, sin(theta)) * sqrt(randf()) * radius) + enemy.global_position
@@ -22,14 +26,23 @@ func _start(enemy:Enemy):
 		break
 
 func _update(enemy:Enemy, delta:float) -> bool:
+	if not waited:
+		return true
 	var next_pos := enemy.navigation_agent.get_next_path_position()
 	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
-	enemy.look_at(Vector3(next_pos.x, enemy.global_position.y, next_pos.z))
+	if enemy.global_position != next_pos:
+		var look_at_target = Vector3(next_pos.x, enemy.global_position.y, next_pos.z)
+		look_at_target -= enemy.global_position
+		look_at_target = (-enemy.global_basis.z).slerp(look_at_target, 0.1)
+		look_at_target += enemy.global_position
+		enemy.look_at(look_at_target)
 	
 	if enemy.navigation_agent.is_navigation_finished():
 		return false
 	
 	return true
 
-func _end(enemy:Enemy, _interrupt_id:StringName = ""):
+func _end(enemy:Enemy, _interrupt_id:StringName = "") -> bool:
 	enemy.velocity = Vector3.ZERO
+	waited = false
+	return true
