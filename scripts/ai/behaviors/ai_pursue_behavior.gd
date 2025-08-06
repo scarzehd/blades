@@ -3,14 +3,13 @@ class_name AIPursueBehavior
 
 var last_seen_pos:Vector3
 
-func _start(enemy:Enemy):
+func _start():
 	last_seen_pos = enemy.enemy_ai.current_conditions.last_detected_player_pos
 
-func _end(enemy:Enemy, interrupt_id:StringName = "") -> bool:
+func _end():
 	enemy.velocity = Vector3.ZERO
-	return true
 
-func _update(enemy:Enemy, delta:float) -> bool:
+func _update(delta:float):
 	if enemy.player_detected:
 		last_seen_pos = Globals.player.global_position
 	
@@ -32,8 +31,3 @@ func _update(enemy:Enemy, delta:float) -> bool:
 	enemy.look_at(look_at_target)
 	
 	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
-	
-	if enemy.navigation_agent.is_navigation_finished() and not enemy.player_detected:
-		return false
-	
-	return true

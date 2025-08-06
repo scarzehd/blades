@@ -62,7 +62,6 @@ func _physics_process(delta: float) -> void:
 		#if enemy_ai.current_conditions.last_seen_player + 0.5 < Time.get_unix_time_from_system():
 		enemy_ai.current_conditions.last_seen_player = Time.get_unix_time_from_system()
 		enemy_ai.current_conditions.last_seen_player_pos = Globals.player.global_position
-		enemy_ai.interrupt("seen_player")
 	elif sphere_detected and !Globals.player.crouching and Globals.player.velocity.length() > 0.1:
 		player_detected = true
 		aggro_dropping = false
@@ -71,7 +70,6 @@ func _physics_process(delta: float) -> void:
 		#if enemy_ai.current_conditions.last_heard_player + 0.5 < Time.get_unix_time_from_system():
 		enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
 		enemy_ai.current_conditions.last_heard_player_pos = Globals.player.global_position
-		enemy_ai.interrupt("heard_player")
 	
 	if aggro_dropping:
 		aggro -= delta * aggro_reset_rate
@@ -98,8 +96,6 @@ func _on_hp_changed(old_hp:int, new_hp:int) -> void:
 		aggro_dropping = false
 		enemy_ai.current_conditions.last_attacked = Time.get_unix_time_from_system()
 		enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
-		enemy_ai.interrupt("damaged")
-
 
 func _on_max_hp_changed(_old_max_hp:int, new_max_hp:int) -> void:
 	health_bar.max_value = new_max_hp
