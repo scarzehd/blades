@@ -30,6 +30,8 @@ func play_sound():
 				if not result or result.collider != body:
 					continue
 			
+			print(body.name)
+			
 			body.enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
 			body.enemy_ai.current_conditions.last_heard_player_pos = global_position
 			body.enemy_ai.interrupt("heard_player")

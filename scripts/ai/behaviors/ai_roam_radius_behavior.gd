@@ -13,7 +13,8 @@ func _start(enemy:Enemy):
 	while true:
 		var theta:float = randf() * 2 * PI
 		var point = (Vector3(cos(theta), 0, sin(theta)) * sqrt(randf()) * radius) + enemy.global_position
-		target_point = NavigationServer3D.map_get_closest_point(enemy.get_world_3d().get_navigation_map(), point)
+		#target_point = NavigationServer3D.map_get_closest_point(enemy.get_world_3d().get_navigation_map(), point)
+		target_point = point
 		enemy.navigation_agent.target_position = target_point
 		var path = enemy.navigation_agent.get_current_navigation_path()
 		var distance:float = 0
