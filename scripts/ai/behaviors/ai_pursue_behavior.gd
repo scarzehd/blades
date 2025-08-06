@@ -1,13 +1,14 @@
-extends AIAction
-class_name AIPursueAction
+extends AIBehavior
+class_name AIPursueBehavior
 
 var last_seen_pos:Vector3
 
 func _start(enemy:Enemy):
 	last_seen_pos = enemy.enemy_ai.current_conditions.last_detected_player_pos
 
-func _end(enemy:Enemy, interrupt_id:StringName = ""):
+func _end(enemy:Enemy, interrupt_id:StringName = "") -> bool:
 	enemy.velocity = Vector3.ZERO
+	return true
 
 func _update(enemy:Enemy, delta:float) -> bool:
 	if enemy.player_detected:

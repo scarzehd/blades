@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b1ekkl4kdiau6"]
+[gd_scene load_steps=10 format=3 uid="uid://b1ekkl4kdiau6"]
 
 [ext_resource type="Script" uid="uid://ckkcuq7ws6wyr" path="res://scripts/enemy.gd" id="1_qa0nx"]
 [ext_resource type="Script" uid="uid://c8360ter7oppu" path="res://scripts/components/health.gd" id="2_xdb20"]
@@ -22,6 +22,9 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_xdb20"]
+length = 0.25
 
 [node name="EnemyBase" type="CharacterBody3D"]
 script = ExtResource("1_qa0nx")
@@ -114,6 +117,10 @@ unique_name_in_owner = true
 [node name="EnemyAI" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("5_xdb20")
+
+[node name="StepUp" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("SeparationRayShape3D_xdb20")
 
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="max_hp_changed" from="HealthComponent" to="." method="_on_max_hp_changed"]

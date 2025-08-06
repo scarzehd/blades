@@ -37,6 +37,7 @@ func _ready() -> void:
 	health_bar.value = health_component.current_hp
 	enemy_ai.enemy = self
 	if start_ai_on_ready:
+		await get_tree().process_frame
 		enemy_ai.start_ai()
 
 func _physics_process(delta: float) -> void:

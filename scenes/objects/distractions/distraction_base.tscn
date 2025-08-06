@@ -18,6 +18,8 @@ script = ExtResource("1_mvh3p")
 
 [node name="EnemySoundMaker" parent="." instance=ExtResource("2_vn0hf")]
 unique_name_in_owner = true
+radius = 30.0
+bypass_walls = true
 
 [node name="LifetimeTimer" type="Timer" parent="."]
 process_callback = 0
