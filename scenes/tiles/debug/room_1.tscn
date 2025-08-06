@@ -12,6 +12,7 @@
 [sub_resource type="NavigationMesh" id="NavigationMesh_smh67"]
 vertices = PackedVector3Array(7.75, 0.5, 28.5, 8, 0.5, 29.5, 8.75, 0.5, 29.5, 9, 0.5, 28.5, 1.75, 0.5, 0.75, 20.5, 0.5, 28.5, 20.5, 0.5, 0.75, 1.75, 0.5, 28.5)
 polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(5, 3, 6), PackedInt32Array(6, 3, 4), PackedInt32Array(0, 7, 4)]
+geometry_parsed_geometry_type = 1
 
 [sub_resource type="Resource" id="Resource_ie18e"]
 script = ExtResource("4_kqexp")

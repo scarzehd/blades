@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnjv8ranr7dr5"]
+
+[ext_resource type="PackedScene" uid="uid://c1jsqq8mfevfx" path="res://scenes/objects/distractions/distraction_base.tscn" id="1_44xab"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_44xab"]
+albedo_color = Color(1, 1, 0, 1)
+metallic = 1.0
+roughness = 0.35
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_44xab"]
+material = SubResource("StandardMaterial3D_44xab")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.05
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_44xab"]
+radius = 0.1
+
+[node name="CoinDistraction" instance=ExtResource("1_44xab")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="0"]
+mesh = SubResource("CylinderMesh_44xab")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+shape = SubResource("SphereShape3D_44xab")

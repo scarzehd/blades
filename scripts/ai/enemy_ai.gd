@@ -41,6 +41,6 @@ func _physics_process(delta: float) -> void:
 	if not current_behavior:
 		return
 	
-	if not current_behavior.update(enemy, delta):
+	if not current_behavior._update(enemy, delta) and current_behavior.end(enemy):
 		current_behavior = choose_behavior()
 		current_behavior.start(enemy)
