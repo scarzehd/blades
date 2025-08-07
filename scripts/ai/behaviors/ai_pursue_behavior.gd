@@ -10,7 +10,7 @@ func _end():
 	enemy.velocity = Vector3.ZERO
 
 func _update(delta:float):
-	if enemy.player_detected:
+	if enemy.enemy_ai.current_conditions.detected_player_within(delta * 2):
 		last_seen_pos = Globals.player.global_position
 	
 	enemy.navigation_agent.target_position = last_seen_pos

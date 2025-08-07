@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://b1ekkl4kdiau6"]
+[gd_scene load_steps=9 format=3 uid="uid://b1ekkl4kdiau6"]
 
 [ext_resource type="Script" uid="uid://ckkcuq7ws6wyr" path="res://scripts/enemy.gd" id="1_qa0nx"]
 [ext_resource type="Script" uid="uid://c8360ter7oppu" path="res://scripts/components/health.gd" id="2_xdb20"]
 [ext_resource type="Script" uid="uid://ceekwo0brr8g6" path="res://scripts/components/sight_cone_detection.gd" id="3_evjv1"]
-[ext_resource type="Script" uid="uid://gltf3uqfthmj" path="res://scripts/components/sphere_detection.gd" id="4_qkgnu"]
 [ext_resource type="Script" uid="uid://cg0fpyhd1e252" path="res://scripts/ai/enemy_ai.gd" id="5_xdb20"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_lkcdx"]
@@ -55,13 +54,6 @@ sight_angle = 0.383972
 close_sight_angle = 0.785398
 collision_layers = 1
 metadata/_custom_type_script = "uid://d3m01rho3igyt"
-
-[node name="SphereDetection" type="Node3D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("4_qkgnu")
-detection_range = 5.0
-collision_layers = 1
-metadata/_custom_type_script = "uid://gltf3uqfthmj"
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33529, 0)

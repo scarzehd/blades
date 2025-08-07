@@ -36,7 +36,7 @@ func fire(direction:Vector3):
 	
 	var end_pos = global_position + direction * weapon_range
 	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(global_position, end_pos, 2, [Globals.player.get_rid()])
+	var query = PhysicsRayQueryParameters3D.create(global_position, end_pos, 2, [owner.get_rid()])
 	query.collide_with_areas = true
 	var result = space_state.intersect_ray(query)
 	

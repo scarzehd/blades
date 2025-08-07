@@ -8,6 +8,8 @@ class_name Player
 @onready var collision_shape:CollisionShape3D = %CollisionShape3D
 @onready var health_component:HealthComponent = %HealthComponent
 @onready var distraction_timer:Timer = %DistractionTimer
+@onready var footstep_timer:Timer = %FootstepTimer
+@onready var footstep_sound_maker:EnemySoundMaker = %FootstepSoundMaker
 
 # Mouse input
 const X_SENSITIVITY:float = 0.2
@@ -129,6 +131,12 @@ func move(delta):
 		velocity.x *= clampf(DRAG * tmod, 0, 1)
 		velocity.z *= clampf(DRAG * tmod, 0, 1)
 	
+	# Footstep logic
+	if direction and not crouching:
+		footstep_timer.paused = false
+	else:
+		footstep_timer.paused = true
+	
 	update_step_up_position(Vector2(move_dir.x, move_dir.z))
 	move_and_slide()
 	snap_down_stairs()
@@ -150,7 +158,10 @@ func snap_down_stairs():
 	snapped_down_last_frame = did_snap
 
 func update_step_up_position(direction:Vector2):
-	step_up.position = Vector3(direction.x * 0.7, 0 if crouching else -0.5, direction.y * 0.7)
+	step_up.position = Vector3(direction.x * 0.65, 0 if crouching else -0.5, direction.y * 0.65)
+
+func _on_footstep_timer_timeout() -> void:
+	footstep_sound_maker.play_sound()
 
 #endregion
 

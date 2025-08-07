@@ -20,6 +20,7 @@ script = ExtResource("1_mvh3p")
 unique_name_in_owner = true
 radius = 20.0
 bypass_walls = true
+sound_id = &"distraction"
 
 [node name="LifetimeTimer" type="Timer" parent="."]
 process_callback = 0

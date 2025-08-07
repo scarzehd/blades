@@ -9,7 +9,7 @@ class_name Enemy
 @export var speed:float = 5
 
 @onready var sight_cone_detection:SightConeDetection = %SightCone
-@onready var sphere_detection:SphereDetection = %SphereDetection
+#@onready var sphere_detection:SphereDetection = %SphereDetection
 @onready var aggro_meter:ProgressBar = %AggroMeter
 @onready var aggro_reset_timer:Timer = %AggroResetTimer
 @onready var health_bar:ProgressBar = %HealthBar
@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	var sight_cone_detected = sight_cone_detection._detect_player()
-	var sphere_detected = sphere_detection._detect_player()
+	#var sphere_detected = sphere_detection._detect_player()
 	player_detected = false
 	
 	#print(-global_basis.z)
@@ -62,14 +62,14 @@ func _physics_process(delta: float) -> void:
 		#if enemy_ai.current_conditions.last_seen_player + 0.5 < Time.get_unix_time_from_system():
 		enemy_ai.current_conditions.last_seen_player = Time.get_unix_time_from_system()
 		enemy_ai.current_conditions.last_seen_player_pos = Globals.player.global_position
-	elif sphere_detected and !Globals.player.crouching and Globals.player.velocity.length() > 0.1:
-		player_detected = true
-		aggro_dropping = false
-		aggro_reset_timer.start(aggro_reset_time)
-		aggro = move_toward(aggro, aggro_threshold, delta)
-		#if enemy_ai.current_conditions.last_heard_player + 0.5 < Time.get_unix_time_from_system():
-		enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
-		enemy_ai.current_conditions.last_heard_player_pos = Globals.player.global_position
+	#elif sphere_detected and !Globals.player.crouching and Globals.player.velocity.length() > 0.1:
+		#player_detected = true
+		#aggro_dropping = false
+		#aggro_reset_timer.start(aggro_reset_time)
+		#aggro = move_toward(aggro, aggro_threshold, delta)
+		##if enemy_ai.current_conditions.last_heard_player + 0.5 < Time.get_unix_time_from_system():
+		#enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
+		#enemy_ai.current_conditions.last_heard_player_pos = Globals.player.global_position
 	
 	if aggro_dropping:
 		aggro -= delta * aggro_reset_rate
