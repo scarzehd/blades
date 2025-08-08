@@ -21,7 +21,8 @@ uniform vec3 uv1_offset;
 uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
 
-uniform float viewmodel_fov = 75.0f;
+uniform float viewmodel_fov = 90.0f;
+uniform bool enabled = true;
 
 void vertex() {
 	UV = UV * uv1_scale.xy + uv1_offset.xy;
@@ -33,7 +34,9 @@ void vertex() {
 	PROJECTION_MATRIX[0][0] = onetanfov / aspect;
 
 	POSITION = PROJECTION_MATRIX * MODELVIEW_MATRIX * vec4(VERTEX.xyz, 1.0);
+if (enabled) {
 	POSITION.z = mix(POSITION.z, 0, -3.5);
+	}
 }
 
 void fragment() {

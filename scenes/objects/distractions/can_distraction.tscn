@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctmd6cy01t2fy"]
+
+[ext_resource type="PackedScene" uid="uid://c1jsqq8mfevfx" path="res://scenes/objects/distractions/distraction_base.tscn" id="1_tt1b2"]
+[ext_resource type="ArrayMesh" uid="uid://vvjka786mxdm" path="res://assets/meshes/distraction/can_distraction.res" id="2_4h8vo"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tt1b2"]
+height = 0.3
+radius = 0.15
+
+[node name="CanDistraction" instance=ExtResource("1_tt1b2")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
+mesh = ExtResource("2_4h8vo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="3"]
+shape = SubResource("CylinderShape3D_tt1b2")

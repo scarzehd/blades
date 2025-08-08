@@ -34,3 +34,4 @@ func start_behavior(new_behavior:AIBehavior):
 	current_behavior = new_behavior
 	current_behavior.running = true
 	current_behavior._start()
+	print(new_behavior.name)

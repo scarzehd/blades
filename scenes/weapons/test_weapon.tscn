@@ -163,6 +163,7 @@ shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(0, 0, 0)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/viewmodel_fov = 75.0
+shader_parameter/enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_figl5"]
 material = SubResource("ShaderMaterial_rrv11")

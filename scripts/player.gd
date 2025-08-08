@@ -296,6 +296,7 @@ func handle_distraction():
 		
 		distraction.global_position = head.global_position + (-camera.global_basis.z * 0.25)
 		distraction.apply_central_impulse(-camera.global_basis.z * DISTRACTION_THROW_FORCE)
+		distraction.apply_torque_impulse(Vector3(20, 20, 20))
 
 func _on_distraction_timer_timeout() -> void:
 	distraction_ready = true

@@ -32,7 +32,7 @@ var last_detected_player_pos:Vector3
 var sounds:Array[SoundDefinition]
 const MAX_SOUNDS_REMEMBERED = 10
 
-var player_sounds:Array[StringName] = [&"player_footstep", &"distraction"]
+var player_sounds:Array[StringName] = [&"player_footstep"]
 
 func seen_player_within(time:float) -> bool:
 	return last_seen_player + time >= Time.get_unix_time_from_system()
@@ -57,8 +57,14 @@ func add_sound_definition(sound_definition:SoundDefinition):
 		last_heard_player_pos = sound_definition.position
 
 func heard_sound_within(sound_id:StringName, time:float) -> SoundDefinition:
+	if sounds.size() == 0:
+		return null
 	var sounds_reversed = Array(sounds)
 	sounds_reversed.reverse()
+	if sound_id == &"":
+		var sound = sounds_reversed[0]
+		if sound.time + time >= Time.get_unix_time_from_system():
+			return sounds_reversed[0]
 	for sound in sounds_reversed:
 		if sound.sound_id == sound_id and sound.time + time >= Time.get_unix_time_from_system():
 			return sound

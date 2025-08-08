@@ -17,8 +17,6 @@ class_name Enemy
 @onready var enemy_ai:EnemyAI = %EnemyAI
 @onready var navigation_agent:NavigationAgent3D = %NavigationAgent3D
 
-var player_detected:bool
-
 var aggro:float :
 	set(value):
 		aggro = clamp(value, base_aggro, aggro_threshold)
@@ -47,12 +45,10 @@ func _physics_process(delta: float) -> void:
 	
 	var sight_cone_detected = sight_cone_detection._detect_player()
 	#var sphere_detected = sphere_detection._detect_player()
-	player_detected = false
 	
 	#print(-global_basis.z)
 	
 	if sight_cone_detected:
-		player_detected = true
 		aggro_dropping = false
 		aggro_reset_timer.start(aggro_reset_time)
 		#aggro = clamp(aggro + (delta * (1 if Globals.player.crouching else 1.5 )), 0, aggro_threshold)
