@@ -37,6 +37,9 @@ func _update(delta:float):
 		look_at_target = (-enemy.global_basis.z).slerp(look_at_target, 0.1)
 		look_at_target += enemy.global_position
 		enemy.look_at(look_at_target)
+	
+	if enemy.navigation_agent.is_navigation_finished():
+		enemy.enemy_ai.start_behavior(self)
 
 func _end():
 	enemy.velocity = Vector3.ZERO

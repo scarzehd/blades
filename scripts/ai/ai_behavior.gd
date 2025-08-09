@@ -1,6 +1,8 @@
 extends Node3D
 class_name AIBehavior
 
+@export var next_behavior:AIBehavior
+
 var transitions:Array[AITransition]
 
 var enemy:Enemy
@@ -15,18 +17,25 @@ func _ready() -> void:
 func _start():
 	pass
 
-func end():
-	_end()
-	running = false
-	var transition = check_transitions()
-	if transition:
-		enemy.enemy_ai.start_behavior(transition.target_behavior)
-
 func _end():
 	pass
 
 func _update(delta:float):
 	pass
+
+func end(shutdown:bool = false):
+	_end()
+	running = false
+	if shutdown:
+		return
+	if next_behavior != null:
+		enemy.enemy_ai.start_behavior(next_behavior)
+		return
+	var transition = check_transitions()
+	if transition:
+		enemy.enemy_ai.start_behavior(transition.target_behavior)
+	else:
+		enemy.enemy_ai.start_behavior(enemy.enemy_ai.behaviors[0])
 
 func _physics_process(delta: float) -> void:
 	if running:

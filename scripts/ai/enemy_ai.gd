@@ -25,7 +25,7 @@ func start_ai():
 
 func end_ai():
 	if current_behavior:
-		current_behavior.end()
+		current_behavior.end(true)
 		current_behavior = null
 
 func start_behavior(new_behavior:AIBehavior):

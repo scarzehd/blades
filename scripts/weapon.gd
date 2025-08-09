@@ -15,6 +15,8 @@ class_name Weapon
 @export var parry_window:float = 1 # The Length of the parry window in seconds
 @export var guard:float = 1 # As an inverse multiplier to the increase in the tension meter on block
 
+@export var shader_materials:Array[ShaderMaterial]
+
 # True if we can swap weapons. We're not drawing, stowing, or firing.
 var can_swap:bool = true
 
@@ -62,6 +64,8 @@ func stow():
 	can_swap = true
 
 func stealth_kill(enemy:Enemy):
+	#for material in shader_materials:
+		#material.set_shader_parameter("enabled", false)
 	var player = Globals.player
 	
 	var tween := create_tween()
@@ -80,4 +84,5 @@ func stealth_kill(enemy:Enemy):
 	tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	tween.tween_property(player.camera, "global_transform", old_camera_transform, 0.2)
 	await tween.finished
-	return null
+	#for material in shader_materials:
+		#material.set_shader_parameter("enabled", true)
