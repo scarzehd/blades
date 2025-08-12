@@ -9,30 +9,33 @@ class_name Enemy
 @export var speed:float = 5
 
 @onready var sight_cone_detection:SightConeDetection = %SightCone
-@onready var sphere_detection:SphereDetection = %SphereDetection
+#@onready var sphere_detection:SphereDetection = %SphereDetection
 @onready var aggro_meter:ProgressBar = %AggroMeter
+@onready var base_aggro_meter:ProgressBar = %BaseAggroMeter
 @onready var aggro_reset_timer:Timer = %AggroResetTimer
 @onready var health_bar:ProgressBar = %HealthBar
 @onready var health_component:HealthComponent = %HealthComponent
 @onready var enemy_ai:EnemyAI = %EnemyAI
 @onready var navigation_agent:NavigationAgent3D = %NavigationAgent3D
 
-var player_detected:bool
-
 var aggro:float :
 	set(value):
+		if value > aggro_threshold:
+			base_aggro += (value - aggro_threshold) * .25
 		aggro = clamp(value, base_aggro, aggro_threshold)
 		aggro_meter.value = value
 
 var base_aggro:float :
 	set(value):
 		base_aggro = value
+		base_aggro_meter.value = value
 		aggro = aggro
 
 var aggro_dropping:bool = false
 
 func _ready() -> void:
 	aggro_meter.max_value = aggro_threshold
+	base_aggro_meter.max_value = aggro_threshold
 	health_bar.max_value = health_component.max_hp
 	health_bar.value = health_component.current_hp
 	enemy_ai.enemy = self
@@ -46,32 +49,28 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	var sight_cone_detected = sight_cone_detection._detect_player()
-	var sphere_detected = sphere_detection._detect_player()
-	player_detected = false
+	#var sphere_detected = sphere_detection._detect_player()
 	
 	#print(-global_basis.z)
 	
 	if sight_cone_detected:
-		player_detected = true
 		aggro_dropping = false
 		aggro_reset_timer.start(aggro_reset_time)
 		#aggro = clamp(aggro + (delta * (1 if Globals.player.crouching else 1.5 )), 0, aggro_threshold)
 		var aggro_change = delta * (1.0 if Globals.player.crouching else 1.5)
-		base_aggro = move_toward(base_aggro, aggro_threshold, aggro_change * 0.5)
-		aggro = move_toward(aggro, aggro_threshold, aggro_change)
+		#base_aggro = move_toward(base_aggro, aggro_threshold, aggro_change * 0.25)
+		aggro += aggro_change
 		#if enemy_ai.current_conditions.last_seen_player + 0.5 < Time.get_unix_time_from_system():
 		enemy_ai.current_conditions.last_seen_player = Time.get_unix_time_from_system()
 		enemy_ai.current_conditions.last_seen_player_pos = Globals.player.global_position
-		enemy_ai.interrupt("seen_player")
-	elif sphere_detected and !Globals.player.crouching and Globals.player.velocity.length() > 0.1:
-		player_detected = true
-		aggro_dropping = false
-		aggro_reset_timer.start(aggro_reset_time)
-		aggro = move_toward(aggro, aggro_threshold, delta)
-		#if enemy_ai.current_conditions.last_heard_player + 0.5 < Time.get_unix_time_from_system():
-		enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
-		enemy_ai.current_conditions.last_heard_player_pos = Globals.player.global_position
-		enemy_ai.interrupt("heard_player")
+	#elif sphere_detected and !Globals.player.crouching and Globals.player.velocity.length() > 0.1:
+		#player_detected = true
+		#aggro_dropping = false
+		#aggro_reset_timer.start(aggro_reset_time)
+		#aggro = move_toward(aggro, aggro_threshold, delta)
+		##if enemy_ai.current_conditions.last_heard_player + 0.5 < Time.get_unix_time_from_system():
+		#enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
+		#enemy_ai.current_conditions.last_heard_player_pos = Globals.player.global_position
 	
 	if aggro_dropping:
 		aggro -= delta * aggro_reset_rate
@@ -98,8 +97,6 @@ func _on_hp_changed(old_hp:int, new_hp:int) -> void:
 		aggro_dropping = false
 		enemy_ai.current_conditions.last_attacked = Time.get_unix_time_from_system()
 		enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
-		enemy_ai.interrupt("damaged")
-
 
 func _on_max_hp_changed(_old_max_hp:int, new_max_hp:int) -> void:
 	health_bar.max_value = new_max_hp

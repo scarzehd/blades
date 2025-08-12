@@ -7,8 +7,8 @@ class_name AIRoamRadiusBehavior
 var waited = false
 var target_point:Vector3
 
-func _start(enemy:Enemy):
-	var timer = enemy.get_tree().create_timer(delay, false, true)
+func _start():
+	var timer = get_tree().create_timer(delay, false, true)
 	timer.timeout.connect(func(): waited = true)
 	while true:
 		var theta:float = randf() * 2 * PI
@@ -26,9 +26,9 @@ func _start(enemy:Enemy):
 			continue
 		break
 
-func _update(enemy:Enemy, delta:float) -> bool:
+func _update(delta:float):
 	if not waited:
-		return true
+		return
 	var next_pos := enemy.navigation_agent.get_next_path_position()
 	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
 	if enemy.global_position != next_pos:
@@ -39,11 +39,8 @@ func _update(enemy:Enemy, delta:float) -> bool:
 		enemy.look_at(look_at_target)
 	
 	if enemy.navigation_agent.is_navigation_finished():
-		return false
-	
-	return true
+		enemy.enemy_ai.start_behavior(self)
 
-func _end(enemy:Enemy, _interrupt_id:StringName = "") -> bool:
+func _end():
 	enemy.velocity = Vector3.ZERO
 	waited = false
-	return true

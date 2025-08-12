@@ -62,8 +62,7 @@ script = ExtResource("1_kx5wq")
 [node name="GenTileConnection4" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11)
 script = ExtResource("2_jqfa2")
-direction = Vector3(0, 0, -1)
-connection_id = "test"
+connection_id = &"test"
 possible_tile_paths = Array[String](["uid://dpuo7x5g8v4e6", "uid://biu0gn2tcjun7", "uid://o7kcre2ckcer"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
@@ -73,8 +72,7 @@ mesh = SubResource("SphereMesh_cheyg")
 [node name="GenTileConnection2" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11)
 script = ExtResource("2_jqfa2")
-direction = Vector3(0, 0, 1)
-connection_id = "test"
+connection_id = &"test"
 possible_tile_paths = Array[String](["uid://dpuo7x5g8v4e6", "uid://biu0gn2tcjun7", "uid://o7kcre2ckcer"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
@@ -85,8 +83,7 @@ skeleton = NodePath("../..")
 [node name="GenTileConnection3" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0)
 script = ExtResource("2_jqfa2")
-direction = Vector3(-1, 0, 0)
-connection_id = "test"
+connection_id = &"test"
 possible_tile_paths = Array[String](["uid://dpuo7x5g8v4e6", "uid://biu0gn2tcjun7", "uid://o7kcre2ckcer"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
@@ -96,8 +93,7 @@ mesh = SubResource("SphereMesh_cheyg")
 [node name="GenTileConnection" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0)
 script = ExtResource("2_jqfa2")
-direction = Vector3(1, 0, 0)
-connection_id = "test"
+connection_id = &"test"
 possible_tile_paths = Array[String](["uid://dpuo7x5g8v4e6", "uid://biu0gn2tcjun7", "uid://o7kcre2ckcer"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 

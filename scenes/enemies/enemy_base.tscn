@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://b1ekkl4kdiau6"]
+[gd_scene load_steps=11 format=3 uid="uid://b1ekkl4kdiau6"]
 
 [ext_resource type="Script" uid="uid://ckkcuq7ws6wyr" path="res://scripts/enemy.gd" id="1_qa0nx"]
 [ext_resource type="Script" uid="uid://c8360ter7oppu" path="res://scripts/components/health.gd" id="2_xdb20"]
 [ext_resource type="Script" uid="uid://ceekwo0brr8g6" path="res://scripts/components/sight_cone_detection.gd" id="3_evjv1"]
-[ext_resource type="Script" uid="uid://gltf3uqfthmj" path="res://scripts/components/sphere_detection.gd" id="4_qkgnu"]
 [ext_resource type="Script" uid="uid://cg0fpyhd1e252" path="res://scripts/ai/enemy_ai.gd" id="5_xdb20"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_lkcdx"]
@@ -11,6 +10,15 @@ viewport_path = NodePath("Sprite3D/SubViewport")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpxyv"]
 bg_color = Color(1, 0.935833, 0.23, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qa0nx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xdb20"]
+bg_color = Color(1, 0.662745, 0.231373, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -56,13 +64,6 @@ close_sight_angle = 0.785398
 collision_layers = 1
 metadata/_custom_type_script = "uid://d3m01rho3igyt"
 
-[node name="SphereDetection" type="Node3D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("4_qkgnu")
-detection_range = 5.0
-collision_layers = 1
-metadata/_custom_type_script = "uid://gltf3uqfthmj"
-
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33529, 0)
 billboard = 2
@@ -90,6 +91,25 @@ size_flags_vertical = 4
 theme_override_styles/fill = SubResource("StyleBoxFlat_fpxyv")
 show_percentage = false
 
+[node name="BaseAggroMeter" type="ProgressBar" parent="Sprite3D/SubViewport"]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -12.5
+offset_right = 110.0
+offset_bottom = 12.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxEmpty_qa0nx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xdb20")
+show_percentage = false
+
 [node name="HealthBar" type="ProgressBar" parent="Sprite3D/SubViewport"]
 unique_name_in_owner = true
 anchors_preset = 8
@@ -113,16 +133,17 @@ show_percentage = false
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 unique_name_in_owner = true
+path_desired_distance = 0.7
 target_desired_distance = 0.5
 debug_enabled = true
-
-[node name="EnemyAI" type="Node3D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("5_xdb20")
 
 [node name="StepUp" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("SeparationRayShape3D_xdb20")
+
+[node name="EnemyAI" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_xdb20")
 
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="max_hp_changed" from="HealthComponent" to="." method="_on_max_hp_changed"]

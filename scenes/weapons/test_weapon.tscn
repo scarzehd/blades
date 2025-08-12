@@ -3,6 +3,23 @@
 [ext_resource type="PackedScene" uid="uid://bdaky7mrqddhm" path="res://scenes/weapons/weapon_base.tscn" id="1_bq81q"]
 [ext_resource type="Shader" uid="uid://b08fcv75doawb" path="res://shaders/weapon_clip_shader.gdshader" id="2_bq81q"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rrv11"]
+render_priority = 0
+shader = ExtResource("2_bq81q")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(0, 0, 0)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/viewmodel_fov = 75.0
+shader_parameter/enabled = true
+
 [sub_resource type="Animation" id="Animation_2tnb3"]
 length = 0.001
 tracks/0/type = "value"
@@ -148,22 +165,6 @@ _data = {
 &"stow": SubResource("Animation_204qc")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rrv11"]
-render_priority = 0
-shader = ExtResource("2_bq81q")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/albedo_texture_size = Vector2i(0, 0)
-shader_parameter/point_size = 0.0
-shader_parameter/roughness = 0.0
-shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
-shader_parameter/specular = 0.0
-shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(0, 0, 0)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(0, 0, 0)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/viewmodel_fov = 75.0
-
 [sub_resource type="BoxMesh" id="BoxMesh_figl5"]
 material = SubResource("ShaderMaterial_rrv11")
 size = Vector3(0.1, 0.1, 0.625)
@@ -174,6 +175,7 @@ attack_interval = 0.5
 upswing = 0.15
 heft = 0.75
 kill_speed = 2.0
+shader_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_rrv11")])
 
 [node name="AnimationPlayer" parent="." index="0"]
 libraries = {

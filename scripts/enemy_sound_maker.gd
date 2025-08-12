@@ -16,6 +16,8 @@ class_name EnemySoundMaker
 			audio_stream_player_3d.stream = value
 @export var bypass_walls:bool = false
 
+@export var sound_id:StringName
+
 func _ready() -> void:
 	collision_shape_3d.shape.radius = radius
 	audio_stream_player_3d.stream = audio
@@ -30,8 +32,6 @@ func play_sound():
 				if not result or result.collider != body:
 					continue
 			
-			print(body.name)
-			
-			body.enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
-			body.enemy_ai.current_conditions.last_heard_player_pos = global_position
-			body.enemy_ai.interrupt("heard_player")
+			#body.enemy_ai.current_conditions.last_heard_player = Time.get_unix_time_from_system()
+			#body.enemy_ai.current_conditions.last_heard_player_pos = global_position
+			body.enemy_ai.current_conditions.add_sound_definition(SoundDefinition.new(global_position, sound_id))
