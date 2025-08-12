@@ -14,7 +14,9 @@ var draw3d:Draw3D
 var direction:Vector3 = Vector3.FORWARD
 
 var door_sizes:Dictionary[StringName, AABB] = {
-	"small_door": AABB(Vector3(-1, -1.5, 0), Vector3(2, 3, 1)).grow(-0.01)
+	"small_door": AABB(Vector3(-1, -1.5, 0), Vector3(2, 3, 1)).grow(-0.01),
+	"small_hall": AABB(Vector3(-2.5, -1.5, 0), Vector3(5, 6, 1)).grow(-0.01),
+	"large_hall": AABB(Vector3(-4, -1.5, 0), Vector3(8, 7, 1)).grow(-0.01)
 }
 
 func _ready() -> void:
