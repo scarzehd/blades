@@ -11,6 +11,7 @@ class_name Enemy
 @onready var sight_cone_detection:SightConeDetection = %SightCone
 #@onready var sphere_detection:SphereDetection = %SphereDetection
 @onready var aggro_meter:ProgressBar = %AggroMeter
+@onready var base_aggro_meter:ProgressBar = %BaseAggroMeter
 @onready var aggro_reset_timer:Timer = %AggroResetTimer
 @onready var health_bar:ProgressBar = %HealthBar
 @onready var health_component:HealthComponent = %HealthComponent
@@ -19,18 +20,22 @@ class_name Enemy
 
 var aggro:float :
 	set(value):
+		if value > aggro_threshold:
+			base_aggro += (value - aggro_threshold) * .25
 		aggro = clamp(value, base_aggro, aggro_threshold)
 		aggro_meter.value = value
 
 var base_aggro:float :
 	set(value):
 		base_aggro = value
+		base_aggro_meter.value = value
 		aggro = aggro
 
 var aggro_dropping:bool = false
 
 func _ready() -> void:
 	aggro_meter.max_value = aggro_threshold
+	base_aggro_meter.max_value = aggro_threshold
 	health_bar.max_value = health_component.max_hp
 	health_bar.value = health_component.current_hp
 	enemy_ai.enemy = self
@@ -53,8 +58,8 @@ func _physics_process(delta: float) -> void:
 		aggro_reset_timer.start(aggro_reset_time)
 		#aggro = clamp(aggro + (delta * (1 if Globals.player.crouching else 1.5 )), 0, aggro_threshold)
 		var aggro_change = delta * (1.0 if Globals.player.crouching else 1.5)
-		base_aggro = move_toward(base_aggro, aggro_threshold, aggro_change * 0.5)
-		aggro = move_toward(aggro, aggro_threshold, aggro_change)
+		#base_aggro = move_toward(base_aggro, aggro_threshold, aggro_change * 0.25)
+		aggro += aggro_change
 		#if enemy_ai.current_conditions.last_seen_player + 0.5 < Time.get_unix_time_from_system():
 		enemy_ai.current_conditions.last_seen_player = Time.get_unix_time_from_system()
 		enemy_ai.current_conditions.last_seen_player_pos = Globals.player.global_position
