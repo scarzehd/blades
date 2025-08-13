@@ -5,13 +5,15 @@ class_name GenTileConnection
 var generated:bool = false
 
 @export var connection_id:StringName
-@export_file("*.tscn") var possible_tile_paths:Array[String]
+@export var connection_data:GenTileConnectionData
 
 var possible_tiles:Array[PackedScene]
 
+var weights:Array[float]
+
 var tile:GenTile
 var draw3d:Draw3D
-var direction:Vector3 = Vector3.FORWARD
+#var direction:Vector3 = Vector3.FORWARD
 
 var door_sizes:Dictionary[StringName, AABB] = {
 	"small_door": AABB(Vector3(-1, -1.5, 0), Vector3(2, 3, 1)).grow(-0.01),
@@ -19,14 +21,17 @@ var door_sizes:Dictionary[StringName, AABB] = {
 	"large_hall": AABB(Vector3(-4, -1.5, 0), Vector3(8, 7, 1)).grow(-0.01)
 }
 
+
 func _ready() -> void:
-	direction = -global_basis.z
+	#direction = -global_basis.z
 	if Engine.is_editor_hint():
 		draw3d = Draw3D.new()
 		draw3d.draw_vertex_points = true
 		add_child(draw3d)
-	for path in possible_tile_paths:
+	for path in connection_data.possible_tiles:
 		possible_tiles.append(load(path) as PackedScene)
+	
+	weights = Array(connection_data.weights)
 
 func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():

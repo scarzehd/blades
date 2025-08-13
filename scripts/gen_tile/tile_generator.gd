@@ -25,13 +25,17 @@ func generate():
 		await debug_halt()
 		var current_connection:GenTileConnection = connections_left.pick_random()
 		var possible_tiles:Array[GenTile]
+		var weights:Array[float]
 		
 		# Find tiles that have the same connection ID and opposite direction
-		for scene in current_connection.possible_tiles:
+		for i in range(current_connection.possible_tiles.size()):
+			var scene = current_connection.possible_tiles[i]
 			var tile := create_tile(scene)
 			for potential_connection in tile.connections:
 				if potential_connection.connection_id == current_connection.connection_id:
 					possible_tiles.append(tile)
+					weights.append(current_connection.weights[i])
+					break
 		
 		# Keep picking random tiles until we find one that fits or run out of options
 		var chosen_tile:GenTile = null
@@ -39,7 +43,7 @@ func generate():
 		var desired_rotation:float
 		var chosen_connection:GenTileConnection = null
 		while possible_tiles.size() > 0:
-			var current_tile:GenTile = possible_tiles.pick_random()
+			var current_tile:GenTile = Utils.pick_random_weighted(possible_tiles, weights)
 			# We did this earlier but it'll be kind of a hassle to store the result.
 			# If it's slow, this is the place to start.
 			var opposite_connections = current_tile.connections.filter(func(connection): return connection.connection_id == current_connection.connection_id)
@@ -47,7 +51,7 @@ func generate():
 			while opposite_connections.size() > 0:
 				var end = false
 				var current_opposite_connection:GenTileConnection = opposite_connections.pick_random()
-				desired_rotation = atan2((-current_opposite_connection.direction).z, (-current_opposite_connection.direction).x) - atan2(current_connection.direction.z, current_connection.direction.x)
+				desired_rotation = atan2(current_opposite_connection.global_basis.z.z, current_opposite_connection.global_basis.z.x) - atan2((-current_connection.global_basis.z).z, (-current_connection.global_basis.z).x)
 				current_tile.global_rotation = Vector3(0, desired_rotation, 0)
 				desired_position = current_connection.global_position - current_opposite_connection.global_position
 				current_tile.global_position = desired_position
@@ -106,7 +110,9 @@ func generate():
 				chosen_connection = current_opposite_connection
 				break
 			
+			var i = possible_tiles.find(current_tile)
 			possible_tiles.erase(current_tile)
+			weights.remove_at(i)
 			
 			if chosen_connection:
 				chosen_tile = current_tile
@@ -117,7 +123,7 @@ func generate():
 			chosen_tile.global_position = desired_position
 			set_tile_placed(chosen_tile)
 			for connection in chosen_tile.connections:
-				connection.direction = connection.direction.rotated(Vector3.UP, desired_rotation)
+				#connection.direction = connection.direction.rotated(Vector3.UP, desired_rotation)
 				if connection == chosen_connection:
 					continue
 				connections_left.append(connection)

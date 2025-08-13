@@ -281,14 +281,14 @@ func handle_distraction():
 		
 		var rand = randf_range(0, total_weight)
 		
-		var chosen_scene:PackedScene = distractions.keys()[0]
-		
-		for scene in distractions.keys():
-			rand -= distractions[scene]
-			
-			if rand <= 0:
-				chosen_scene = scene
-				break
+		var chosen_scene:PackedScene = Utils.pick_random_weighted(distractions.keys(), distractions.values())
+		#
+		#for scene in distractions.keys():
+			#rand -= distractions[scene]
+			#
+			#if rand <= 0:
+				#chosen_scene = scene
+				#break
 		
 		var distraction:Distraction = chosen_scene.instantiate()
 		

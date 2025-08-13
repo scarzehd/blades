@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c635tis2rmhkt"]
+[gd_scene load_steps=13 format=3 uid="uid://c635tis2rmhkt"]
 
 [ext_resource type="PackedScene" uid="uid://bd4wbuh51bcy8" path="res://scenes/player.tscn" id="1_6ulkd"]
 [ext_resource type="Script" uid="uid://bt3xm1ss6lr4r" path="res://scripts/scenes/test_map.gd" id="1_kddbv"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ce5regwlgnekl" path="res://assets/blender/the_blend_file.blend" id="2_fn2sa"]
 [ext_resource type="Script" uid="uid://b1splbl8l7cm0" path="res://scripts/gen_tile/gen_tile.gd" id="3_p21b5"]
 [ext_resource type="Script" uid="uid://qu883h1yuwhw" path="res://scripts/gen_tile/gen_tile_connection.gd" id="4_bdpbv"]
+[ext_resource type="Resource" uid="uid://blfmatqxwp03y" path="res://resources/connections/test_connection_data.tres" id="7_kddbv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fn2sa"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -65,7 +66,7 @@ script = ExtResource("3_p21b5")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 8)
 script = ExtResource("4_bdpbv")
 connection_id = &"small_door"
-possible_tile_paths = Array[String](["uid://bj475p67djh1e"])
+connection_data = ExtResource("7_kddbv")
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="CSGBox3D" type="CSGBox3D" parent="SubViewport/Generator/NavigationRegion3D/map"]
@@ -79,7 +80,6 @@ size = Vector3(0.183105, 5, 8)
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 8)
 script = ExtResource("4_bdpbv")
 connection_id = &"small_door"
-possible_tile_paths = Array[String](["uid://o7kcre2ckcer"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [connection signal="generation_finished" from="SubViewport/Generator" to="." method="_on_generator_generation_finished"]
