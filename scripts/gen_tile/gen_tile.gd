@@ -38,6 +38,7 @@ func calculate_aabb(node:Node = self, bounds:AABB = AABB()) -> AABB:
 		if bounds:
 			bounds = bounds.merge(child_bounds)
 		else:
+			print(true)
 			bounds = child_bounds
 	
 	var children = node.get_children(true)
