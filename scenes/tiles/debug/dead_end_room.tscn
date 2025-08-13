@@ -1,11 +1,16 @@
-[gd_scene load_steps=124 format=3 uid="uid://ckfbmahybp3w0"]
+[gd_scene load_steps=126 format=3 uid="uid://ckfbmahybp3w0"]
 
 [ext_resource type="Script" uid="uid://qu883h1yuwhw" path="res://scripts/gen_tile/gen_tile_connection.gd" id="1_vdoqa"]
+[ext_resource type="Script" uid="uid://b1splbl8l7cm0" path="res://scripts/gen_tile/gen_tile.gd" id="1_w5kfa"]
 [ext_resource type="Script" uid="uid://cbafykfbch65g" path="res://addons/cyclops_level_builder/nodes/cyclops_block.gd" id="2_w5kfa"]
 [ext_resource type="Script" uid="uid://c2k6b4lkypync" path="res://addons/cyclops_level_builder/resources/data_vector_byte.gd" id="3_21pse"]
 [ext_resource type="Script" uid="uid://cs4norja8dj4" path="res://addons/cyclops_level_builder/resources/data_vector_int.gd" id="4_kpxp6"]
 [ext_resource type="Script" uid="uid://dn6n2qg0nfsmn" path="res://addons/cyclops_level_builder/resources/data_vector_float.gd" id="5_41crh"]
 [ext_resource type="Script" uid="uid://do0lci1yjembt" path="res://addons/cyclops_level_builder/resources/mesh_vector_data.gd" id="6_h3yaq"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_vdoqa"]
+vertices = PackedVector3Array(-2.5, 4.5, -4.5, -2.5, 4.5, 0.5, 4.5, 4.5, 0.5, 4.5, 4.5, -4.5, 0.5, 0.5, -0.5, 0.75, 0.5, 0.5, 1.5, 0.5, 0.5, 1.75, 0.5, -0.5, -1.5, 0.5, -3.5, 3.75, 0.5, -3.5, -1.5, 0.5, -0.5, 3.75, 0.5, -0.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(4, 8, 7), PackedInt32Array(7, 8, 9), PackedInt32Array(4, 10, 8), PackedInt32Array(9, 11, 7)]
 
 [sub_resource type="Resource" id="Resource_bmdrv"]
 script = ExtResource("3_21pse")
@@ -1187,55 +1192,59 @@ face_vertex_data = {
 }
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_w5kfa")
 
 [node name="GenTileConnection" type="Marker3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 1.5, 1)
 script = ExtResource("1_vdoqa")
 connection_id = &"small_door"
-possible_tile_paths = Array[String](["uid://cfpq2f41inr7r", "uid://cvika6kn3qbqx", "res://scenes/tiles/debug/hall_end_2.tscnres://scenes/tiles/debug/hall_end_2.tscn", "uid://m8h16jt40thu", "uid://cxdqd222rj04o"])
+possible_tile_paths = Array[String](["uid://cfpq2f41inr7r", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu", "uid://cxdqd222rj04o"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
-[node name="block0" type="Node3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_vdoqa")
+
+[node name="block0" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_m7nyy")
 
-[node name="Block_0" type="Node3D" parent="."]
+[node name="Block_0" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, -2.5)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_k5o16")
 
-[node name="Block_1" type="Node3D" parent="."]
+[node name="Block_1" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, -0.75, 0)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_jsfuf")
 
-[node name="Block_2" type="Node3D" parent="."]
+[node name="Block_2" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.75, 0)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_q6r5c")
 
-[node name="Block_3" type="Node3D" parent="."]
+[node name="Block_3" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25, -0.75, -4.25)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_o7124")
 
-[node name="Block_4" type="Node3D" parent="."]
+[node name="Block_4" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.75, -4.25)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_yrjim")
 
-[node name="Block_5" type="Node3D" parent="."]
+[node name="Block_5" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75, -0.75, -5.25)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_xeuqu")
 
-[node name="Block_6" type="Node3D" parent="."]
+[node name="Block_6" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3.5, -5)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_u5yp7")
 
-[node name="Block_7" type="Node3D" parent="."]
+[node name="Block_7" type="Node3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 script = ExtResource("2_w5kfa")
 mesh_vector_data = SubResource("Resource_rwjur")

@@ -3,7 +3,6 @@ class_name TileGenerator
 
 @export var starting_tile:GenTile
 @export var map_size:AABB
-@export var bake_navmesh:bool = true
 
 var temp_tiles:Array[GenTile]
 

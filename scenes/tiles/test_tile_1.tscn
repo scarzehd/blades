@@ -39,8 +39,7 @@ shape = SubResource("ConvexPolygonShape3D_fglwe")
 [node name="GenTileConnection2" type="Marker3D" parent="." groups=["ignore_tile_bounds"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -7)
 script = ExtResource("2_fglwe")
-direction = Vector3(0, 0, -1)
-connection_id = "test"
+connection_id = &"test"
 possible_tile_paths = Array[String](["uid://o7kcre2ckcer", "uid://biu0gn2tcjun7", "uid://dpuo7x5g8v4e6"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
@@ -51,8 +50,7 @@ skeleton = NodePath("../..")
 [node name="GenTileConnection3" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 7)
 script = ExtResource("2_fglwe")
-direction = Vector3(0, 0, 1)
-connection_id = "test"
+connection_id = &"test"
 possible_tile_paths = Array[String](["uid://o7kcre2ckcer", "uid://biu0gn2tcjun7", "uid://dpuo7x5g8v4e6"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
