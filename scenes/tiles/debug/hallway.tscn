@@ -1,16 +1,11 @@
-[gd_scene load_steps=61 format=3 uid="uid://cxdqd222rj04o"]
+[gd_scene load_steps=59 format=3 uid="uid://cxdqd222rj04o"]
 
-[ext_resource type="Script" uid="uid://b1splbl8l7cm0" path="res://scripts/gen_tile/gen_tile.gd" id="1_cacb2"]
 [ext_resource type="Script" uid="uid://qu883h1yuwhw" path="res://scripts/gen_tile/gen_tile_connection.gd" id="1_nqvnp"]
 [ext_resource type="Script" uid="uid://cbafykfbch65g" path="res://addons/cyclops_level_builder/nodes/cyclops_block.gd" id="2_cacb2"]
 [ext_resource type="Script" uid="uid://c2k6b4lkypync" path="res://addons/cyclops_level_builder/resources/data_vector_byte.gd" id="3_wnmdt"]
 [ext_resource type="Script" uid="uid://cs4norja8dj4" path="res://addons/cyclops_level_builder/resources/data_vector_int.gd" id="4_fnsjo"]
 [ext_resource type="Script" uid="uid://dn6n2qg0nfsmn" path="res://addons/cyclops_level_builder/resources/data_vector_float.gd" id="5_mymme"]
 [ext_resource type="Script" uid="uid://do0lci1yjembt" path="res://addons/cyclops_level_builder/resources/mesh_vector_data.gd" id="6_fcalm"]
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_nqvnp"]
-vertices = PackedVector3Array(-0.5, 4, 0.5, -0.5, 4, 6.5, 1.25, 3.75, 6.5, 1.25, 3.75, 0.5, -0.25, 0.5, 0.5, -0.25, 0.5, 6.5, 0.5, 0.5, 6.5, 0.5, 0.5, 0.5)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(7, 6, 4), PackedInt32Array(4, 6, 5)]
 
 [sub_resource type="Resource" id="Resource_lujqx"]
 script = ExtResource("3_wnmdt")
@@ -537,7 +532,6 @@ face_vertex_data = {
 }
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("1_cacb2")
 
 [node name="GenTileConnection" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -546,6 +540,11 @@ connection_id = &"small_door"
 possible_tile_paths = Array[String](["uid://cfpq2f41inr7r", "uid://ckfbmahybp3w0", "uid://7cdpdwp4n1p6", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu", "uid://bj475p67djh1e"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
+[node name="block0" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+script = ExtResource("2_cacb2")
+mesh_vector_data = SubResource("Resource_3jalq")
+
 [node name="GenTileConnection2" type="Marker3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 7)
 script = ExtResource("1_nqvnp")
@@ -553,25 +552,17 @@ connection_id = &"small_door"
 possible_tile_paths = Array[String](["uid://cfpq2f41inr7r", "uid://ckfbmahybp3w0", "uid://7cdpdwp4n1p6", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu", "uid://bj475p67djh1e"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navigation_mesh = SubResource("NavigationMesh_nqvnp")
-
-[node name="block0" type="Node3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-script = ExtResource("2_cacb2")
-mesh_vector_data = SubResource("Resource_3jalq")
-
-[node name="Block_0" type="Node3D" parent="NavigationRegion3D"]
+[node name="Block_0" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75, 0, -1)
 script = ExtResource("2_cacb2")
 mesh_vector_data = SubResource("Resource_xn6m8")
 
-[node name="Block_1" type="Node3D" parent="NavigationRegion3D"]
+[node name="Block_1" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 script = ExtResource("2_cacb2")
 mesh_vector_data = SubResource("Resource_le6gc")
 
-[node name="Block_2" type="Node3D" parent="NavigationRegion3D"]
+[node name="Block_2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, 0)
 script = ExtResource("2_cacb2")
 mesh_vector_data = SubResource("Resource_7e8tl")

@@ -65,7 +65,7 @@ script = ExtResource("3_p21b5")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 8)
 script = ExtResource("4_bdpbv")
 connection_id = &"small_door"
-possible_tile_paths = Array[String](["uid://bj475p67djh1e"])
+possible_tile_paths = Array[String](["uid://bg46yveyskymy"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="CSGBox3D" type="CSGBox3D" parent="SubViewport/Generator/NavigationRegion3D/map"]
