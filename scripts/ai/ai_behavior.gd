@@ -20,7 +20,7 @@ func _start():
 func _end():
 	pass
 
-func _update(delta:float):
+func _update(_delta:float):
 	pass
 
 func end(shutdown:bool = false):

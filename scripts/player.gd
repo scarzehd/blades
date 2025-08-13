@@ -158,7 +158,7 @@ func snap_down_stairs():
 	snapped_down_last_frame = did_snap
 
 func update_step_up_position(direction:Vector2):
-	step_up.position = Vector3(direction.x * 0.65, 0 if crouching else -0.5, direction.y * 0.65)
+	step_up.position = Vector3(direction.x * 0.65, 0.0 if crouching else -0.5, direction.y * 0.65)
 
 func _on_footstep_timer_timeout() -> void:
 	footstep_sound_maker.play_sound()
@@ -275,12 +275,6 @@ func handle_distraction():
 	if Input.is_action_just_pressed("distraction") and distraction_ready:
 		distraction_ready = false
 		distraction_timer.start(DISTRACTION_COOLDOWN)
-		var total_weight = 0
-		for scene in distractions.keys():
-			total_weight += distractions[scene]
-		
-		var rand = randf_range(0, total_weight)
-		
 		var chosen_scene:PackedScene = Utils.pick_random_weighted(distractions.keys(), distractions.values())
 		#
 		#for scene in distractions.keys():

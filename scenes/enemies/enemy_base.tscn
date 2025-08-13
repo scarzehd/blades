@@ -32,7 +32,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_xdb20"]
-length = 0.25
+length = 0.35
 
 [node name="EnemyBase" type="CharacterBody3D"]
 script = ExtResource("1_qa0nx")

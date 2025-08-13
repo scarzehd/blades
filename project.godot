@@ -95,7 +95,7 @@ distraction={
 
 [navigation]
 
-3d/default_edge_connection_margin=1.0
+3d/default_edge_connection_margin=1.1
 
 [physics]
 

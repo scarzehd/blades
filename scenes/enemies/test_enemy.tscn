@@ -46,11 +46,11 @@ mesh = SubResource("BoxMesh_pnhpx")
 shape = SubResource("CapsuleShape3D_pnhpx")
 
 [node name="StepUp" parent="." index="7"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.75, -0.4)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.65, -0.5)
 
 [node name="AIRoamRadiusBehavior" type="Node3D" parent="EnemyAI" index="0"]
 script = ExtResource("6_asbfj")
-radius = 15.0
+radius = 5.0
 delay = 2.0
 metadata/_custom_type_script = "uid://chpxkd24lngph"
 
