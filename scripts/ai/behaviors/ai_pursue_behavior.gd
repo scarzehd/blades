@@ -4,13 +4,13 @@ class_name AIPursueBehavior
 var last_seen_pos:Vector3
 
 func _start():
-	last_seen_pos = enemy.enemy_ai.current_conditions.last_detected_player_pos
+	last_seen_pos = enemy.enemy_ai.ai_state.last_detected_player_pos
 
 func _end():
 	enemy.velocity = Vector3.ZERO
 
 func _update(delta:float):
-	if enemy.enemy_ai.current_conditions.detected_player_within(delta * 2):
+	if enemy.enemy_ai.ai_state.detected_player_within(delta * 2):
 		last_seen_pos = Globals.player.global_position
 	
 	enemy.navigation_agent.target_position = last_seen_pos
@@ -19,7 +19,7 @@ func _update(delta:float):
 	
 	var look_at_target:Vector3
 	
-	if enemy.enemy_ai.current_conditions.seen_player_within(0.1):
+	if enemy.enemy_ai.ai_state.seen_player_within(0.1):
 		look_at_target = Vector3(last_seen_pos.x, enemy.global_position.y, last_seen_pos.z)
 	elif enemy.global_position != next_pos:
 		look_at_target = Vector3(next_pos.x, enemy.global_position.y, next_pos.z)

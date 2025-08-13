@@ -1,6 +1,8 @@
 extends Resource
 class_name AIState
 
+# I don't like the hard dependence on the specific enemy here.
+# It's not an issue yet, but it still feels wrong.
 var enemy:Enemy
 
 var last_attacked:float
@@ -33,6 +35,22 @@ var sounds:Array[SoundDefinition]
 const MAX_SOUNDS_REMEMBERED = 10
 
 var player_sounds:Array[StringName] = [&"player_footstep"]
+
+# See notes under enemy variable
+var aggro:float :
+	set(value):
+		if value > enemy.aggro_threshold:
+			base_aggro += (value - enemy.aggro_threshold) * .25
+		aggro = clamp(value, base_aggro, enemy.aggro_threshold)
+		enemy.aggro_meter.value = value
+
+var base_aggro:float :
+	set(value):
+		base_aggro = value
+		enemy.base_aggro_meter.value = value
+		aggro = aggro
+
+var aggro_dropping:bool = false
 
 func seen_player_within(time:float) -> bool:
 	return last_seen_player + time >= Time.get_unix_time_from_system()

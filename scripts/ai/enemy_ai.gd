@@ -4,9 +4,10 @@ class_name EnemyAI
 var behaviors:Array[AIBehavior]
 var universal_transitions:Array[AITransition]
 
-var current_conditions:AIState = AIState.new()
+var ai_state:AIState = AIState.new()
 var enemy:Enemy :
 	set(value):
+		ai_state.enemy = value
 		enemy = value
 		for behavior in behaviors:
 			behavior.enemy = value

@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_skdya")
-possible_tiles = Array[String](["uid://b1gwdvw2m1a5h", "uid://bxk78wjhlpqpe"])
-weights = Array[float]([1.0, 10.0])
+possible_tiles = Array[String](["uid://kel30udwwrkc"])
+weights = Array[float]([1.0])
 metadata/_custom_type_script = "uid://bwodi16tfyial"

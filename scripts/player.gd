@@ -45,7 +45,7 @@ var weapon_drawn:bool = false
 # Distractions
 const DISTRACTION_COOLDOWN:float = 5
 const DISTRACTION_THROW_FORCE:float = 20
-@export var distractions:Dictionary[PackedScene, int]
+@export var distractions:Dictionary[PackedScene, float]
 var distraction_ready:bool = true
 
 func _ready() -> void:
@@ -248,7 +248,7 @@ func handle_weapon_input():
 			
 			var enemy:Enemy = result.collider
 			
-			if enemy.enemy_ai.current_conditions.detected_player_within(1) or enemy.enemy_ai.current_conditions.attacked_within(1):
+			if enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1):
 				return
 			
 			velocity = Vector3.ZERO

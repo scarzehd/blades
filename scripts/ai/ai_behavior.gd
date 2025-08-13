@@ -48,6 +48,6 @@ func _physics_process(delta: float) -> void:
 
 func check_transitions() -> AITransition:
 	for transition in transitions:
-		if transition.check_conditions(enemy.enemy_ai.current_conditions):
+		if transition.check_conditions(enemy.enemy_ai.ai_state):
 			return transition
 	return null

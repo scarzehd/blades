@@ -51,7 +51,7 @@ func generate():
 			while opposite_connections.size() > 0:
 				var end = false
 				var current_opposite_connection:GenTileConnection = opposite_connections.pick_random()
-				desired_rotation = atan2(current_opposite_connection.global_basis.z.z, current_opposite_connection.global_basis.z.x) - atan2((-current_connection.global_basis.z).z, (-current_connection.global_basis.z).x)
+				desired_rotation = atan2((-current_opposite_connection.direction).z, (-current_opposite_connection.direction).x) - atan2(current_connection.direction.z, current_connection.direction.x)
 				current_tile.global_rotation = Vector3(0, desired_rotation, 0)
 				desired_position = current_connection.global_position - current_opposite_connection.global_position
 				current_tile.global_position = desired_position
@@ -123,7 +123,7 @@ func generate():
 			chosen_tile.global_position = desired_position
 			set_tile_placed(chosen_tile)
 			for connection in chosen_tile.connections:
-				#connection.direction = connection.direction.rotated(Vector3.UP, desired_rotation)
+				connection.direction = connection.direction.rotated(Vector3.UP, desired_rotation)
 				if connection == chosen_connection:
 					continue
 				connections_left.append(connection)

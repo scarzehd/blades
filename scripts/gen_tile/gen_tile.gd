@@ -24,7 +24,7 @@ func update_bounding_box():
 	var shape = BoxShape3D.new()
 	var center = aabb.get_center()
 	#center.y = -center.y
-	collision_shape.position = center
+	collision_shape.global_position = center
 	#collision_shape.top_level = true
 	shape.size = aabb.size
 	collision_shape.shape = shape
@@ -32,7 +32,7 @@ func update_bounding_box():
 
 func calculate_aabb(node:Node = self, bounds:AABB = AABB()) -> AABB:
 	if node is VisualInstance3D and not node.is_in_group("ignore_tile_bounds"):
-		var child_bounds:AABB = node.transform * node.get_aabb()
+		var child_bounds:AABB = node.global_transform * node.get_aabb()
 		# If the bounds are empty, use the first child's bounds instead.
 		# This way the origin isn't unintentionally included in the bounds when it shouldn't be
 		if bounds:
@@ -40,7 +40,7 @@ func calculate_aabb(node:Node = self, bounds:AABB = AABB()) -> AABB:
 		else:
 			bounds = child_bounds
 	
-	var children = node.get_children()
+	var children = node.get_children(true)
 	for child in children:
 		bounds = calculate_aabb(child, AABB(bounds))
 	

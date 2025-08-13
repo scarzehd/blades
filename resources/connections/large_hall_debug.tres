@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="GenTileConnectionData" load_steps=2 format=3 uid="uid://cn6ygxejoddis"]
+
+[ext_resource type="Script" uid="uid://bwodi16tfyial" path="res://scripts/gen_tile/connection_data.gd" id="1_d1eo6"]
+
+[resource]
+script = ExtResource("1_d1eo6")
+possible_tiles = Array[String](["uid://b1gwdvw2m1a5h", "uid://bxk78wjhlpqpe", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://cb1oonyvno3qr", "uid://bs2dy3fjhsdfi"])
+weights = Array[float]([1.0, 5.0, 1.0, 1.0, 1.0, 1.0])
+metadata/_custom_type_script = "uid://bwodi16tfyial"

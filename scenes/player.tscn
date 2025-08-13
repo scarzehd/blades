@@ -13,10 +13,11 @@
 length = 0.5
 
 [node name="Player" type="CharacterBody3D"]
+floor_snap_length = 0.5
 script = ExtResource("1_3vyb7")
-distractions = Dictionary[PackedScene, int]({
-ExtResource("2_dqkch"): 1,
-ExtResource("3_tuyoq"): 1
+distractions = Dictionary[PackedScene, float]({
+ExtResource("2_dqkch"): 1.0,
+ExtResource("3_tuyoq"): 1.0
 })
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

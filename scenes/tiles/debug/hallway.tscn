@@ -1,8 +1,9 @@
-[gd_scene load_steps=61 format=3 uid="uid://cxdqd222rj04o"]
+[gd_scene load_steps=62 format=3 uid="uid://cxdqd222rj04o"]
 
 [ext_resource type="Script" uid="uid://b1splbl8l7cm0" path="res://scripts/gen_tile/gen_tile.gd" id="1_cacb2"]
 [ext_resource type="Script" uid="uid://qu883h1yuwhw" path="res://scripts/gen_tile/gen_tile_connection.gd" id="1_nqvnp"]
 [ext_resource type="Script" uid="uid://cbafykfbch65g" path="res://addons/cyclops_level_builder/nodes/cyclops_block.gd" id="2_cacb2"]
+[ext_resource type="Resource" uid="uid://b5h4c5hepm37i" path="res://resources/connections/small_door_debug.tres" id="3_fnsjo"]
 [ext_resource type="Script" uid="uid://c2k6b4lkypync" path="res://addons/cyclops_level_builder/resources/data_vector_byte.gd" id="3_wnmdt"]
 [ext_resource type="Script" uid="uid://cs4norja8dj4" path="res://addons/cyclops_level_builder/resources/data_vector_int.gd" id="4_fnsjo"]
 [ext_resource type="Script" uid="uid://dn6n2qg0nfsmn" path="res://addons/cyclops_level_builder/resources/data_vector_float.gd" id="5_mymme"]
@@ -543,14 +544,14 @@ script = ExtResource("1_cacb2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 script = ExtResource("1_nqvnp")
 connection_id = &"small_door"
-possible_tile_paths = Array[String](["uid://cfpq2f41inr7r", "uid://ckfbmahybp3w0", "uid://7cdpdwp4n1p6", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu", "uid://bj475p67djh1e"])
+connection_data = ExtResource("3_fnsjo")
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="GenTileConnection2" type="Marker3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 7)
 script = ExtResource("1_nqvnp")
 connection_id = &"small_door"
-possible_tile_paths = Array[String](["uid://cfpq2f41inr7r", "uid://ckfbmahybp3w0", "uid://7cdpdwp4n1p6", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu", "uid://bj475p67djh1e"])
+connection_data = ExtResource("3_fnsjo")
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
