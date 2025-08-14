@@ -131,15 +131,18 @@ func move(delta):
 		velocity.x *= clampf(DRAG * tmod, 0, 1)
 		velocity.z *= clampf(DRAG * tmod, 0, 1)
 	
-	# Footstep logic
-	if direction and not crouching:
-		footstep_timer.paused = false
-	else:
-		footstep_timer.paused = true
+	handle_footsteps(input_dir)
 	
 	update_step_up_position(Vector2(move_dir.x, move_dir.z))
 	move_and_slide()
 	snap_down_stairs()
+
+func handle_footsteps(input:Vector2):
+	var should_pause = false
+	if crouching or input.is_zero_approx() or not is_on_floor():
+		should_pause = true
+	
+	footstep_timer.paused = should_pause
 
 func snap_down_stairs():
 	var did_snap = false

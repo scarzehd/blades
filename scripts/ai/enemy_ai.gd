@@ -23,6 +23,9 @@ func _ready() -> void:
 
 func start_ai():
 	if not is_node_ready(): await ready
+	if NavigationServer3D.map_get_iteration_id(enemy.navigation_agent.get_navigation_map()) == 0:
+		await NavigationServer3D.map_changed
+		await get_tree().physics_frame
 	if not behaviors.size() > 0:
 		return
 	start_behavior(behaviors[0])

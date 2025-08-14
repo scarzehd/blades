@@ -10,8 +10,9 @@
 [ext_resource type="Script" uid="uid://do0lci1yjembt" path="res://addons/cyclops_level_builder/resources/mesh_vector_data.gd" id="7_boo8i"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_fysny"]
-vertices = PackedVector3Array(-3.25, 0.5, 7.5, -3.25, 0.5, 11.25, -2, 0.5, 10, -0.5, 0.5, 15.5, -3.25, 0.5, 12.75, -3.25, 0.5, 16, -1.25, 0.5, 10, 0.75, 0.5, 15.5, 3.5, 0.5, 16, 3.5, 0.5, 7.5, 2, 0.5, 13.25, 2, 0.5, 14.25, 0, 2.25, 14.5, 0.75, 2.25, 14, -1.5, 2.25, 11.25, -2.25, 2.25, 11.75, -2, 0.5, 11.75, 0.25, 0.5, 14, -1.5, 0.5, 11.75)
-polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(5, 4, 3), PackedInt32Array(6, 2, 0), PackedInt32Array(7, 8, 3), PackedInt32Array(3, 8, 5), PackedInt32Array(11, 10, 8), PackedInt32Array(8, 10, 9), PackedInt32Array(8, 7, 11), PackedInt32Array(0, 9, 6), PackedInt32Array(6, 9, 10), PackedInt32Array(15, 14, 12), PackedInt32Array(12, 14, 13), PackedInt32Array(18, 17, 16)]
+vertices = PackedVector3Array(-3.25, 0.5, 7.5, -3.25, 0.5, 11.25, -2, 0.5, 10, -0.5, 0.5, 15.5, -3.25, 0.5, 12.75, -3.25, 0.5, 16, -1.25, 0.5, 10, 0.75, 0.5, 15.5, 3.5, 0.5, 16, 3.5, 0.5, 7.5, 2, 0.5, 13.25, 2, 0.5, 14.25, 0, 2.25, 14.5, 0.75, 2.25, 14, -1.5, 2.25, 11.25, -2.25, 2.25, 11.75)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(5, 4, 3), PackedInt32Array(6, 2, 0), PackedInt32Array(7, 8, 3), PackedInt32Array(3, 8, 5), PackedInt32Array(11, 10, 8), PackedInt32Array(8, 10, 9), PackedInt32Array(8, 7, 11), PackedInt32Array(0, 9, 6), PackedInt32Array(6, 9, 10), PackedInt32Array(15, 14, 12), PackedInt32Array(12, 14, 13)]
+agent_height = 2.0
 
 [sub_resource type="Resource" id="Resource_4t0fh"]
 script = ExtResource("4_6q1du")

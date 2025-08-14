@@ -12,8 +12,10 @@
 [ext_resource type="Script" uid="uid://do0lci1yjembt" path="res://addons/cyclops_level_builder/resources/mesh_vector_data.gd" id="8_l7swt"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_ajm5y"]
-vertices = PackedVector3Array(1.25, 0.5, 3.25, 2, 0.75, 3.25, 3.5, 0.75, 3, 3.5, 0.5, -0.5, -3.25, 0.5, -0.5, -3.25, 0.5, 5.25, 1.25, 0.5, 5.25, -3.75, 4.25, 3.75, -4.5, 4.25, 3.75, -4.5, 4.25, 4.5, -3.25, 4.25, 4.75, 2, 4.25, 10.25, 3.5, 4.25, 11.75, 3.5, 3.75, 8.83333, -2.5, 4.25, 2.25, -3.25, 4.25, 2.25, -2.5, 4.25, 10, -3.25, 4.25, 11.75, 1.25, 0.5, 7.25, 3.5, 0.5, 11.75, 3.5, 0.5, 7.5, -3.25, 0.5, 11.75)
-polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 0), PackedInt32Array(0, 4, 3), PackedInt32Array(0, 6, 5), PackedInt32Array(8, 7, 9), PackedInt32Array(9, 7, 10), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 1), PackedInt32Array(13, 1, 2), PackedInt32Array(15, 14, 7), PackedInt32Array(7, 14, 10), PackedInt32Array(16, 11, 17), PackedInt32Array(17, 11, 12), PackedInt32Array(17, 10, 16), PackedInt32Array(16, 10, 14), PackedInt32Array(5, 6, 18), PackedInt32Array(18, 20, 19), PackedInt32Array(5, 18, 21), PackedInt32Array(21, 18, 19)]
+vertices = PackedVector3Array(2.25, 0.75, 3, 2.5, 1.25, 4.25, 3.25, 1.25, 4.25, 3.25, 0.5, -0.25, 3.25, 0.5, 2, 3.25, 0.5, 11.5, 3.25, 0.5, 8.75, 1.5, 0.5, 8.75, -3, 0.5, 11.5, 1, 0.5, 8.25, 1, 0.5, 3.25, -3, 0.5, -0.25, -3.75, 4.25, 4, -4.25, 4.25, 4, -3, 4.25, 4.75, -2.75, 4.25, 2.5, -2.75, 4.25, 10, -3, 4.25, 11.5, 2.5, 4.25, 10, 3.25, 4.25, 11.5, 3.25, 4.25, 10.05, -2.25, 4.25, 10.5, 2, 4.25, 10.5)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(4, 0, 3), PackedInt32Array(7, 6, 5), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 11), PackedInt32Array(7, 5, 9), PackedInt32Array(9, 5, 8), PackedInt32Array(0, 10, 3), PackedInt32Array(3, 10, 11), PackedInt32Array(14, 13, 12), PackedInt32Array(14, 12, 15), PackedInt32Array(17, 14, 16), PackedInt32Array(16, 14, 15), PackedInt32Array(19, 18, 20), PackedInt32Array(20, 18, 1), PackedInt32Array(20, 1, 2), PackedInt32Array(17, 16, 21), PackedInt32Array(21, 22, 17), PackedInt32Array(17, 22, 19), PackedInt32Array(18, 19, 22)]
+agent_height = 2.0
+agent_radius = 0.75
 
 [sub_resource type="Resource" id="Resource_ajm5y"]
 script = ExtResource("5_i84sq")

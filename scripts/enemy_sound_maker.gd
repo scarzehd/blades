@@ -25,6 +25,7 @@ func _ready() -> void:
 	audio_stream_player_3d.stream = audio
 
 func play_sound():
+	audio_stream_player_3d.play()
 	for body in get_overlapping_bodies():
 		if body is Enemy:
 			if not bypass_walls:

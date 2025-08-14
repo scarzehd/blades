@@ -13,15 +13,15 @@ func _start():
 	while true:
 		var theta:float = randf() * 2 * PI
 		var point = (Vector3(cos(theta), 0, sin(theta)) * sqrt(randf()) * radius) + enemy.global_position
-		#target_point = NavigationServer3D.map_get_closest_point(enemy.get_world_3d().get_navigation_map(), point)
-		target_point = point
-		enemy.navigation_agent.target_position = target_point
+		enemy.navigation_agent.target_position = point
+		await get_tree().physics_frame # I don't know why this is necessary. Something to do with the path not updating right away
+		var previous:Vector3 = enemy.navigation_agent.get_next_path_position()
 		var path = enemy.navigation_agent.get_current_navigation_path()
 		var distance:float = 0
-		var previous:Vector3
 		for vector in path:
 			distance += previous.distance_to(vector)
 			previous = vector
+		print(distance)
 		if distance > radius:
 			continue
 		break
@@ -30,7 +30,7 @@ func _update(_delta:float):
 	if not waited:
 		return
 	var next_pos := enemy.navigation_agent.get_next_path_position()
-	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
+	enemy.set_desired_velocity(enemy.global_position.direction_to(next_pos) * enemy.speed)
 	if enemy.global_position != next_pos:
 		var look_at_target = Vector3(next_pos.x, enemy.global_position.y, next_pos.z)
 		look_at_target -= enemy.global_position
@@ -42,5 +42,5 @@ func _update(_delta:float):
 		enemy.enemy_ai.start_behavior(self)
 
 func _end():
-	enemy.velocity = Vector3.ZERO
+	enemy.set_desired_velocity(Vector3.ZERO)
 	waited = false

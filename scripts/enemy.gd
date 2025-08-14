@@ -63,6 +63,12 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
+func set_desired_velocity(desired_velocity:Vector3):
+	if navigation_agent.avoidance_enabled:
+		navigation_agent.velocity = desired_velocity
+	else:
+		_on_navigation_agent_3d_velocity_computed(desired_velocity)
+
 #region Signal Callbacks
 
 func _on_aggro_reset_timer_timeout() -> void:
@@ -86,5 +92,8 @@ func _on_hp_changed(old_hp:int, new_hp:int) -> void:
 
 func _on_max_hp_changed(_old_max_hp:int, new_max_hp:int) -> void:
 	health_bar.max_value = new_max_hp
+
+func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
+	velocity = safe_velocity
 
 #endregion

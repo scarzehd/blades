@@ -7,7 +7,7 @@ func _start():
 	last_seen_pos = enemy.enemy_ai.ai_state.last_detected_player_pos
 
 func _end():
-	enemy.velocity = Vector3.ZERO
+	enemy.set_desired_velocity(Vector3.ZERO)
 
 func _update(delta:float):
 	if enemy.enemy_ai.ai_state.detected_player_within(delta * 2):
@@ -30,4 +30,4 @@ func _update(delta:float):
 	
 	enemy.look_at(look_at_target)
 	
-	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
+	enemy.set_desired_velocity(enemy.global_position.direction_to(next_pos) * enemy.speed)

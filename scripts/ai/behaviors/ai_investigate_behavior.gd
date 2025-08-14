@@ -60,7 +60,7 @@ func get_most_recent(sounds:Array[SoundDefinition]) -> Vector3:
 
 func _update(delta:float):
 	var next_pos := enemy.navigation_agent.get_next_path_position()
-	enemy.velocity = enemy.global_position.direction_to(next_pos) * enemy.speed
+	enemy.set_desired_velocity(enemy.global_position.direction_to(next_pos) * enemy.speed)
 	if enemy.global_position != next_pos:
 		var look_at_target = Vector3(next_pos.x, enemy.global_position.y, next_pos.z)
 		look_at_target -= enemy.global_position
@@ -70,3 +70,6 @@ func _update(delta:float):
 	
 	if enemy.navigation_agent.is_navigation_finished():
 		end()
+
+func _end():
+	enemy.set_desired_velocity(Vector3.ZERO)
