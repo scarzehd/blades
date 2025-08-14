@@ -1089,6 +1089,7 @@ metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="TestEnemy" parent="." instance=ExtResource("8_dntkp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 7.75)
+start_ai_on_ready = true
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_dntkp")

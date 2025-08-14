@@ -24,7 +24,7 @@ const DRAG:float = 0.7
 
 const JUMP_VELOCITY:float = 4.5
 
-const GRAVITY:float = 0 # 0.25
+const GRAVITY:float = 0.25
 
 const MAX_STEP:float = 0.5
 var was_on_floor:bool = false

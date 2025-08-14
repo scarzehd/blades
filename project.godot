@@ -28,6 +28,7 @@ enabled=PackedStringArray("res://addons/cyclops_level_builder/plugin.cfg")
 [global_group]
 
 ignore_tile_bounds=""
+enemy=""
 
 [input]
 

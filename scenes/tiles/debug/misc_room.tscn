@@ -1591,14 +1591,12 @@ script = ExtResource("1_0hmr3")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 1.5, 1)
 script = ExtResource("1_0a44s")
 connection_id = &"small_door"
-possible_tile_paths = Array[String](["uid://cfpq2f41inr7r", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu", "uid://cxdqd222rj04o"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="GenTileConnection2" type="Marker3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3, 1.5, -2)
 script = ExtResource("1_0a44s")
 connection_id = &"small_door"
-possible_tile_paths = Array[String](["uid://cfpq2f41inr7r", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu", "uid://cxdqd222rj04o"])
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]

@@ -34,7 +34,7 @@ corner_radius_bottom_left = 5
 [sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_xdb20"]
 length = 0.35
 
-[node name="EnemyBase" type="CharacterBody3D"]
+[node name="EnemyBase" type="CharacterBody3D" groups=["enemy"]]
 script = ExtResource("1_qa0nx")
 start_ai_on_ready = false
 aggro_threshold = 2.0
