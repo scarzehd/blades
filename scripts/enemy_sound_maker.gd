@@ -18,6 +18,8 @@ class_name EnemySoundMaker
 
 @export var sound_id:StringName
 
+@export var aggro:float = 0.2
+
 func _ready() -> void:
 	collision_shape_3d.shape.radius = radius
 	audio_stream_player_3d.stream = audio
@@ -35,3 +37,4 @@ func play_sound():
 			#body.enemy_ai.ai_state.last_heard_player = Time.get_unix_time_from_system()
 			#body.enemy_ai.ai_state.last_heard_player_pos = global_position
 			body.enemy_ai.ai_state.add_sound_definition(SoundDefinition.new(global_position, sound_id))
+			body.enemy_ai.ai_state.aggro += aggro

@@ -26,7 +26,7 @@ func _start():
 			continue
 		break
 
-func _update(delta:float):
+func _update(_delta:float):
 	if not waited:
 		return
 	var next_pos := enemy.navigation_agent.get_next_path_position()

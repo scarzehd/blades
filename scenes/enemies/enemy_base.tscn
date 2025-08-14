@@ -36,6 +36,7 @@ length = 0.35
 
 [node name="EnemyBase" type="CharacterBody3D"]
 script = ExtResource("1_qa0nx")
+start_ai_on_ready = false
 aggro_threshold = 2.0
 aggro_reset_time = 5.0
 aggro_reset_rate = 0.5
@@ -57,7 +58,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("3_evjv1")
-sight_distance = 20.0
+sight_distance = 10.0
 close_sight_distance = 2.0
 sight_angle = 0.383972
 close_sight_angle = 0.785398

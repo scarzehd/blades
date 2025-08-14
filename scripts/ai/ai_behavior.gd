@@ -50,4 +50,10 @@ func check_transitions() -> AITransition:
 	for transition in transitions:
 		if transition.check_conditions(enemy.enemy_ai.ai_state):
 			return transition
+	
+	for transition in enemy.enemy_ai.universal_transitions:
+		if transition.check_conditions(enemy.enemy_ai.ai_state):
+			if transition.target_behavior == self and running:
+				return null # Only transition back to this behavior if this one is already over
+			return transition
 	return null

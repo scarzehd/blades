@@ -1,12 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://c0p3167fn7pmg"]
+[gd_scene load_steps=14 format=3 uid="uid://c0p3167fn7pmg"]
 
 [ext_resource type="PackedScene" uid="uid://b1ekkl4kdiau6" path="res://scenes/enemies/enemy_base.tscn" id="1_pnhpx"]
 [ext_resource type="Script" uid="uid://bej8y0vd5spcu" path="res://scripts/ai/ai_transition.gd" id="3_8ybkn"]
+[ext_resource type="Script" uid="uid://86drha0nmqc5" path="res://scripts/ai/conditions/ai_heard_sound_condition.gd" id="3_itg6w"]
 [ext_resource type="Script" uid="uid://bt7104e18trta" path="res://scripts/ai/behaviors/ai_pursue_behavior.gd" id="4_8ybkn"]
-[ext_resource type="Script" uid="uid://bsicslga0f70l" path="res://scripts/ai/conditions/ai_or_condition.gd" id="4_iwdv7"]
+[ext_resource type="Script" uid="uid://170cy1ysrl02" path="res://scripts/ai/conditions/ai_aggro_condition.gd" id="5_iwdv7"]
 [ext_resource type="Script" uid="uid://chpxkd24lngph" path="res://scripts/ai/behaviors/ai_roam_radius_behavior.gd" id="6_asbfj"]
-[ext_resource type="Script" uid="uid://1chsdf28kfq5" path="res://scripts/ai/conditions/ai_invert_condition.gd" id="6_frcvx"]
 [ext_resource type="Script" uid="uid://dc4u21h0jjdct" path="res://scripts/ai/conditions/ai_detected_player_condition.gd" id="6_iwdv7"]
+[ext_resource type="Script" uid="uid://d3hwpo0a5yfrv" path="res://scripts/ai/behaviors/ai_investigate_behavior.gd" id="8_iwdv7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pnhpx"]
 radius = 0.4
@@ -48,42 +49,45 @@ shape = SubResource("CapsuleShape3D_pnhpx")
 [node name="StepUp" parent="." index="7"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.65, -0.5)
 
-[node name="AIRoamRadiusBehavior" type="Node3D" parent="EnemyAI" index="0"]
+[node name="PursueTransition" type="Node3D" parent="EnemyAI" index="0" node_paths=PackedStringArray("target_behavior")]
+script = ExtResource("3_8ybkn")
+target_behavior = NodePath("../AIPursueBehavior")
+metadata/_custom_type_script = "uid://bej8y0vd5spcu"
+
+[node name="AIDetectedPlayerCondition" type="Node3D" parent="EnemyAI/PursueTransition" index="0"]
+script = ExtResource("6_iwdv7")
+heard_player_window = 3.0
+seen_player_window = 5.0
+metadata/_custom_type_script = "uid://dc4u21h0jjdct"
+
+[node name="AIAggroCondition" type="Node3D" parent="EnemyAI/PursueTransition" index="1"]
+script = ExtResource("5_iwdv7")
+threshold = 0.2
+percentage = true
+metadata/_custom_type_script = "uid://170cy1ysrl02"
+
+[node name="InvestigateTransition" type="Node3D" parent="EnemyAI" index="1" node_paths=PackedStringArray("target_behavior")]
+script = ExtResource("3_8ybkn")
+target_behavior = NodePath("../AIInvestigateBehavior")
+metadata/_custom_type_script = "uid://bej8y0vd5spcu"
+
+[node name="AIHeardSoundCondition" type="Node3D" parent="EnemyAI/InvestigateTransition" index="0"]
+script = ExtResource("3_itg6w")
+sound_ids = Dictionary[StringName, float]({
+&"": 5.0
+})
+metadata/_custom_type_script = "uid://86drha0nmqc5"
+
+[node name="AIRoamRadiusBehavior" type="Node3D" parent="EnemyAI" index="2"]
 script = ExtResource("6_asbfj")
 radius = 5.0
 delay = 2.0
 metadata/_custom_type_script = "uid://chpxkd24lngph"
 
-[node name="AITransition" type="Node3D" parent="EnemyAI/AIRoamRadiusBehavior" index="0" node_paths=PackedStringArray("target_behavior")]
-script = ExtResource("3_8ybkn")
-target_behavior = NodePath("../../AIPursueBehavior")
-metadata/_custom_type_script = "uid://bej8y0vd5spcu"
-
-[node name="AIOrCondition" type="Node3D" parent="EnemyAI/AIRoamRadiusBehavior/AITransition" index="0"]
-script = ExtResource("4_iwdv7")
-metadata/_custom_type_script = "uid://bsicslga0f70l"
-
-[node name="AIDetectedPlayerCondition" type="Node3D" parent="EnemyAI/AIRoamRadiusBehavior/AITransition/AIOrCondition" index="0"]
-script = ExtResource("6_iwdv7")
-heard_player_window = 4.0
-seen_player_window = 5.0
-metadata/_custom_type_script = "uid://dc4u21h0jjdct"
-
-[node name="AIPursueBehavior" type="Node3D" parent="EnemyAI" index="1"]
+[node name="AIPursueBehavior" type="Node3D" parent="EnemyAI" index="3"]
 script = ExtResource("4_8ybkn")
 metadata/_custom_type_script = "uid://bt7104e18trta"
 
-[node name="AITransition" type="Node3D" parent="EnemyAI/AIPursueBehavior" index="0" node_paths=PackedStringArray("target_behavior")]
-script = ExtResource("3_8ybkn")
-target_behavior = NodePath("../../AIRoamRadiusBehavior")
-metadata/_custom_type_script = "uid://bej8y0vd5spcu"
-
-[node name="AIInvertCondition" type="Node3D" parent="EnemyAI/AIPursueBehavior/AITransition" index="0"]
-script = ExtResource("6_frcvx")
-metadata/_custom_type_script = "uid://1chsdf28kfq5"
-
-[node name="AIDetectedPlayerCondition" type="Node3D" parent="EnemyAI/AIPursueBehavior/AITransition/AIInvertCondition" index="0"]
-script = ExtResource("6_iwdv7")
-heard_player_window = 4.0
-seen_player_window = 5.0
-metadata/_custom_type_script = "uid://dc4u21h0jjdct"
+[node name="AIInvestigateBehavior" type="Node3D" parent="EnemyAI" index="4"]
+script = ExtResource("8_iwdv7")
+metadata/_custom_type_script = "uid://d3hwpo0a5yfrv"

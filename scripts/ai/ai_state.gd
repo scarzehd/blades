@@ -65,10 +65,16 @@ func attacked_within(time:float) -> bool:
 	return last_attacked + time >= Time.get_unix_time_from_system()
 
 func add_sound_definition(sound_definition:SoundDefinition):
-	sounds.append(sound_definition)
+	# Otherwise we could get flooded with a bunch of sounds of the same type.
+	for sound in sounds:
+		if sound.sound_id == sound_definition.sound_id:
+			sounds.erase(sound)
+			break
+	
+	sounds.push_front(sound_definition)
 	if sounds.size() > MAX_SOUNDS_REMEMBERED:
-		sounds.sort_custom(func(a, b): return a.time < b.time)
-		sounds.remove_at(0)
+		#sounds.sort_custom(func(a, b): return a.time < b.time)
+		sounds.remove_at(sounds.size() - 1)
 	
 	if player_sounds.has(sound_definition.sound_id):
 		last_heard_player = sound_definition.time
@@ -77,13 +83,11 @@ func add_sound_definition(sound_definition:SoundDefinition):
 func heard_sound_within(sound_id:StringName, time:float) -> SoundDefinition:
 	if sounds.size() == 0:
 		return null
-	var sounds_reversed = Array(sounds)
-	sounds_reversed.reverse()
 	if sound_id == &"":
-		var sound = sounds_reversed[0]
+		var sound = sounds[0]
 		if sound.time + time >= Time.get_unix_time_from_system():
-			return sounds_reversed[0]
-	for sound in sounds_reversed:
+			return sound
+	for sound in sounds:
 		if sound.sound_id == sound_id and sound.time + time >= Time.get_unix_time_from_system():
 			return sound
 	

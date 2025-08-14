@@ -12,10 +12,7 @@ func _start():
 		start_prioritize()
 		return
 	
-	var enemy_sounds_reversed = Array(enemy.enemy_ai.ai_state.sounds)
-	enemy_sounds_reversed.reverse()
-	
-	for sound in enemy_sounds_reversed:
+	for sound in enemy.enemy_ai.ai_state.sounds:
 		if sounds.has(sound.sound_id) == not invert:
 			sound_definition = sound
 			return

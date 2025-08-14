@@ -1,7 +1,10 @@
 extends AICondition
 class_name AIHeardSoundCondition
 
+## Checks if the enemy has heard any sound in sound_ids.
 @export var sound_ids:Dictionary[StringName, float]
+
+## If true, every sounnd must have been heard for this condition to pass.
 @export var all:bool = false
 
 func _check_condition(ai_state:AIState) -> bool:
@@ -12,7 +15,6 @@ func _check_condition(ai_state:AIState) -> bool:
 		var time = sound_ids[sound_id]
 		var result = ai_state.heard_sound_within(sound_id, time)
 		if result != null:
-			print(Time.get_unix_time_from_system() - result.time)
 			return true
 		
 	return false

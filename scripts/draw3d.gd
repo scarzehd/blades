@@ -1,5 +1,4 @@
 @tool
-
 class_name Draw3D
 extends MeshInstance3D
 

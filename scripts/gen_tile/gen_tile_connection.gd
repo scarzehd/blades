@@ -33,7 +33,7 @@ func _ready() -> void:
 	
 	weights = Array(connection_data.weights)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not Engine.is_editor_hint():
 		return
 	
