@@ -12,10 +12,11 @@
 [ext_resource type="PackedScene" uid="uid://c0p3167fn7pmg" path="res://scenes/enemies/test_enemy.tscn" id="8_dntkp"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_dntkp"]
-vertices = PackedVector3Array(3.25, 0.5, 6.75, 4.25, 0.5, 6.25, 3.25, 0.5, 5.5, 1.25, 0.5, 8.25, 3.25, 0.5, 8.25, -3, 0.5, 10, 0.75, 0.5, 10.25, 0.75, 0.5, 8.75, 3.25, 0.5, 2.75, -3, 0.5, 2.75, 0.75, 0.5, 14, -3, 0.5, 15.75, 3.25, 4, 5.75, 2.25, 4, 5.75, 2, 0.75, 14.25, 3.25, 0.5, 15.75, 3.25, 0.5, 14.3214, 3.25, 4, 7.17857, 2.16667, 3.5, 8.58333)
-polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(0, 4, 3), PackedInt32Array(2, 0, 3), PackedInt32Array(7, 6, 5), PackedInt32Array(3, 7, 2), PackedInt32Array(2, 7, 8), PackedInt32Array(8, 7, 9), PackedInt32Array(9, 7, 5), PackedInt32Array(6, 10, 5), PackedInt32Array(5, 10, 11), PackedInt32Array(12, 17, 13), PackedInt32Array(13, 17, 18), PackedInt32Array(18, 17, 14), PackedInt32Array(14, 17, 16), PackedInt32Array(14, 16, 15), PackedInt32Array(14, 15, 10), PackedInt32Array(10, 15, 11)]
+vertices = PackedVector3Array(3.5, 0.2, 6.75, 4.5, 0.2, 6.5, 4.5, 0.2, 5.75, 3.5, 0.2, 5.5, 1, 0.2, 9, 3.5, 0.2, 2.5, -3.25, 0.2, 2.5, -3.25, 0.2, 10.25, 3.5, 0.2, 8.75, 1, 0.2, 10.5, 1, 0.2, 14.25, -3.25, 0.2, 16, 3.5, 3.7, 5.5, 2, 3.7, 5.5, 2, 0.4, 14.25, 3.5, 0.2, 16, 3.5, 0.2, 14.6875, 3.5, 1.4, 12.0625, 3.5, 3.5, 8.125, 2, 3.7, 6.95833, 2, 3.4, 8.41667)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 4, 5), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(4, 0, 8), PackedInt32Array(3, 0, 4), PackedInt32Array(4, 9, 7), PackedInt32Array(9, 10, 7), PackedInt32Array(7, 10, 11), PackedInt32Array(13, 12, 19), PackedInt32Array(19, 12, 18), PackedInt32Array(19, 18, 20), PackedInt32Array(20, 18, 17), PackedInt32Array(20, 17, 14), PackedInt32Array(14, 17, 16), PackedInt32Array(14, 16, 15), PackedInt32Array(14, 15, 10), PackedInt32Array(10, 15, 11)]
+cell_height = 0.1
 agent_height = 2.0
-agent_radius = 0.75
+agent_max_climb = 0.2
 
 [sub_resource type="Resource" id="Resource_0o6la"]
 script = ExtResource("4_2exqv")
@@ -1083,7 +1084,7 @@ connection_data = ExtResource("3_2exqv")
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="GenTileConnection2" type="Marker3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 1.5, 6)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 1.5, 6)
 script = ExtResource("2_dntkp")
 connection_id = &"small_door"
 connection_data = ExtResource("4_qga5b")
@@ -1094,6 +1095,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 7.75)
 start_ai_on_ready = true
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00112963, 0, 0.00377607)
 navigation_mesh = SubResource("NavigationMesh_dntkp")
 
 [node name="block0" type="Node3D" parent="NavigationRegion3D"]

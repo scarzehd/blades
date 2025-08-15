@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://c0p3167fn7pmg"]
+[gd_scene load_steps=15 format=3 uid="uid://c0p3167fn7pmg"]
 
 [ext_resource type="PackedScene" uid="uid://b1ekkl4kdiau6" path="res://scenes/enemies/enemy_base.tscn" id="1_pnhpx"]
 [ext_resource type="Script" uid="uid://bej8y0vd5spcu" path="res://scripts/ai/ai_transition.gd" id="3_8ybkn"]
 [ext_resource type="Script" uid="uid://86drha0nmqc5" path="res://scripts/ai/conditions/ai_heard_sound_condition.gd" id="3_itg6w"]
 [ext_resource type="Script" uid="uid://bt7104e18trta" path="res://scripts/ai/behaviors/ai_pursue_behavior.gd" id="4_8ybkn"]
+[ext_resource type="Script" uid="uid://bsicslga0f70l" path="res://scripts/ai/conditions/ai_or_condition.gd" id="5_itg6w"]
 [ext_resource type="Script" uid="uid://170cy1ysrl02" path="res://scripts/ai/conditions/ai_aggro_condition.gd" id="5_iwdv7"]
 [ext_resource type="Script" uid="uid://chpxkd24lngph" path="res://scripts/ai/behaviors/ai_roam_radius_behavior.gd" id="6_asbfj"]
 [ext_resource type="Script" uid="uid://dc4u21h0jjdct" path="res://scripts/ai/conditions/ai_detected_player_condition.gd" id="6_iwdv7"]
@@ -31,7 +32,6 @@ shape = SubResource("CapsuleShape3D_pnhpx")
 
 [node name="SightCone" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-close_sight_angle = 0.610865
 
 [node name="Sprite3D" parent="." index="3"]
 texture = SubResource("ViewportTexture_kmxma")
@@ -71,12 +71,22 @@ script = ExtResource("3_8ybkn")
 target_behavior = NodePath("../AIInvestigateBehavior")
 metadata/_custom_type_script = "uid://bej8y0vd5spcu"
 
-[node name="AIHeardSoundCondition" type="Node3D" parent="EnemyAI/InvestigateTransition" index="0"]
+[node name="AIOrCondition" type="Node3D" parent="EnemyAI/InvestigateTransition" index="0"]
+script = ExtResource("5_itg6w")
+metadata/_custom_type_script = "uid://bsicslga0f70l"
+
+[node name="AIHeardSoundCondition" type="Node3D" parent="EnemyAI/InvestigateTransition/AIOrCondition" index="0"]
 script = ExtResource("3_itg6w")
 sound_ids = Dictionary[StringName, float]({
 &"": 5.0
 })
 metadata/_custom_type_script = "uid://86drha0nmqc5"
+
+[node name="AIDetectedPlayerCondition" type="Node3D" parent="EnemyAI/InvestigateTransition/AIOrCondition" index="1"]
+script = ExtResource("6_iwdv7")
+heard_player_window = 1.0
+seen_player_window = 1.0
+metadata/_custom_type_script = "uid://dc4u21h0jjdct"
 
 [node name="AIRoamRadiusBehavior" type="Node3D" parent="EnemyAI" index="2"]
 script = ExtResource("6_asbfj")

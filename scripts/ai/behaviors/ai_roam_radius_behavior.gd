@@ -21,7 +21,6 @@ func _start():
 		for vector in path:
 			distance += previous.distance_to(vector)
 			previous = vector
-		print(distance)
 		if distance > radius:
 			continue
 		break
