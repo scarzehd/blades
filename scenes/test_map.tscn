@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c635tis2rmhkt"]
+[gd_scene load_steps=11 format=3 uid="uid://c635tis2rmhkt"]
 
 [ext_resource type="PackedScene" uid="uid://bd4wbuh51bcy8" path="res://scenes/player.tscn" id="1_6ulkd"]
 [ext_resource type="Script" uid="uid://bt3xm1ss6lr4r" path="res://scripts/scenes/test_map.gd" id="1_kddbv"]
 [ext_resource type="Script" uid="uid://djsxjtfi5nthh" path="res://scripts/gen_tile/tile_generator.gd" id="1_ss0f2"]
 [ext_resource type="PackedScene" uid="uid://ckfbmahybp3w0" path="res://scenes/tiles/debug/dead_end_room.tscn" id="4_p21b5"]
+[ext_resource type="Script" uid="uid://bwodi16tfyial" path="res://scripts/gen_tile/connection_data.gd" id="5_bdpbv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fn2sa"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -17,6 +18,12 @@ background_mode = 2
 sky = SubResource("Sky_57l66")
 
 [sub_resource type="World3D" id="World3D_kddbv"]
+
+[sub_resource type="Resource" id="Resource_ss0f2"]
+script = ExtResource("5_bdpbv")
+possible_tiles = Array[String](["uid://cfpq2f41inr7r", "uid://7cdpdwp4n1p6", "uid://cxdqd222rj04o", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu"])
+weights = Array[float]([1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+metadata/_custom_type_script = "uid://bwodi16tfyial"
 
 [node name="TestMap" type="Node3D"]
 script = ExtResource("1_kddbv")
@@ -45,6 +52,11 @@ map_size = AABB(-100, -20, -100, 200, 40, 200)
 
 [node name="Node3D" parent="SubViewport/Generator" instance=ExtResource("4_p21b5")]
 
+[node name="GenTileConnection" parent="SubViewport/Generator/Node3D" index="0"]
+connection_data = SubResource("Resource_ss0f2")
+
 [node name="Node3D" parent="." instance=ExtResource("4_p21b5")]
 
 [connection signal="generation_finished" from="SubViewport/Generator" to="." method="_on_generator_generation_finished"]
+
+[editable path="SubViewport/Generator/Node3D"]
