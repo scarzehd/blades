@@ -12,6 +12,7 @@
 [sub_resource type="NavigationMesh" id="NavigationMesh_vdoqa"]
 vertices = PackedVector3Array(-2.5, 4.5, -4.5, -2.5, 4.5, 0.5, 4.5, 4.5, 0.5, 4.5, 4.5, -4.5, 0.5, 0.5, -0.5, 0.75, 0.5, 0.5, 1.5, 0.5, 0.5, 1.75, 0.5, -0.5, -1.5, 0.5, -3.5, 3.75, 0.5, -3.5, -1.5, 0.5, -0.5, 3.75, 0.5, -0.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(4, 8, 7), PackedInt32Array(7, 8, 9), PackedInt32Array(4, 10, 8), PackedInt32Array(9, 11, 7)]
+agent_height = 2.0
 
 [sub_resource type="Resource" id="Resource_bmdrv"]
 script = ExtResource("3_21pse")

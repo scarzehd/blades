@@ -21,6 +21,8 @@ unique_name_in_owner = true
 radius = 20.0
 bypass_walls = true
 sound_id = &"distraction"
+aggro = 0.0
+base_aggro = 0.2
 
 [node name="LifetimeTimer" type="Timer" parent="."]
 process_callback = 0

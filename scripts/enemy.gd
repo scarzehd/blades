@@ -33,6 +33,7 @@ func _physics_process(delta: float) -> void:
 	if health_component.current_hp == 0:
 		move_and_slide()
 		return
+	velocity.y -= 0.25
 	
 	var sight_cone_detected = sight_cone_detection._detect_player()
 	#var sphere_detected = sphere_detection._detect_player()
@@ -63,11 +64,11 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
-func set_desired_velocity(desired_velocity:Vector3):
+func set_desired_velocity(new_desired_velocity:Vector3):
 	if navigation_agent.avoidance_enabled:
-		navigation_agent.velocity = desired_velocity
+		navigation_agent.velocity = new_desired_velocity
 	else:
-		_on_navigation_agent_3d_velocity_computed(desired_velocity)
+		_on_navigation_agent_3d_velocity_computed(new_desired_velocity)
 
 #region Signal Callbacks
 
@@ -94,6 +95,9 @@ func _on_max_hp_changed(_old_max_hp:int, new_max_hp:int) -> void:
 	health_bar.max_value = new_max_hp
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
-	velocity = safe_velocity
+	var y = velocity.y
+	if safe_velocity.y > 0:
+		y = safe_velocity.y
+	velocity = Vector3(safe_velocity.x, y, safe_velocity.z)
 
 #endregion

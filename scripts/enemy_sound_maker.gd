@@ -19,6 +19,7 @@ class_name EnemySoundMaker
 @export var sound_id:StringName
 
 @export var aggro:float = 0.2
+@export var base_aggro:float = 0
 
 func _ready() -> void:
 	collision_shape_3d.shape.radius = radius
@@ -30,7 +31,7 @@ func play_sound():
 		if body is Enemy:
 			if not bypass_walls:
 				var space_state = get_world_3d().direct_space_state
-				var query = PhysicsRayQueryParameters3D.create(global_position, body.global_position, 1)
+				var query = PhysicsRayQueryParameters3D.create(global_position, body.global_position)
 				var result = space_state.intersect_ray(query)
 				if not result or result.collider != body:
 					continue
@@ -39,3 +40,4 @@ func play_sound():
 			#body.enemy_ai.ai_state.last_heard_player_pos = global_position
 			body.enemy_ai.ai_state.add_sound_definition(SoundDefinition.new(global_position, sound_id))
 			body.enemy_ai.ai_state.aggro += aggro
+			body.enemy_ai.ai_state.base_aggro += base_aggro

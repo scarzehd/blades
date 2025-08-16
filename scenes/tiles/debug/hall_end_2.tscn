@@ -12,11 +12,9 @@
 [ext_resource type="Script" uid="uid://do0lci1yjembt" path="res://addons/cyclops_level_builder/resources/mesh_vector_data.gd" id="8_l7swt"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_ajm5y"]
-vertices = PackedVector3Array(1.25, 0.2, 3, 2, 0.4, 3, 3.5, 0.3, 2.75, 3.5, 0.2, -0.5, -3.25, 0.2, -0.5, -3.25, 0.2, 7.75, 1.25, 0.2, 7.75, -3.75, 3.9, 3.75, -4.5, 3.9, 3.75, -4.5, 3.9, 4.5, -3.25, 3.9, 4.75, 2, 3.9, 10.25, 3.5, 3.9, 11.75, 3.5, 3.9, 10.4643, 3.5, 3.6, 9.17857, 2, 3.5, 8.8, -2.5, 3.9, 2.25, -3.25, 3.9, 2.25, -2.5, 3.9, 10, -3.25, 3.9, 11.75, 3.5, 0.2, 11.75, 3.5, 0.2, 8.25, 1.5, 0.2, 8.25, -3.25, 0.2, 11.75)
-polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(6, 5, 0), PackedInt32Array(0, 5, 4), PackedInt32Array(8, 7, 9), PackedInt32Array(9, 7, 10), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 14), PackedInt32Array(14, 11, 15), PackedInt32Array(14, 15, 1), PackedInt32Array(14, 1, 2), PackedInt32Array(17, 16, 7), PackedInt32Array(7, 16, 10), PackedInt32Array(18, 11, 19), PackedInt32Array(19, 11, 12), PackedInt32Array(19, 10, 18), PackedInt32Array(18, 10, 16), PackedInt32Array(22, 21, 20), PackedInt32Array(5, 6, 22), PackedInt32Array(5, 22, 23), PackedInt32Array(23, 22, 20)]
-cell_height = 0.1
+vertices = PackedVector3Array(1, 0.5, 2.5, 2, 0.5, 2.5, 3.5, 0.5, 2.25, 3.5, 0.5, -0.5, -3.25, 0.5, -0.5, -3.25, 0.5, 11.75, 1.25, 0.5, 8.25, 3.5, 0.5, 11.75, 3.5, 0.5, 8.5, -3.75, 4.25, 3.75, -4.5, 4.25, 3.75, -4.5, 4.25, 4.5, -3.25, 4.25, 4.75, 2, 4.25, 10.25, 3.5, 4.25, 11.75, 3.5, 3.75, 9.03572, 3.5, 1.5, 4.96429, -2.5, 4.25, 2.25, -3.25, 4.25, 2.25, -2.5, 4.25, 10, -3.25, 4.25, 11.75)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(0, 6, 4), PackedInt32Array(4, 6, 5), PackedInt32Array(8, 7, 6), PackedInt32Array(6, 7, 5), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 12), PackedInt32Array(14, 13, 15), PackedInt32Array(15, 13, 16), PackedInt32Array(16, 13, 1), PackedInt32Array(16, 1, 2), PackedInt32Array(18, 17, 9), PackedInt32Array(9, 17, 12), PackedInt32Array(19, 13, 20), PackedInt32Array(20, 13, 14), PackedInt32Array(20, 12, 19), PackedInt32Array(19, 12, 17)]
 agent_height = 2.0
-agent_max_climb = 0.2
 
 [sub_resource type="Resource" id="Resource_ajm5y"]
 script = ExtResource("5_i84sq")
@@ -1400,3 +1398,9 @@ mesh_vector_data = SubResource("Resource_qceha")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75, 0, 12.75)
 script = ExtResource("4_afify")
 mesh_vector_data = SubResource("Resource_kig3t")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D"]
+vertices = PackedVector3Array(2.3, 0, 2.4, 1.83802, 0, 5.04251, 1.04344, 0, 4.73411, 1.05783, 0, 4.73082, 1.1, 0, 2.6)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+avoidance_enabled = false

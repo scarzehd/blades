@@ -62,7 +62,7 @@ metadata/_custom_type_script = "uid://dc4u21h0jjdct"
 
 [node name="AIAggroCondition" type="Node3D" parent="EnemyAI/PursueTransition" index="1"]
 script = ExtResource("5_iwdv7")
-threshold = 0.2
+threshold = 0.5
 percentage = true
 metadata/_custom_type_script = "uid://170cy1ysrl02"
 
