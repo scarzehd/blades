@@ -2,7 +2,7 @@
 
 BUTLER="$HOME/dev/butler/butler"
 
-GODOT="$HOME/dev/godot/Godot_v4.1.1-stable_linux.x86_64"
+GODOT="$HOME/dev/Godot_v4.4.1-stable_linux.x86_64"
 
 if [ ! -f $GODOT ]; then
 	echo "Godot executable not found. Nothing has been changed."
@@ -33,7 +33,7 @@ $GODOT --headless --path $PROJECT_PATH --export-release "Linux" build/linux/blad
 # $GODOT --headless --path $PROJECT_PATH --export-release "macOS" build/macos/blades.zip
 # $GODOT --headless --path $PROJECT_PATH --export-release "Web" build/web/${VERSION}/index.html
 
-$BUTLER push windows/ scarzehd/five-nights-at-shithouse:windows --userversion $VERSION
-$BUTLER push linux/ scarzehd/five-nights-at-shithouse:linux --userversion $VERSION
+$BUTLER push windows/ scarzehd/blades:windows --userversion $VERSION
+$BUTLER push linux/ scarzehd/blades:linux --userversion $VERSION
 # butler push web/${VERSION}/ scarzehd/five-nights-at-shithouse:web --userversion $VERSION
 # butler push macos/five-nights-at-shithouse-macos.zip scarzehd/five-nights-at-shithouse:macos --userversion $VERSION
