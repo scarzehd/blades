@@ -1,14 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://c0p3167fn7pmg"]
+[gd_scene load_steps=19 format=3 uid="uid://c0p3167fn7pmg"]
 
 [ext_resource type="PackedScene" uid="uid://b1ekkl4kdiau6" path="res://scenes/enemies/enemy_base.tscn" id="1_pnhpx"]
 [ext_resource type="Script" uid="uid://bej8y0vd5spcu" path="res://scripts/ai/ai_transition.gd" id="3_8ybkn"]
 [ext_resource type="Script" uid="uid://86drha0nmqc5" path="res://scripts/ai/conditions/ai_heard_sound_condition.gd" id="3_itg6w"]
-[ext_resource type="Script" uid="uid://bt7104e18trta" path="res://scripts/ai/behaviors/ai_pursue_behavior.gd" id="4_8ybkn"]
 [ext_resource type="Script" uid="uid://bsicslga0f70l" path="res://scripts/ai/conditions/ai_or_condition.gd" id="5_itg6w"]
 [ext_resource type="Script" uid="uid://170cy1ysrl02" path="res://scripts/ai/conditions/ai_aggro_condition.gd" id="5_iwdv7"]
 [ext_resource type="Script" uid="uid://chpxkd24lngph" path="res://scripts/ai/behaviors/ai_roam_radius_behavior.gd" id="6_asbfj"]
 [ext_resource type="Script" uid="uid://dc4u21h0jjdct" path="res://scripts/ai/conditions/ai_detected_player_condition.gd" id="6_iwdv7"]
 [ext_resource type="Script" uid="uid://d3hwpo0a5yfrv" path="res://scripts/ai/behaviors/ai_investigate_behavior.gd" id="8_iwdv7"]
+[ext_resource type="Script" uid="uid://cyi8eynf8b1nu" path="res://scripts/ai/behaviors/ai_attack_behavior.gd" id="9_itg6w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pnhpx"]
 radius = 0.4
@@ -24,6 +24,70 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_pnhpx"]
 material = SubResource("StandardMaterial3D_iwdv7")
 size = Vector3(0.6, 0.2, 0.2)
+
+[sub_resource type="Animation" id="Animation_itg6w"]
+resource_name = "attack"
+length = 0.55
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.233333, 0.54),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.6, 0, -0.7), Vector3(0.6, 0.412168, -0.574571), Vector3(0.6, -0.881168, -1.22167), Vector3(0.6, 0, -0.7)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.233333, 0.54),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.436332, 0, 0), Vector3(0.113534, 0, 0), Vector3(-2.44713, 0, 0), Vector3(-0.436332, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oq0fo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.6, 0, -0.7)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.436332, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oq0fo"]
+_data = {
+&"RESET": SubResource("Animation_oq0fo"),
+&"attack": SubResource("Animation_itg6w")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_itg6w"]
+size = Vector3(0.2, 1, 0.2)
 
 [node name="TestEnemy" instance=ExtResource("1_pnhpx")]
 
@@ -51,7 +115,7 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.
 
 [node name="PursueTransition" type="Node3D" parent="EnemyAI" index="0" node_paths=PackedStringArray("target_behavior")]
 script = ExtResource("3_8ybkn")
-target_behavior = NodePath("../AIPursueBehavior")
+target_behavior = NodePath("../AIAttackBehavior")
 metadata/_custom_type_script = "uid://bej8y0vd5spcu"
 
 [node name="AIDetectedPlayerCondition" type="Node3D" parent="EnemyAI/PursueTransition" index="0"]
@@ -94,10 +158,24 @@ radius = 10.0
 delay = 2.0
 metadata/_custom_type_script = "uid://chpxkd24lngph"
 
-[node name="AIPursueBehavior" type="Node3D" parent="EnemyAI" index="3"]
-script = ExtResource("4_8ybkn")
-metadata/_custom_type_script = "uid://bt7104e18trta"
-
-[node name="AIInvestigateBehavior" type="Node3D" parent="EnemyAI" index="4"]
+[node name="AIInvestigateBehavior" type="Node3D" parent="EnemyAI" index="3"]
 script = ExtResource("8_iwdv7")
 metadata/_custom_type_script = "uid://d3hwpo0a5yfrv"
+
+[node name="AIAttackBehavior" type="Node3D" parent="EnemyAI" index="4"]
+script = ExtResource("9_itg6w")
+damage = 1.0
+attack_range = 2.0
+desired_range = 1.5
+upswing = 0.1
+attack_interval = 1.0
+metadata/_custom_type_script = "uid://cyi8eynf8b1nu"
+
+[node name="AnimationPlayer" parent="." index="9"]
+libraries = {
+&"": SubResource("AnimationLibrary_oq0fo")
+}
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="10"]
+transform = Transform3D(1, 0, 0, 0, 0.906307, 0.422618, 0, -0.422618, 0.906307, 0.6, 0, -0.7)
+mesh = SubResource("BoxMesh_itg6w")

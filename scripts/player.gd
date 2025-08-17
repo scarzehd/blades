@@ -10,6 +10,7 @@ class_name Player
 @onready var distraction_timer:Timer = %DistractionTimer
 @onready var footstep_timer:Timer = %FootstepTimer
 @onready var footstep_sound_maker:EnemySoundMaker = %FootstepSoundMaker
+@onready var health_bar:ProgressBar = $HUD/HealthBar
 
 # Mouse input
 const X_SENSITIVITY:float = 0.2
@@ -56,6 +57,9 @@ func _ready() -> void:
 			weapon = child
 		else:
 			child.queue_free()
+	
+	_on_health_component_hp_changed(0, health_component.current_hp)
+	_on_health_component_hp_changed(0, health_component.max_hp)
 
 func _process(_delta: float) -> void:
 	# This needs to be done to fix weapon jitter with physics interpolation.
@@ -298,4 +302,10 @@ func handle_distraction():
 func _on_distraction_timer_timeout() -> void:
 	distraction_ready = true
 
+func _on_health_component_hp_changed(old_hp: int, new_hp: int) -> void:
+	health_bar.value = new_hp
+
+func _on_health_component_max_hp_changed(old_max_hp: int, new_max_hp: int) -> void:
+	health_bar.max_value = new_max_hp
+	
 #endregion

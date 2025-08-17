@@ -148,6 +148,8 @@ shape = SubResource("SeparationRayShape3D_xdb20")
 unique_name_in_owner = true
 script = ExtResource("5_xdb20")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="max_hp_changed" from="HealthComponent" to="." method="_on_max_hp_changed"]
 [connection signal="timeout" from="AggroResetTimer" to="." method="_on_aggro_reset_timer_timeout"]

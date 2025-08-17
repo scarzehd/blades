@@ -18,6 +18,7 @@ class_name Enemy
 @onready var health_component:HealthComponent = %HealthComponent
 @onready var enemy_ai:EnemyAI = %EnemyAI
 @onready var navigation_agent:NavigationAgent3D = %NavigationAgent3D
+@onready var animation_player:AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
 	aggro_meter.max_value = aggro_threshold
