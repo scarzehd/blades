@@ -14,7 +14,6 @@ func _start():
 		var theta:float = randf() * 2 * PI
 		var point = (Vector3(cos(theta), 0, sin(theta)) * sqrt(randf()) * radius) + enemy.global_position
 		enemy.navigation_agent.target_position = point
-		await get_tree().physics_frame # I don't know why this is necessary. Something to do with the path not updating right away
 		var previous:Vector3 = enemy.navigation_agent.get_next_path_position()
 		var path = enemy.navigation_agent.get_current_navigation_path()
 		var distance:float = 0

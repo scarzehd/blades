@@ -38,7 +38,6 @@ length = 0.35
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_qa0nx")
-start_ai_on_ready = false
 aggro_threshold = 2.0
 aggro_reset_time = 5.0
 aggro_reset_rate = 0.5
@@ -139,6 +138,7 @@ unique_name_in_owner = true
 path_desired_distance = 0.5
 target_desired_distance = 0.5
 path_height_offset = -0.5
+debug_enabled = true
 
 [node name="StepUp" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)

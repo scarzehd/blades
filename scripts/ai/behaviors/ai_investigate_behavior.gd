@@ -75,7 +75,7 @@ func _update(delta:float):
 		2:
 			update_phase_2(delta)
 
-func update_phase_0(delta:float):
+func update_phase_0(_delta:float):
 	var look_at_target = Vector3(investigate_position.x, enemy.global_position.y, investigate_position.z)
 	look_at_target -= enemy.global_position
 	look_at_target = (-enemy.global_basis.z).slerp(look_at_target, 0.1)
@@ -84,7 +84,7 @@ func update_phase_0(delta:float):
 	if timer.is_stopped():
 		phase = 1
 
-func update_phase_1(delta:float):
+func update_phase_1(_delta:float):
 	var next_pos := enemy.navigation_agent.get_next_path_position()
 	enemy.set_desired_velocity(enemy.global_position.direction_to(next_pos) * enemy.speed)
 	if enemy.global_position != next_pos:
@@ -99,7 +99,7 @@ func update_phase_1(delta:float):
 		enemy.set_desired_velocity(Vector3.ZERO)
 		timer.start(hover_time)
 
-func update_phase_2(delta:float):
+func update_phase_2(_delta:float):
 	if not timer.is_stopped():
 		return
 	

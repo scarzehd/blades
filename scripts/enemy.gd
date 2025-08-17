@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name Enemy
 
-@export var start_ai_on_ready:bool = true
+@export var start_ai_on_ready:bool = false
 
 @export var aggro_threshold:float
 @export var aggro_reset_time:float
@@ -26,7 +26,6 @@ func _ready() -> void:
 	health_bar.value = health_component.current_hp
 	enemy_ai.enemy = self
 	if start_ai_on_ready:
-		await get_tree().process_frame
 		enemy_ai.start_ai()
 
 func _physics_process(delta: float) -> void:
