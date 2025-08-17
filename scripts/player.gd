@@ -293,6 +293,8 @@ func handle_distraction():
 		
 		var distraction:Distraction = chosen_scene.instantiate()
 		
+		distraction.linear_velocity = velocity
+		
 		add_child(distraction)
 		
 		distraction.global_position = head.global_position + (-camera.global_basis.z * 0.25)
