@@ -245,9 +245,9 @@ func handle_weapon_input():
 		if Input.is_action_pressed("fire"):
 			weapon.fire(-camera.global_basis.z)
 		elif Input.is_action_just_pressed("alt_fire"):
-			var end_pos = global_position + -camera.global_basis.z * weapon.weapon_range
+			var end_pos = head.global_position + -camera.global_basis.z * weapon.weapon_range
 			var space_state = get_world_3d().direct_space_state
-			var query = PhysicsRayQueryParameters3D.create(global_position, end_pos, 0xFFFFFFFF, [Globals.player.get_rid()])
+			var query = PhysicsRayQueryParameters3D.create(head.global_position, end_pos, 0xFFFFFFFF, [Globals.player.get_rid()])
 			var result = space_state.intersect_ray(query)
 	
 			if not (result and result.collider is Enemy):
