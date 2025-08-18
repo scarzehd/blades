@@ -133,8 +133,10 @@ show_percentage = false
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 unique_name_in_owner = true
 path_desired_distance = 0.5
-target_desired_distance = 0.5
 path_height_offset = -0.5
+path_postprocessing = 2
+height = 2.0
+debug_enabled = true
 
 [node name="EnemyAI" type="Node3D" parent="."]
 unique_name_in_owner = true

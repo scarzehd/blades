@@ -28,6 +28,8 @@ func _ready() -> void:
 		draw3d = Draw3D.new()
 		draw3d.draw_vertex_points = true
 		add_child(draw3d)
+	if not connection_data:
+		return
 	for path in connection_data.possible_tiles:
 		possible_tiles.append(load(path) as PackedScene)
 	

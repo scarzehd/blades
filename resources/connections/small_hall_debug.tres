@@ -6,4 +6,5 @@
 script = ExtResource("1_s6xn6")
 possible_tiles = Array[String](["uid://c2felh4caefhs", "uid://m8h16jt40thu", "uid://cb1oonyvno3qr"])
 weights = Array[float]([1.0, 1.0, 1.0])
+fallback_tile = "uid://c6l1ubl55y5e2"
 metadata/_custom_type_script = "uid://bwodi16tfyial"

@@ -119,6 +119,13 @@ func generate():
 				#possible_tiles.erase(chosen_tile)
 				break
 		
+		if not chosen_tile:
+			chosen_tile = create_tile(load(current_connection.connection_data.fallback_tile))
+			chosen_connection = chosen_tile.connections[0]
+			desired_position = current_connection.global_position - chosen_connection.global_position
+			desired_rotation = atan2((-chosen_connection.direction).z, (-chosen_connection.direction).x) - atan2(current_connection.direction.z, current_connection.direction.x)
+			chosen_tile.global_rotation = Vector3(0, desired_rotation, 0)
+		
 		if chosen_tile:
 			chosen_tile.global_position = desired_position
 			set_tile_placed(chosen_tile)

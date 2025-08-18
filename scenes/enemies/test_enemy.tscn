@@ -110,10 +110,6 @@ mesh = SubResource("BoxMesh_pnhpx")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="6"]
 shape = SubResource("CapsuleShape3D_pnhpx")
 
-[node name="StepUp" parent="." index="7"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.65, -0.4)
-disabled = true
-
 [node name="PursueTransition" type="Node3D" parent="EnemyAI" index="0" node_paths=PackedStringArray("target_behavior")]
 script = ExtResource("3_8ybkn")
 target_behavior = NodePath("../AIAttackBehavior")
@@ -172,11 +168,11 @@ upswing = 0.1
 attack_interval = 1.0
 metadata/_custom_type_script = "uid://cyi8eynf8b1nu"
 
-[node name="AnimationPlayer" parent="." index="9"]
+[node name="AnimationPlayer" parent="." index="8"]
 libraries = {
 &"": SubResource("AnimationLibrary_oq0fo")
 }
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="10"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="9"]
 transform = Transform3D(1, 0, 0, 0, 0.906307, 0.422618, 0, -0.422618, 0.906307, 0.6, 0, -0.7)
 mesh = SubResource("BoxMesh_itg6w")

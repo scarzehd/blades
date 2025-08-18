@@ -23,6 +23,7 @@ sky = SubResource("Sky_57l66")
 script = ExtResource("5_bdpbv")
 possible_tiles = Array[String](["uid://cfpq2f41inr7r", "uid://7cdpdwp4n1p6", "uid://cxdqd222rj04o", "uid://cvika6kn3qbqx", "uid://kel30udwwrkc", "uid://m8h16jt40thu"])
 weights = Array[float]([1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+fallback_tile = "uid://rmlyb5uomw33"
 metadata/_custom_type_script = "uid://bwodi16tfyial"
 
 [node name="TestMap" type="Node3D"]
@@ -48,7 +49,7 @@ handle_input_locally = false
 unique_name_in_owner = true
 script = ExtResource("1_ss0f2")
 starting_tile = NodePath("Node3D")
-map_size = AABB(-100, -20, -100, 200, 40, 200)
+map_size = AABB(-100, -100, -100, 200, 200, 200)
 
 [node name="Node3D" parent="SubViewport/Generator" instance=ExtResource("4_p21b5")]
 
