@@ -144,12 +144,13 @@ face_vertex_data = {
 script = ExtResource("1_tdyxt")
 
 [node name="GenTileConnection" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
 script = ExtResource("2_17e3i")
 connection_id = &"small_hall"
 connection_data = ExtResource("3_3pwdn")
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="block0" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -0.8)
 script = ExtResource("3_k3s0g")
 mesh_vector_data = SubResource("Resource_jqeyj")

@@ -11,6 +11,7 @@ class_name Player
 @onready var footstep_timer:Timer = %FootstepTimer
 @onready var footstep_sound_maker:EnemySoundMaker = %FootstepSoundMaker
 @onready var health_bar:ProgressBar = $HUD/HealthBar
+@onready var guard_bar:ProgressBar = $HUD/GuardBar
 
 # Mouse input
 const X_SENSITIVITY:float = 0.2
@@ -40,8 +41,8 @@ const CROUCH_TIME:float = 0.15
 var crouch_tween:Tween
 
 # Weapons
+@export var starting_weapon:PackedScene
 var weapon:Weapon
-var weapon_drawn:bool = false
 
 # Distractions
 const DISTRACTION_COOLDOWN:float = 5
@@ -52,14 +53,10 @@ var distraction_ready:bool = true
 func _ready() -> void:
 	Globals.player = self
 	
-	for child in weapon_container.get_children():
-		if not weapon and child is Weapon:
-			weapon = child
-		else:
-			child.queue_free()
+	equip_weapon(starting_weapon)
 	
 	_on_health_component_hp_changed(0, health_component.current_hp)
-	_on_health_component_hp_changed(0, health_component.max_hp)
+	_on_health_component_max_hp_changed(0, health_component.max_hp)
 
 func _process(_delta: float) -> void:
 	# This needs to be done to fix weapon jitter with physics interpolation.
@@ -175,7 +172,14 @@ func _on_footstep_timer_timeout() -> void:
 #region Movement Variables
 
 func get_max_speed() -> float:
-	return MAX_SPEED * (CROUCH_MOVE_MULTIPLIER if crouching else 1.0) * (weapon.heft if weapon_drawn else 1.0)
+	var mult = 1.0
+	if crouching:
+		mult *= CROUCH_MOVE_MULTIPLIER
+	
+	if weapon and weapon.weapon_drawn:
+		mult *= weapon.heft
+	
+	return MAX_SPEED * mult
 
 #endregion
 
@@ -219,60 +223,87 @@ func end_crouch():
 func equip_weapon(weapon_scene:PackedScene) -> Weapon:
 	var new_weapon:Weapon = weapon_scene.instantiate()
 	assert(new_weapon is Weapon)
-	weapon.queue_free()
+	if weapon:
+		weapon.queue_free()
 	weapon = new_weapon
-	head.add_child(weapon)
+	weapon_container.add_child(weapon)
+	guard_bar.max_value = weapon.guard
+	guard_bar.value = weapon.guard
+	guard_bar.show()
 	return weapon
 
-func draw_weapon():
-	weapon_drawn = true
-	weapon.draw()
-
-func stow_weapon():
-	weapon_drawn = false
-	weapon.stow()
+func unequip_weapon():
+	weapon.queue_free()
+	weapon = null
+	guard_bar.hide()
 
 func handle_weapon_input():
 	if not weapon:
 		return
 	if weapon.can_swap and Input.is_action_just_pressed("swap"):
-		if weapon_drawn:
-			stow_weapon()
+		if weapon.weapon_drawn:
+			weapon.stow()
 		else:
-			draw_weapon()
+			weapon.draw()
 	
-	if weapon.can_fire:
-		if Input.is_action_pressed("fire"):
-			weapon.fire(-camera.global_basis.z)
-		elif Input.is_action_just_pressed("alt_fire"):
-			var end_pos = head.global_position + -camera.global_basis.z * weapon.weapon_range
-			var space_state = get_world_3d().direct_space_state
-			var query = PhysicsRayQueryParameters3D.create(head.global_position, end_pos, 0xFFFFFFFF, [Globals.player.get_rid()])
-			var result = space_state.intersect_ray(query)
+	var stealth_kill_enemy:Enemy = null
 	
-			if not (result and result.collider is Enemy):
-				return
-			
-			var enemy:Enemy = result.collider
-			
-			if enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1):
-				return
-			
-			velocity = Vector3.ZERO
-			var was_crouching = crouching
-			if was_crouching:
-				end_crouch()
-				await crouch_tween.finished
-				#update_step_up_position(Vector2.ZERO)
-			movement_override = true
-			step_up.disabled = true
-			enemy.enemy_ai.end_ai()
-			await weapon.stealth_kill(enemy)
-			enemy.health_component.current_hp = 0
-			if was_crouching and Input.is_action_pressed("crouch"):
-				start_crouch()
-			step_up.disabled = false
-			movement_override = false
+	if weapon.can_fire and Input.is_action_pressed("fire"):
+		weapon.fire(-camera.global_basis.z)
+	elif (weapon.can_fire or weapon.blocking) and Input.is_action_just_pressed("alt_fire"):
+		stealth_kill_enemy = check_stealth_kill()
+		if stealth_kill_enemy != null:
+			start_stealth_kill(stealth_kill_enemy)
+	
+	if stealth_kill_enemy == null and weapon.can_block:
+		if weapon.blocking and not Input.is_action_pressed("alt_fire"):
+			weapon.end_block()
+			weapon.blocking = false
+		if not weapon.blocking and Input.is_action_pressed("alt_fire"):
+			weapon.start_block()
+			weapon.blocking = true
+
+func check_stealth_kill() -> Enemy:
+	var end_pos = head.global_position + -camera.global_basis.z * weapon.weapon_range
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(head.global_position, end_pos, 0xFFFFFFFF, [Globals.player.get_rid()])
+	var result = space_state.intersect_ray(query)
+
+	if not (result and result.collider is Enemy):
+		return null
+	
+	var enemy:Enemy = result.collider
+	
+	if enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1):
+		return null
+	
+	return enemy
+
+func start_stealth_kill(enemy:Enemy):
+	weapon.can_block = false
+	weapon.can_swap = false
+	weapon.can_fire = false
+	velocity = Vector3.ZERO
+	var was_crouching = crouching
+	if crouching:
+		end_crouch()
+		await crouch_tween.finished
+		#update_step_up_position(Vector2.ZERO)
+	
+	if weapon.blocking:
+		weapon.end_block()
+	movement_override = true
+	step_up.disabled = true
+	enemy.enemy_ai.end_ai()
+	await weapon.stealth_kill(enemy)
+	enemy.health_component.current_hp = 0
+	if was_crouching and Input.is_action_pressed("crouch"):
+		start_crouch()
+	step_up.disabled = false
+	movement_override = false
+	weapon.can_block = true
+	weapon.can_swap = true
+	weapon.can_fire = true
 
 #endregion
 
@@ -304,10 +335,18 @@ func handle_distraction():
 func _on_distraction_timer_timeout() -> void:
 	distraction_ready = true
 
-func _on_health_component_hp_changed(old_hp: int, new_hp: int) -> void:
+func _on_health_component_hp_changed(old_hp: float, new_hp: float) -> void:
+	if new_hp < old_hp:
+		var damage = old_hp - new_hp
+		if weapon:
+			damage = weapon.block_modify_damage(damage)
+			guard_bar.value = weapon.current_guard
+		new_hp = old_hp - damage
+		health_component.current_hp = new_hp
+	
 	health_bar.value = new_hp
 
-func _on_health_component_max_hp_changed(old_max_hp: int, new_max_hp: int) -> void:
+func _on_health_component_max_hp_changed(_old_max_hp: float, new_max_hp: float) -> void:
 	health_bar.max_value = new_max_hp
 	
 #endregion

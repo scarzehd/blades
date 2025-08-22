@@ -1,4 +1,5 @@
 @tool
+@warning_ignore_start("shadowed_variable", "shadowed_variable_base_class")
 class_name Draw3D
 extends MeshInstance3D
 

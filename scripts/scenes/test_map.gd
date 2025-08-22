@@ -8,6 +8,9 @@ func _on_generator_generation_finished() -> void:
 	
 	generator.get_parent().remove_child(generator)
 	add_child(generator)
+	
+	await get_tree().create_timer(1).timeout
+	
 	for enemy in get_tree().get_nodes_in_group("enemy"):
 		if enemy is not Enemy:
 			continue

@@ -49,12 +49,13 @@ handle_input_locally = false
 unique_name_in_owner = true
 script = ExtResource("1_ss0f2")
 starting_tile = NodePath("Node3D")
-map_size = AABB(-100, -100, -100, 200, 200, 200)
+map_size = AABB(-20, -20, -20, 40, 40, 40)
 
 [node name="Node3D" parent="SubViewport/Generator" instance=ExtResource("4_p21b5")]
 
 [node name="GenTileConnection" parent="SubViewport/Generator/Node3D" index="0"]
 connection_data = SubResource("Resource_ss0f2")
+show_debug = null
 
 [node name="Node3D" parent="." instance=ExtResource("4_p21b5")]
 

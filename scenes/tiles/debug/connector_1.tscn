@@ -546,6 +546,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 7)
 script = ExtResource("2_a0wg8")
 connection_id = &"large_hall"
 connection_data = ExtResource("3_a0wg8")
+show_debug = null
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="GenTileConnection3" type="Marker3D" parent="."]
@@ -553,6 +554,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5
 script = ExtResource("2_a0wg8")
 connection_id = &"large_hall"
 connection_data = ExtResource("3_a0wg8")
+show_debug = null
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]

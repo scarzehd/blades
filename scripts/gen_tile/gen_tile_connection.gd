@@ -6,6 +6,7 @@ var generated:bool = false
 
 @export var connection_id:StringName
 @export var connection_data:GenTileConnectionData
+@export var show_debug:bool = true
 
 var possible_tiles:Array[PackedScene]
 
@@ -24,7 +25,7 @@ var door_sizes:Dictionary[StringName, AABB] = {
 
 func _ready() -> void:
 	direction = -global_basis.z
-	if Engine.is_editor_hint():
+	if Engine.is_editor_hint() or show_debug:
 		draw3d = Draw3D.new()
 		draw3d.draw_vertex_points = true
 		add_child(draw3d)
@@ -36,7 +37,7 @@ func _ready() -> void:
 	weights = Array(connection_data.weights)
 
 func _process(_delta: float) -> void:
-	if not Engine.is_editor_hint():
+	if not Engine.is_editor_hint() and not show_debug:
 		return
 	
 	draw3d.clear()

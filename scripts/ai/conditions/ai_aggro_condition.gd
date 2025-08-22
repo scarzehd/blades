@@ -14,5 +14,3 @@ func _check_condition(ai_state:AIState) -> bool:
 		return ai_state.aggro >= aggro_threshold
 	
 	return ai_state.aggro <= aggro_threshold
-	
-	return false

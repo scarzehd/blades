@@ -6,7 +6,6 @@ class_name Enemy
 @export var aggro_threshold:float
 @export var aggro_reset_time:float
 @export var aggro_reset_rate:float = 1
-@export var damage_aggro:float = 0.5
 @export var speed:float = 5
 
 @onready var sight_cone_detection:SightConeDetection = %SightCone
@@ -76,7 +75,7 @@ func _on_aggro_reset_timer_timeout() -> void:
 	enemy_ai.ai_state.aggro_dropping = true
 
 
-func _on_hp_changed(old_hp:int, new_hp:int) -> void:
+func _on_hp_changed(old_hp:float, new_hp:float) -> void:
 	health_bar.value = new_hp
 	# Check if hp was changed because of damage.
 	# Make sure hp didn't lower because max hp did.
@@ -84,20 +83,19 @@ func _on_hp_changed(old_hp:int, new_hp:int) -> void:
 		enemy_ai.end_ai()
 		return
 	if new_hp < old_hp and new_hp != health_component.max_hp:
-		enemy_ai.ai_state.aggro += damage_aggro
-		enemy_ai.ai_state.base_aggro += damage_aggro
+		enemy_ai.ai_state.aggro = aggro_threshold
 		aggro_reset_timer.start(aggro_reset_time)
 		enemy_ai.ai_state.aggro_dropping = false
 		enemy_ai.ai_state.last_attacked = Time.get_unix_time_from_system()
 		enemy_ai.ai_state.last_heard_player = Time.get_unix_time_from_system()
 
-func _on_max_hp_changed(_old_max_hp:int, new_max_hp:int) -> void:
+func _on_max_hp_changed(_old_max_hp:float, new_max_hp:float) -> void:
 	health_bar.max_value = new_max_hp
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 	var y = velocity.y
 	if safe_velocity.y > 0:
-		y = safe_velocity.y
+		y = move_toward(y, safe_velocity.y, safe_velocity.y)
 	velocity = Vector3(safe_velocity.x, y, safe_velocity.z)
 
 #endregion

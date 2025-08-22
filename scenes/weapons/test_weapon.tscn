@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://4eu4d3gvbwy1"]
+[gd_scene load_steps=13 format=3 uid="uid://4eu4d3gvbwy1"]
 
 [ext_resource type="PackedScene" uid="uid://bdaky7mrqddhm" path="res://scenes/weapons/weapon_base.tscn" id="1_bq81q"]
 [ext_resource type="Shader" uid="uid://b08fcv75doawb" path="res://shaders/weapon_clip_shader.gdshader" id="2_bq81q"]
@@ -74,6 +74,34 @@ tracks/1/keys = {
 "values": [Vector3(-2.05483, 0, 0), Vector3(0.468533, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_c72ij"]
+resource_name = "end_block"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.0438534, 0, -1.06818), Vector3(0.359754, 0, -0.810144)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.467748, 1.37532, 0), Vector3(0.468533, 0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_bq81q"]
 resource_name = "fire"
 tracks/0/type = "value"
@@ -99,6 +127,34 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0.468533, 0, 0), Vector3(0.678339, 0, 0), Vector3(-0.389279, 0, 0), Vector3(0.468533, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_figl5"]
+resource_name = "start_block"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.359754, 0, -0.810144), Vector3(-0.0438534, 0, -1.06818)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.468533, 0, 0), Vector3(0.467748, 1.37532, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_512ay"]
@@ -160,7 +216,9 @@ tracks/1/keys = {
 _data = {
 &"RESET": SubResource("Animation_2tnb3"),
 &"draw": SubResource("Animation_rrv11"),
+&"end_block": SubResource("Animation_c72ij"),
 &"fire": SubResource("Animation_bq81q"),
+&"start_block": SubResource("Animation_figl5"),
 &"stealth_kill": SubResource("Animation_512ay"),
 &"stow": SubResource("Animation_204qc")
 }
@@ -170,11 +228,12 @@ material = SubResource("ShaderMaterial_rrv11")
 size = Vector3(0.1, 0.1, 0.625)
 
 [node name="TestWeapon" instance=ExtResource("1_bq81q")]
-weapon_range = 2.0
+weapon_range = 3.0
 attack_interval = 0.5
 upswing = 0.15
 heft = 0.75
 kill_speed = 2.0
+guard = 5.0
 shader_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_rrv11")])
 
 [node name="AnimationPlayer" parent="." index="0"]

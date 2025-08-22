@@ -17,6 +17,7 @@ length = 0.5
 collision_mask = 5
 floor_snap_length = 0.5
 script = ExtResource("1_3vyb7")
+starting_weapon = ExtResource("4_tuyoq")
 distractions = Dictionary[PackedScene, float]({
 ExtResource("2_dqkch"): 1.0,
 ExtResource("3_tuyoq"): 1.0
@@ -37,8 +38,6 @@ physics_interpolation_mode = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 top_level = true
 
-[node name="TestWeapon" parent="WeaponContainer" instance=ExtResource("4_tuyoq")]
-
 [node name="Head" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -51,8 +50,8 @@ fov = 90.0
 [node name="HealthComponent" type="Area3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_qhqgy")
-max_hp = 10
-current_hp = 10
+max_hp = 10.0
+current_hp = 10.0
 metadata/_custom_type_script = "uid://c8360ter7oppu"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent"]

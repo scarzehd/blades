@@ -45,10 +45,10 @@ func _start():
 	
 	enemy.navigation_agent.target_position = investigate_position
 
-func get_nearest(sounds:Array[SoundDefinition]) -> Vector3:
+func get_nearest(of_sounds:Array[SoundDefinition]) -> Vector3:
 	var closest:Vector3 = enemy.enemy_ai.ai_state.last_detected_player_pos
 	var closest_distance:float = closest.distance_to(enemy.global_position)
-	for sound in sounds:
+	for sound in of_sounds:
 		var distance = sound.position.distance_to(enemy.global_position)
 		if distance < closest_distance:
 			closest = sound.position
@@ -56,11 +56,11 @@ func get_nearest(sounds:Array[SoundDefinition]) -> Vector3:
 	
 	return closest
 
-func get_most_recent(sounds:Array[SoundDefinition]) -> Vector3:
-	if sounds.size() == 0:
+func get_most_recent(of_sounds:Array[SoundDefinition]) -> Vector3:
+	if of_sounds.size() == 0:
 		return enemy.enemy_ai.ai_state.last_detected_player_pos
 	
-	var most_recent_sound = sounds[0]
+	var most_recent_sound = of_sounds[0]
 	if enemy.enemy_ai.ai_state.last_detected_player > most_recent_sound.time:
 		return enemy.enemy_ai.ai_state.last_detected_player_pos
 	
