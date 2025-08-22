@@ -113,17 +113,17 @@ func end_block():
 	can_fire = true
 	return null
 
-func block_modify_damage(damage:float) -> float:
+func block_modify_damage(old_damage:float) -> float:
 	if not blocking:
-		return damage
-	if damage > current_guard:
-		damage -= current_guard
+		return old_damage
+	if old_damage > current_guard:
+		old_damage -= current_guard
 		current_guard = 0
 	else:
-		current_guard -= damage
-		damage = 0
+		current_guard -= old_damage
+		old_damage = 0
 	
 	if current_guard <= 0:
 		Globals.player.unequip_weapon.call_deferred()
 	
-	return damage
+	return old_damage
