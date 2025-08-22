@@ -2,11 +2,9 @@
 extends Marker3D
 class_name GenTileConnection
 
-var generated:bool = false
-
 @export var connection_id:StringName
 @export var connection_data:GenTileConnectionData
-@export var show_debug:bool = true
+@export var show_debug:bool = false
 
 var possible_tiles:Array[PackedScene]
 

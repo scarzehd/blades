@@ -148,6 +148,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
 script = ExtResource("2_17e3i")
 connection_id = &"small_hall"
 connection_data = ExtResource("3_3pwdn")
+show_debug = true
 metadata/_custom_type_script = "uid://qu883h1yuwhw"
 
 [node name="block0" type="Node3D" parent="."]
