@@ -264,16 +264,16 @@ func handle_weapon_input():
 			weapon.blocking = true
 
 func check_stealth_kill() -> Enemy:
-	var end_pos = head.global_position + -camera.global_basis.z * weapon.weapon_range
-	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(head.global_position, end_pos, 0xFFFFFFFF, [Globals.player.get_rid()])
-	var result = space_state.intersect_ray(query)
-
-	if not (result and result.collider is Enemy):
-		return null
-	
-	var enemy:Enemy = result.collider
-	
+	#var end_pos = head.global_position + -camera.global_basis.z * weapon.weapon_range
+	#var space_state = get_world_3d().direct_space_state
+	#var query = PhysicsRayQueryParameters3D.create(head.global_position, end_pos, 0xFFFFFFFF, [Globals.player.get_rid()])
+	#var result = space_state.intersect_ray(query)
+#
+	#if not (result and result.collider is Enemy):
+		#return null
+	#
+	#var enemy:Enemy = result.collider
+	var enemy := weapon.get_targeted_enemy(-camera.global_basis.z)
 	if enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1):
 		return null
 	

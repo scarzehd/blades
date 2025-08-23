@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bdaky7mrqddhm"]
+[gd_scene load_steps=3 format=3 uid="uid://bdaky7mrqddhm"]
 
 [ext_resource type="Script" uid="uid://dqkl1p6vguphm" path="res://scripts/weapon.gd" id="1_v4xn6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v4xn6"]
+size = Vector3(1, 0.1, 0.1)
 
 [node name="WeaponBase" type="Node3D"]
 script = ExtResource("1_v4xn6")
@@ -13,3 +16,14 @@ unique_name_in_owner = true
 
 [node name="FireRateTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+
+[node name="ParryTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("BoxShape3D_v4xn6")
+target_position = Vector3(0, 0, 0)
+collision_mask = 2
+collide_with_areas = true

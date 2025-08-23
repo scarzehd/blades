@@ -80,6 +80,7 @@ func _on_hp_changed(old_hp:float, new_hp:float) -> void:
 	# Check if hp was changed because of damage.
 	# Make sure hp didn't lower because max hp did.
 	if new_hp <= 0:
+		velocity = Vector3.ZERO
 		enemy_ai.end_ai()
 		return
 	if new_hp < old_hp and new_hp != health_component.max_hp:

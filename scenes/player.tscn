@@ -14,7 +14,7 @@
 length = 0.5
 
 [node name="Player" type="CharacterBody3D"]
-collision_mask = 5
+collision_mask = 9
 floor_snap_length = 0.5
 script = ExtResource("1_3vyb7")
 starting_weapon = ExtResource("4_tuyoq")
@@ -49,6 +49,8 @@ fov = 90.0
 
 [node name="HealthComponent" type="Area3D" parent="."]
 unique_name_in_owner = true
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("3_qhqgy")
 max_hp = 10.0
 current_hp = 10.0
