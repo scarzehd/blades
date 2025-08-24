@@ -16,6 +16,7 @@ class_name Weapon
 @export var guard:float = 1 ## As an inverse multiplier to the increase in the tension meter on block.
 @export var guard_upswing:float = 0.1 ## The amount of time between pressing alt fire and the guard actually starting
 @export var parry_window:float = 1 ## The length of the parry window in seconds after the guard upswing.
+@export_range(0, 360, 1, "radians_as_degrees") var guard_angle:float = deg_to_rad(30)
 
 @export var shader_materials:Array[ShaderMaterial]
 
@@ -37,7 +38,7 @@ var parrying:bool :
 func _ready() -> void:
 	shape_cast.target_position = Vector3.FORWARD * weapon_range
 
-func get_targeted_enemy(direction:Vector3) -> Enemy:
+func get_targeted_enemy() -> Enemy:
 	shape_cast.force_shapecast_update()
 	
 	if not shape_cast.is_colliding():
@@ -62,7 +63,7 @@ func get_targeted_enemy(direction:Vector3) -> Enemy:
 	
 	return closest
 
-func fire(direction:Vector3):
+func fire():
 	if not can_fire:
 		return
 	
@@ -77,7 +78,7 @@ func fire(direction:Vector3):
 	upswing_timer.start(upswing)
 	await upswing_timer.timeout
 
-	var enemy = get_targeted_enemy(direction)
+	var enemy = get_targeted_enemy()
 
 	if enemy and enemy is Enemy:
 		enemy.health_component.set_hp(enemy.health_component.current_hp - damage, Globals.player)
@@ -158,9 +159,17 @@ func end_block():
 func block_modify_damage(old_damage:float, source) -> float:
 	if not blocking:
 		return old_damage
+	if source is not Node3D:
+		return old_damage
+	
+	var direction_to_source = Globals.player.global_position.direction_to(source.global_position)
+	
+	if (-Globals.player.camera.global_basis.z).angle_to(direction_to_source) > guard_angle:
+		return old_damage
+	
 	if parrying:
 		if source and source is Enemy:
-			print(source)
+			source.set_stun_timer(3) ## TODO fix magic number
 		return 0
 	if old_damage > current_guard:
 		old_damage -= current_guard

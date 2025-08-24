@@ -249,7 +249,7 @@ func handle_weapon_input():
 	var stealth_kill_enemy:Enemy = null
 	
 	if weapon.can_fire and Input.is_action_pressed("fire"):
-		weapon.fire(-camera.global_basis.z)
+		weapon.fire()
 	elif (weapon.can_fire or weapon.blocking) and Input.is_action_just_pressed("alt_fire"):
 		stealth_kill_enemy = check_stealth_kill()
 		if stealth_kill_enemy != null:
@@ -273,7 +273,7 @@ func check_stealth_kill() -> Enemy:
 		#return null
 	#
 	#var enemy:Enemy = result.collider
-	var enemy := weapon.get_targeted_enemy(-camera.global_basis.z)
+	var enemy := weapon.get_targeted_enemy()
 	if not enemy or enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1):
 		return null
 	

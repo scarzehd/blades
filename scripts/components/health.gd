@@ -23,4 +23,4 @@ func set_hp(new_value:float, source):
 	var old_hp = current_hp
 	var new_hp = clamp(new_value, 0, max_hp)
 	current_hp = new_hp
-	hp_changed.emit(old_hp, new_hp, null)
+	hp_changed.emit(old_hp, new_hp, source)
