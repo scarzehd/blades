@@ -6,7 +6,7 @@ GODOT="$HOME/dev/Godot_v4.4.1-stable_linux.x86_64"
 
 if [ ! -f $GODOT ]; then
 	echo "Godot executable not found. Nothing has been changed."
-	return 1
+	exit
 fi
 
 read -p "This will delete all current builds. Are you sure you want to continue? [y/N] " -n 1 -r
@@ -14,7 +14,7 @@ echo
 
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 	echo "Make backups and try again."
-	return 1
+	exit
 fi
 
 rm windows/*
