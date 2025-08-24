@@ -65,7 +65,7 @@ func start_attack():
 		query.collide_with_bodies = false
 		var result = space_state.intersect_ray(query)
 		if result and result.collider.owner is Player:
-			Globals.player.health_component.current_hp -= damage
+			Globals.player.health_component.set_hp(Globals.player.health_component.current_hp - damage, enemy)
 	
 	await get_tree().create_timer(attack_interval - upswing).timeout
 	attacking = false

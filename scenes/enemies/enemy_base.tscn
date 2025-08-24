@@ -52,6 +52,9 @@ metadata/_custom_type_script = "uid://c8360ter7oppu"
 [node name="AggroResetTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 
+[node name="StunTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
 [node name="SightCone" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -147,4 +150,5 @@ script = ExtResource("5_xdb20")
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="max_hp_changed" from="HealthComponent" to="." method="_on_max_hp_changed"]
 [connection signal="timeout" from="AggroResetTimer" to="." method="_on_aggro_reset_timer_timeout"]
+[connection signal="timeout" from="StunTimer" to="." method="end_stun"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]

@@ -55,7 +55,7 @@ func _ready() -> void:
 	
 	equip_weapon(starting_weapon)
 	
-	_on_health_component_hp_changed(0, health_component.current_hp)
+	_on_health_component_hp_changed(0, health_component.current_hp, null)
 	_on_health_component_max_hp_changed(0, health_component.max_hp)
 
 func _process(_delta: float) -> void:
@@ -274,7 +274,7 @@ func check_stealth_kill() -> Enemy:
 	#
 	#var enemy:Enemy = result.collider
 	var enemy := weapon.get_targeted_enemy(-camera.global_basis.z)
-	if enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1):
+	if not enemy or enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1):
 		return null
 	
 	return enemy
@@ -296,7 +296,7 @@ func start_stealth_kill(enemy:Enemy):
 	step_up.disabled = true
 	enemy.enemy_ai.end_ai()
 	await weapon.stealth_kill(enemy)
-	enemy.health_component.current_hp = 0
+	enemy.health_component.set_hp(0, self)
 	if was_crouching and Input.is_action_pressed("crouch"):
 		start_crouch()
 	step_up.disabled = false
@@ -335,11 +335,11 @@ func handle_distraction():
 func _on_distraction_timer_timeout() -> void:
 	distraction_ready = true
 
-func _on_health_component_hp_changed(old_hp: float, new_hp: float) -> void:
+func _on_health_component_hp_changed(old_hp: float, new_hp: float, source) -> void:
 	if new_hp < old_hp:
 		var damage = old_hp - new_hp
 		if weapon:
-			damage = weapon.block_modify_damage(damage)
+			damage = weapon.block_modify_damage(damage, source)
 			guard_bar.value = weapon.current_guard
 		new_hp = old_hp - damage
 		health_component.current_hp = new_hp
@@ -348,5 +348,5 @@ func _on_health_component_hp_changed(old_hp: float, new_hp: float) -> void:
 
 func _on_health_component_max_hp_changed(_old_max_hp: float, new_max_hp: float) -> void:
 	health_bar.max_value = new_max_hp
-	
+
 #endregion

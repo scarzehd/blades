@@ -18,6 +18,9 @@ class_name Enemy
 @onready var enemy_ai:EnemyAI = %EnemyAI
 @onready var navigation_agent:NavigationAgent3D = %NavigationAgent3D
 @onready var animation_player:AnimationPlayer = $AnimationPlayer
+@onready var stun_timer:Timer = %StunTimer
+
+var stunned:bool = false
 
 func _ready() -> void:
 	aggro_meter.max_value = aggro_threshold
@@ -69,13 +72,18 @@ func set_desired_velocity(new_desired_velocity:Vector3):
 	else:
 		_on_navigation_agent_3d_velocity_computed(new_desired_velocity)
 
+func set_stun_timer(time:float):
+	enemy_ai.end_ai()
+	stunned = true
+	stun_timer.start(time)
+
 #region Signal Callbacks
 
 func _on_aggro_reset_timer_timeout() -> void:
 	enemy_ai.ai_state.aggro_dropping = true
 
 
-func _on_hp_changed(old_hp:float, new_hp:float) -> void:
+func _on_hp_changed(old_hp:float, new_hp:float, source) -> void:
 	health_bar.value = new_hp
 	# Check if hp was changed because of damage.
 	# Make sure hp didn't lower because max hp did.
@@ -98,5 +106,9 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 	if safe_velocity.y > 0:
 		y = move_toward(y, safe_velocity.y, safe_velocity.y)
 	velocity = Vector3(safe_velocity.x, y, safe_velocity.z)
+
+func end_stun() -> void:
+	stunned = false
+	enemy_ai.start_ai()
 
 #endregion

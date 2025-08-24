@@ -80,7 +80,7 @@ func fire(direction:Vector3):
 	var enemy = get_targeted_enemy(direction)
 
 	if enemy and enemy is Enemy:
-		enemy.health_component.current_hp -= damage
+		enemy.health_component.set_hp(enemy.health_component.current_hp - damage, Globals.player)
 	#var end_pos = Globals.player.head.global_position + direction * weapon_range
 	#var space_state = get_world_3d().direct_space_state
 	#var query = PhysicsRayQueryParameters3D.create(Globals.player.head.global_position, end_pos, 2, [Globals.player.get_rid()])
@@ -155,10 +155,12 @@ func end_block():
 	return null
 
 ## Returns the amount of damage left over to the player's health after blocking.
-func block_modify_damage(old_damage:float) -> float:
+func block_modify_damage(old_damage:float, source) -> float:
 	if not blocking:
 		return old_damage
 	if parrying:
+		if source and source is Enemy:
+			print(source)
 		return 0
 	if old_damage > current_guard:
 		old_damage -= current_guard
