@@ -31,11 +31,9 @@ func generate():
 	if set_pieces.size() > 0 and set_pieces.size() == set_piece_distance.size():
 		var current_tile:GenTile = starting_tile
 		var set_piece_scene = set_pieces[0]
-		var set_piece_scene_path = ResourceUID.get_id_path(ResourceUID.text_to_id(set_piece_scene))
 		var set_piece:GenTile = create_tile(load(set_piece_scene))
 		var target_distance = set_piece_distance[0]
 		var distance_traveled := 0
-		var placed = false
 		while distance_traveled < target_distance:
 			distance_traveled += 1
 			await debug_halt()
@@ -166,7 +164,6 @@ func generate():
 					#print(true)
 					#continue
 				
-				placed = true
 				set_tile_placed(set_piece)
 				for connection in set_piece.connections:
 					if connection == current_opposite_connection:
