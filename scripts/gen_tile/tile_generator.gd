@@ -154,15 +154,12 @@ func generate():
 				await get_tree().physics_frame
 				var results = check_tile_collision(set_piece)
 				var end = false
-				print(current_tile)
 				for result in results:
-					print(result)
 					if result == current_connection.tile:
 						continue
 					end = true
 					break
 				
-				print(connections_left)
 				if end:
 					continue
 				#if check_tile_collision(set_piece):
@@ -176,8 +173,6 @@ func generate():
 						continue
 					connections_left.append(connection)
 				connections_left.erase(current_connection)
-	
-		print(placed)
 	
 	while connections_left.size() > 0:
 		await debug_halt()
