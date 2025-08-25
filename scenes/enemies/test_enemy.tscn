@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0p3167fn7pmg"]
+[gd_scene load_steps=17 format=3 uid="uid://c0p3167fn7pmg"]
 
 [ext_resource type="PackedScene" uid="uid://b1ekkl4kdiau6" path="res://scenes/enemies/enemy_base.tscn" id="1_pnhpx"]
 [ext_resource type="Script" uid="uid://bej8y0vd5spcu" path="res://scripts/ai/ai_transition.gd" id="3_8ybkn"]
@@ -9,21 +9,13 @@
 [ext_resource type="Script" uid="uid://dc4u21h0jjdct" path="res://scripts/ai/conditions/ai_detected_player_condition.gd" id="6_iwdv7"]
 [ext_resource type="Script" uid="uid://d3hwpo0a5yfrv" path="res://scripts/ai/behaviors/ai_investigate_behavior.gd" id="8_iwdv7"]
 [ext_resource type="Script" uid="uid://cyi8eynf8b1nu" path="res://scripts/ai/behaviors/ai_attack_behavior.gd" id="9_itg6w"]
+[ext_resource type="PackedScene" uid="uid://dxhvltbify672" path="res://assets/blender/enemies/test_enemy.blend" id="10_oq0fo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pnhpx"]
 radius = 0.4
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_kmxma"]
 viewport_path = NodePath("Sprite3D/SubViewport")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_pnhpx"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iwdv7"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_pnhpx"]
-material = SubResource("StandardMaterial3D_iwdv7")
-size = Vector3(0.6, 0.2, 0.2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_itg6w"]
 size = Vector3(0.2, 1, 0.2)
@@ -100,14 +92,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 [node name="Sprite3D" parent="." index="4"]
 texture = SubResource("ViewportTexture_kmxma")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="5"]
-mesh = SubResource("CapsuleMesh_pnhpx")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
-mesh = SubResource("BoxMesh_pnhpx")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="6"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="5"]
 shape = SubResource("CapsuleShape3D_pnhpx")
 
 [node name="PursueTransition" type="Node3D" parent="EnemyAI" index="0" node_paths=PackedStringArray("target_behavior")]
@@ -167,11 +152,13 @@ upswing = 0.1
 attack_interval = 1.0
 metadata/_custom_type_script = "uid://cyi8eynf8b1nu"
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="9"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="8"]
 transform = Transform3D(1, 0, 0, 0, 0.906307, 0.422618, 0, -0.422618, 0.906307, 0.6, 0, -0.7)
 mesh = SubResource("BoxMesh_itg6w")
 
-[node name="AnimationPlayer" parent="." index="10"]
+[node name="AnimationPlayer" parent="." index="9"]
 libraries = {
 &"": SubResource("AnimationLibrary_oq0fo")
 }
+
+[node name="test_enemy" parent="." index="10" instance=ExtResource("10_oq0fo")]
