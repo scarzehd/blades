@@ -23,7 +23,7 @@ var door_sizes:Dictionary[StringName, AABB] = {
 
 func _ready() -> void:
 	direction = -global_basis.z
-	if Engine.is_editor_hint():
+	if Engine.is_editor_hint() or show_debug:
 		draw3d = Draw3D.new()
 		draw3d.draw_vertex_points = true
 		add_child(draw3d)

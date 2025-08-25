@@ -8,6 +8,11 @@ var temp_tiles:Array[GenTile]
 
 var placed_tiles:Array[GenTile]
 
+## Set pieces are tiles that are guaranteed to generate exactly once.
+## Currently, only the first set piece is used.
+@export_file("*.tscn") var set_pieces:Array[String]
+@export var set_piece_distance:Array[int]
+
 @export var debug_step:bool = false
 
 signal generation_finished
@@ -21,13 +26,166 @@ func generate():
 	
 	set_tile_placed(starting_tile)
 	
+	# Generate set pieces
+	
+	if set_pieces.size() > 0 and set_pieces.size() == set_piece_distance.size():
+		var current_tile:GenTile = starting_tile
+		var set_piece_scene = set_pieces[0]
+		var set_piece_scene_path = ResourceUID.get_id_path(ResourceUID.text_to_id(set_piece_scene))
+		var set_piece:GenTile = create_tile(load(set_piece_scene))
+		var target_distance = set_piece_distance[0]
+		var distance_traveled := 0
+		var placed = false
+		while distance_traveled < target_distance:
+			distance_traveled += 1
+			await debug_halt()
+			var current_connection:GenTileConnection = current_tile.connections.pick_random()
+			var possible_tiles:Array[GenTile]
+			var possible_tile_scenes:Array[String]
+			var weights:Array[float]
+			
+			# Find tiles that have the same connection ID, and can lead to the set piece
+			for i in range(current_connection.possible_tiles.size()):
+				var scene = current_connection.possible_tiles[i]
+				var tile := create_tile(scene)
+				
+				var matching_self = false
+				var matching_set_piece = false
+				
+				#if scene.resource_path == set_piece_scene_path:
+					#matching_set_piece = true
+				
+				for potential_connection in tile.connections:
+					if not matching_set_piece:
+						for connection in set_piece.connections:
+							if connection.connection_id == potential_connection.connection_id:
+								matching_set_piece = true
+								break
+						#for tile_scene in potential_connection.connection_data.possible_tiles:
+							#if tile_scene == set_piece_scene:
+								#matching_set_piece = true
+								#break
+						if matching_set_piece:
+							continue # If there's a connection matching self, that connection can't also connect to the set piece
+					if potential_connection.connection_id == current_connection.connection_id and not matching_self:
+						matching_self = true
+					
+				
+				if matching_self and matching_set_piece:
+					possible_tiles.append(tile)
+					weights.append(current_connection.weights[i])
+					possible_tile_scenes.append(scene.resource_path)
+			
+			# Keep picking random tiles until we find one that fits or run out of options
+			var chosen_tile:GenTile = null
+			var chosen_connection:GenTileConnection = null
+			while possible_tiles.size() > 0:
+				var new_tile:GenTile = Utils.pick_random_weighted(possible_tiles, weights)
+				# We did this earlier but it'll be kind of a hassle to store the result.
+				# If it's slow, this is the place to start.
+				var opposite_connections = new_tile.connections.filter(func(connection): return connection.connection_id == current_connection.connection_id)
+				await get_tree().physics_frame
+				while opposite_connections.size() > 0:
+					var end = false
+					var current_opposite_connection:GenTileConnection = opposite_connections.pick_random()
+					match_connections(current_connection, current_opposite_connection, new_tile)
+					await debug_halt()
+					if not map_size.has_point(new_tile.collision_shape.global_position):
+						opposite_connections.erase(current_opposite_connection)
+						end = true
+						break
+					
+					await get_tree().physics_frame
+					var results = check_tile_collision(new_tile)
+					
+					for result in results:
+						if result != current_connection.tile:
+							opposite_connections.erase(current_opposite_connection)
+							end = true
+							break
+
+					if end:
+						new_tile.position = Vector3.ZERO
+						continue
+					
+					chosen_connection = current_opposite_connection
+					break
+				
+				if chosen_connection:
+					chosen_tile = new_tile
+					break
+				
+				var i = possible_tiles.find(new_tile)
+				possible_tiles.erase(new_tile)
+				possible_tile_scenes.remove_at(i)
+				weights.remove_at(i)
+			
+			if chosen_tile:
+				set_tile_placed(chosen_tile)
+				for connection in chosen_tile.connections:
+					if connection == chosen_connection:
+						continue
+					connections_left.append(connection)
+				connections_left.erase(chosen_connection)
+				current_tile = chosen_tile
+				connections_left.erase(current_connection)
+				#if possible_tile_scenes[possible_tiles.find(chosen_tile)] == set_piece_scene_path:
+					#placed = true
+					#distance_traveled = target_distance
+		#if not placed:
+		var set_piece_connections:Array[StringName]
+		for connection in set_piece.connections:
+			if not set_piece_connections.has(connection.connection_id):
+				set_piece_connections.append(connection.connection_id)
+		
+		var possible_connections:Array[GenTileConnection] = connections_left.filter(func(connection): return set_piece_connections.has(connection.connection_id))
+		
+		while possible_connections.size() > 0:
+			var current_connection:GenTileConnection = possible_connections.pick_random()
+			possible_connections.erase(current_connection)
+			connections_left.erase(current_connection)
+			var possible_opposite_connections:Array[GenTileConnection] = set_piece.connections.filter(func(connection): return connection.connection_id == current_connection.connection_id)
+			
+			while possible_opposite_connections.size() > 0:
+				var current_opposite_connection:GenTileConnection = possible_opposite_connections.pick_random()
+				possible_opposite_connections.erase(current_opposite_connection)
+				
+				match_connections(current_connection, current_opposite_connection, set_piece)
+				await get_tree().physics_frame
+				var results = check_tile_collision(set_piece)
+				var end = false
+				print(current_tile)
+				for result in results:
+					print(result)
+					if result == current_connection.tile:
+						continue
+					end = true
+					break
+				
+				print(connections_left)
+				if end:
+					continue
+				#if check_tile_collision(set_piece):
+					#print(true)
+					#continue
+				
+				placed = true
+				set_tile_placed(set_piece)
+				for connection in set_piece.connections:
+					if connection == current_opposite_connection:
+						continue
+					connections_left.append(connection)
+				connections_left.erase(current_connection)
+	
+		print(placed)
+	
 	while connections_left.size() > 0:
 		await debug_halt()
 		var current_connection:GenTileConnection = connections_left.pick_random()
 		var possible_tiles:Array[GenTile]
 		var weights:Array[float]
 		
-		# Find tiles that have the same connection ID and opposite direction
+		# Find tiles that have the same connection ID
 		for i in range(current_connection.possible_tiles.size()):
 			var scene = current_connection.possible_tiles[i]
 			var tile := create_tile(scene)
@@ -39,8 +197,6 @@ func generate():
 		
 		# Keep picking random tiles until we find one that fits or run out of options
 		var chosen_tile:GenTile = null
-		var desired_position:Vector3
-		var desired_rotation:float
 		var chosen_connection:GenTileConnection = null
 		while possible_tiles.size() > 0:
 			var current_tile:GenTile = Utils.pick_random_weighted(possible_tiles, weights)
@@ -51,58 +207,22 @@ func generate():
 			while opposite_connections.size() > 0:
 				var end = false
 				var current_opposite_connection:GenTileConnection = opposite_connections.pick_random()
-				desired_rotation = atan2((-current_opposite_connection.direction).z, (-current_opposite_connection.direction).x) - atan2(current_connection.direction.z, current_connection.direction.x)
-				current_tile.global_rotation = Vector3(0, desired_rotation, 0)
-				desired_position = current_connection.global_position - current_opposite_connection.global_position
-				current_tile.global_position = desired_position
+				match_connections(current_connection, current_opposite_connection, current_tile)
 				await debug_halt()
-				#var current_transform = current_tile.global_transform.translated(desired_position)
 				if not map_size.has_point(current_tile.collision_shape.global_position):
 					opposite_connections.erase(current_opposite_connection)
 					end = true
 					break
 				
-				var query := PhysicsShapeQueryParameters3D.new()
-				query.collide_with_areas = true
-				query.collide_with_bodies = false
-				query.collision_mask = 4
-				query.shape_rid = current_tile.collision_shape.shape.get_rid()
-				query.exclude = [current_connection.tile.area.get_rid()]
-				query.transform = current_tile.collision_shape.global_transform
-				var space_state = get_world_3d().direct_space_state
-				#
-				#var results = space_state.intersect_shape(query)
-				#var shape_cast:ShapeCast3D = ShapeCast3D.new()
-				#shape_cast.shape = current_tile.collision_shape.shape
-				#shape_cast.collide_with_areas = true
-				#shape_cast.collide_with_bodies = false
-				#add_child(shape_cast)
-				#shape_cast.position = current_tile.collision_shape.global_position
-				#shape_cast.collision_mask = 4
-				#
-				#shape_cast.force_shapecast_update()
-				
-				var results = space_state.intersect_shape(query)
+				await get_tree().physics_frame
+				var results = check_tile_collision(current_tile)
 				
 				for result in results:
-					#var node = instance_from_id(result.collider_id)
-					#var parent = node.get_parent()
-					var parent = result.collider.get_parent()
-					#print(result.collider.name + ", " + str(result.shape))
-					if parent is GenTile and placed_tiles.has(parent) and parent != current_tile and parent != current_connection.tile:
+					if result != current_connection.tile:
 						opposite_connections.erase(current_opposite_connection)
-						#print("Tile " + current_tile.name + " intersects tile " + parent.name)
 						end = true
 						break
-				
-				#shape_cast.queue_free()
-					
-					#if placed_tile.intersecting_tiles.has(current_tile):
-						#opposite_connections.erase(current_opposite_connection)
-						#print("Tile " + current_tile.name + " intersects tile " + placed_tile.name)
-						#end = true
-						#break
-				
+
 				if end:
 					current_tile.position = Vector3.ZERO
 					continue
@@ -116,25 +236,20 @@ func generate():
 			
 			if chosen_connection:
 				chosen_tile = current_tile
-				#possible_tiles.erase(chosen_tile)
 				break
 		
 		if not chosen_tile:
 			chosen_tile = create_tile(load(current_connection.connection_data.fallback_tile))
 			chosen_connection = chosen_tile.connections[0]
-			desired_rotation = atan2((-chosen_connection.direction).z, (-chosen_connection.direction).x) - atan2(current_connection.direction.z, current_connection.direction.x)
-			chosen_tile.global_rotation = Vector3(0, desired_rotation, 0)
-			desired_position = current_connection.global_position - chosen_connection.global_position
+			match_connections(current_connection, chosen_connection, chosen_tile)
 		
 		if chosen_tile:
-			chosen_tile.global_position = desired_position
 			set_tile_placed(chosen_tile)
 			for connection in chosen_tile.connections:
-				connection.direction = connection.direction.rotated(Vector3.UP, desired_rotation)
 				if connection == chosen_connection:
 					continue
 				connections_left.append(connection)
-			#connections_left.erase(chosen_connection)
+			connections_left.erase(chosen_connection)
 		
 		connections_left.erase(current_connection)
 	
@@ -187,3 +302,30 @@ func debug_halt():
 			if Input.is_action_just_pressed("debug_step"):
 				break
 	return null
+
+func match_connections(current_connection:GenTileConnection, opposite_connection:GenTileConnection, opposite_tile:GenTile):
+	var desired_rotation = atan2((-opposite_connection.direction).z, (-opposite_connection.direction).x) - atan2(current_connection.direction.z, current_connection.direction.x)
+	opposite_tile.global_rotation = Vector3(0, desired_rotation, 0)
+	opposite_tile.global_position = current_connection.global_position - opposite_connection.global_position
+	for connection in opposite_tile.connections:
+		connection.direction = (-connection.global_basis.z)
+
+func check_tile_collision(tile:GenTile) -> Array[GenTile]:
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	query.collision_mask = 4
+	query.shape_rid = tile.collision_shape.shape.get_rid()
+	query.exclude = [tile.area.get_rid()]
+	query.transform = tile.collision_shape.global_transform
+	var space_state = get_world_3d().direct_space_state
+	var results = space_state.intersect_shape(query)
+	
+	var tiles:Array[GenTile]
+	
+	for result in results:
+		var parent = result.collider.get_parent()
+		if parent is GenTile and placed_tiles.has(parent):
+			tiles.append(parent)
+	
+	return tiles
