@@ -18,6 +18,8 @@ class_name Weapon
 @export var parry_window:float = 1 ## The length of the parry window in seconds after the guard upswing.
 @export_range(0, 360, 1, "radians_as_degrees") var guard_angle:float = deg_to_rad(30)
 
+@export var desired_kill_distance:float = 1
+
 @export var shader_materials:Array[ShaderMaterial]
 
 var can_swap:bool = true
@@ -126,9 +128,19 @@ func stealth_kill(enemy:Enemy):
 	tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	tween.set_parallel()
 	
-	var old_camera_transform = player.camera.global_transform
-	var target_camera_transform = player.camera.global_transform.looking_at(enemy.global_position)
+	var direction_to_player = enemy.global_position.direction_to(player.global_position)
+	
+	var desired_position = enemy.global_position + (direction_to_player * desired_kill_distance)
+	
+	var position_difference = desired_position - player.global_position
+	
+	tween.tween_property(player, "global_position", desired_position, 0.2)
+	
+	var old_camera_transform = player.camera.global_transform.translated(position_difference)
+	var target_camera_transform = old_camera_transform.looking_at(enemy.global_position)
 	tween.tween_property(player.camera, "global_transform", target_camera_transform, 0.2)
+	var enemy_desired_transform = enemy.global_transform.looking_at(Vector3(enemy.global_position.x - direction_to_player.x, enemy.global_position.y, enemy.global_position.z - direction_to_player.z))
+	tween.tween_property(enemy, "global_transform", enemy_desired_transform, 0.2)
 	await tween.finished
 	animation_player.play("stealth_kill", -1, kill_speed)
 	await animation_player.animation_finished
