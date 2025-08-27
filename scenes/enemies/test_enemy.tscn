@@ -95,6 +95,9 @@ texture = SubResource("ViewportTexture_kmxma")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="5"]
 shape = SubResource("CapsuleShape3D_pnhpx")
 
+[node name="NavigationAgent3D" parent="." index="6"]
+path_height_offset = -0.6
+
 [node name="PursueTransition" type="Node3D" parent="EnemyAI" index="0" node_paths=PackedStringArray("target_behavior")]
 script = ExtResource("3_8ybkn")
 target_behavior = NodePath("../AIAttackBehavior")

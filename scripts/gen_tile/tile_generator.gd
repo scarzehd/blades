@@ -188,8 +188,8 @@ func generate():
 					break
 		
 		# Keep picking random tiles until we find one that fits or run out of options
-		var chosen_tile:GenTile = null
-		var chosen_connection:GenTileConnection = null
+		var chosen_tile:GenTile
+		var chosen_connection:GenTileConnection
 		while possible_tiles.size() > 0:
 			var current_tile:GenTile = Utils.pick_random_weighted(possible_tiles, weights)
 			# We did this earlier but it'll be kind of a hassle to store the result.
@@ -299,8 +299,6 @@ func match_connections(current_connection:GenTileConnection, opposite_connection
 	var desired_rotation = atan2((-opposite_connection.direction).z, (-opposite_connection.direction).x) - atan2(current_connection.direction.z, current_connection.direction.x)
 	opposite_tile.global_rotation = Vector3(0, desired_rotation, 0)
 	opposite_tile.global_position = current_connection.global_position - opposite_connection.global_position
-	for connection in opposite_tile.connections:
-		connection.direction = (-connection.global_basis.z)
 
 func check_tile_collision(tile:GenTile) -> Array[GenTile]:
 	var query := PhysicsShapeQueryParameters3D.new()

@@ -4,7 +4,7 @@ class_name GenTileConnection
 
 @export var connection_id:StringName
 @export var connection_data:GenTileConnectionData
-@export var show_debug:bool = false
+@export var show_debug:bool = true
 
 var possible_tiles:Array[PackedScene]
 
@@ -12,7 +12,9 @@ var weights:Array[float]
 
 var tile:GenTile
 var draw3d:Draw3D
-var direction:Vector3 = Vector3.FORWARD
+var direction:Vector3 :
+	get():
+		return -global_basis.z
 
 var door_sizes:Dictionary[StringName, AABB] = {
 	"small_door": AABB(Vector3(-1, -1.5, 0), Vector3(2, 3, 1)).grow(-0.01),
@@ -22,7 +24,6 @@ var door_sizes:Dictionary[StringName, AABB] = {
 
 
 func _ready() -> void:
-	direction = -global_basis.z
 	if Engine.is_editor_hint() or show_debug:
 		draw3d = Draw3D.new()
 		draw3d.draw_vertex_points = true
