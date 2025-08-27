@@ -83,7 +83,7 @@ func _on_aggro_reset_timer_timeout() -> void:
 	enemy_ai.ai_state.aggro_dropping = true
 
 
-func _on_hp_changed(old_hp:float, new_hp:float, source) -> void:
+func _on_hp_changed(old_hp:float, new_hp:float, _source) -> void:
 	health_bar.value = new_hp
 	# Check if hp was changed because of damage.
 	# Make sure hp didn't lower because max hp did.

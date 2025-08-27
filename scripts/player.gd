@@ -249,7 +249,7 @@ func handle_weapon_input():
 	var stealth_kill_enemy:Enemy = null
 	
 	if weapon.can_fire and Input.is_action_pressed("fire"):
-		weapon.fire(-camera.global_basis.z)
+		weapon.fire()
 	elif (weapon.can_fire or weapon.blocking) and Input.is_action_just_pressed("alt_fire"):
 		stealth_kill_enemy = check_stealth_kill()
 		if stealth_kill_enemy != null:
@@ -273,8 +273,8 @@ func check_stealth_kill() -> Enemy:
 		#return null
 	#
 	#var enemy:Enemy = result.collider
-	var enemy := weapon.get_targeted_enemy(-camera.global_basis.z)
-	if not enemy or enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1):
+	var enemy := weapon.get_targeted_enemy()
+	if not enemy or enemy.enemy_ai.ai_state.detected_player_within(1) or enemy.enemy_ai.ai_state.attacked_within(1) or enemy.enemy_ai.ai_state.aggro >= enemy.aggro_threshold:
 		return null
 	
 	return enemy
@@ -285,6 +285,7 @@ func start_stealth_kill(enemy:Enemy):
 	weapon.can_fire = false
 	velocity = Vector3.ZERO
 	var was_crouching = crouching
+	enemy.enemy_ai.end_ai()
 	if crouching:
 		end_crouch()
 		await crouch_tween.finished
@@ -294,7 +295,6 @@ func start_stealth_kill(enemy:Enemy):
 		weapon.end_block()
 	movement_override = true
 	step_up.disabled = true
-	enemy.enemy_ai.end_ai()
 	await weapon.stealth_kill(enemy)
 	enemy.health_component.set_hp(0, self)
 	if was_crouching and Input.is_action_pressed("crouch"):

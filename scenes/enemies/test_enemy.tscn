@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0p3167fn7pmg"]
+[gd_scene load_steps=17 format=3 uid="uid://c0p3167fn7pmg"]
 
 [ext_resource type="PackedScene" uid="uid://b1ekkl4kdiau6" path="res://scenes/enemies/enemy_base.tscn" id="1_pnhpx"]
 [ext_resource type="Script" uid="uid://bej8y0vd5spcu" path="res://scripts/ai/ai_transition.gd" id="3_8ybkn"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://dc4u21h0jjdct" path="res://scripts/ai/conditions/ai_detected_player_condition.gd" id="6_iwdv7"]
 [ext_resource type="Script" uid="uid://d3hwpo0a5yfrv" path="res://scripts/ai/behaviors/ai_investigate_behavior.gd" id="8_iwdv7"]
 [ext_resource type="Script" uid="uid://cyi8eynf8b1nu" path="res://scripts/ai/behaviors/ai_attack_behavior.gd" id="9_itg6w"]
+[ext_resource type="PackedScene" uid="uid://dxhvltbify672" path="res://assets/blender/enemies/test_enemy.blend" id="10_oq0fo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pnhpx"]
 radius = 0.4
@@ -16,14 +17,8 @@ radius = 0.4
 [sub_resource type="ViewportTexture" id="ViewportTexture_kmxma"]
 viewport_path = NodePath("Sprite3D/SubViewport")
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_pnhpx"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iwdv7"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_pnhpx"]
-material = SubResource("StandardMaterial3D_iwdv7")
-size = Vector3(0.6, 0.2, 0.2)
+[sub_resource type="BoxMesh" id="BoxMesh_itg6w"]
+size = Vector3(0.2, 1, 0.2)
 
 [sub_resource type="Animation" id="Animation_oq0fo"]
 length = 0.001
@@ -86,29 +81,22 @@ _data = {
 &"attack": SubResource("Animation_itg6w")
 }
 
-[sub_resource type="BoxMesh" id="BoxMesh_itg6w"]
-size = Vector3(0.2, 1, 0.2)
-
 [node name="TestEnemy" instance=ExtResource("1_pnhpx")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent" index="0"]
 shape = SubResource("CapsuleShape3D_pnhpx")
 
-[node name="SightCone" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="SightCone" parent="." index="3"]
+transform = Transform3D(0.999994, -8.74222e-08, 4.37109e-08, 8.74223e-08, 0.999993, 4.37108e-08, -4.37111e-08, -4.3711e-08, 0.999988, -2.15934e-09, 0.75381, -0.0247)
 
-[node name="Sprite3D" parent="." index="3"]
+[node name="Sprite3D" parent="." index="4"]
 texture = SubResource("ViewportTexture_kmxma")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="5"]
-mesh = SubResource("CapsuleMesh_pnhpx")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
-mesh = SubResource("BoxMesh_pnhpx")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="6"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="5"]
 shape = SubResource("CapsuleShape3D_pnhpx")
+
+[node name="NavigationAgent3D" parent="." index="6"]
+path_height_offset = -0.6
 
 [node name="PursueTransition" type="Node3D" parent="EnemyAI" index="0" node_paths=PackedStringArray("target_behavior")]
 script = ExtResource("3_8ybkn")
@@ -167,11 +155,24 @@ upswing = 0.1
 attack_interval = 1.0
 metadata/_custom_type_script = "uid://cyi8eynf8b1nu"
 
-[node name="AnimationPlayer" parent="." index="8"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="8"]
+transform = Transform3D(1, 0, 0, 0, 0.906307, 0.422618, 0, -0.422618, 0.906307, 0.6, 0, -0.7)
+mesh = SubResource("BoxMesh_itg6w")
+
+[node name="AnimationPlayer" parent="." index="9"]
 libraries = {
 &"": SubResource("AnimationLibrary_oq0fo")
 }
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="9"]
-transform = Transform3D(1, 0, 0, 0, 0.906307, 0.422618, 0, -0.422618, 0.906307, 0.6, 0, -0.7)
-mesh = SubResource("BoxMesh_itg6w")
+[node name="test_enemy" parent="." index="10" instance=ExtResource("10_oq0fo")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1, 0)
+
+[node name="WGT-rig_head" parent="test_enemy" index="45"]
+transform = Transform3D(0.172336, 0, 0, 0, -7.53304e-09, -0.172336, 0, 0.172336, -7.53304e-09, 0, 1.75381, 0.0247)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="test_enemy/WGT-rig_head" index="0"]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 0, 0, 0)
+remote_path = NodePath("../../../SightCone")
+update_scale = false
+
+[editable path="test_enemy"]

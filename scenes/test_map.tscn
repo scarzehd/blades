@@ -55,6 +55,7 @@ map_size = AABB(-100, -100, -100, 200, 200, 200)
 
 [node name="GenTileConnection" parent="SubViewport/Generator/Node3D" index="0"]
 connection_data = SubResource("Resource_ss0f2")
+show_debug = false
 
 [node name="Node3D" parent="." instance=ExtResource("4_p21b5")]
 

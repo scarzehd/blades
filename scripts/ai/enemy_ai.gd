@@ -23,6 +23,8 @@ func _ready() -> void:
 
 func start_ai():
 	if not is_node_ready(): await ready
+	if enemy.health_component.current_hp <= 0:
+		return
 	if NavigationServer3D.map_get_iteration_id(enemy.navigation_agent.get_navigation_map()) == 0:
 		await NavigationServer3D.map_changed
 	if not behaviors.size() > 0:
